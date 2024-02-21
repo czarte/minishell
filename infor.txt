@@ -1,0 +1,101 @@
+Allowed functions:
+readline
+	-definition: char *readline(const char *prompt);
+	-const char *prompt = prompt string to be displayed
+	-return = allocated memory with line from terminal
+	or NULL if nothing was typed
+	-reads line from terminal while displaying
+	the prompt (can be NULL) and returning the line
+	in allocated memory -> needs to be freed
+	-note: NEEDS TO BE COMPILED WITH -lreadline
+
+rl_clear_history
+
+rl_on_new_line
+
+rl_replace_line
+
+rl_redisplay
+
+add_history
+
+access
+
+fork
+
+wait
+
+waitpid
+
+wait3
+
+wait4
+
+signal
+
+sigaction
+
+sigemptyset
+
+sigaddset
+
+kill
+
+getcwd
+
+chdir
+
+stat
+
+lstat
+
+fstat
+
+unlink
+
+execve
+
+sup
+
+dup2
+
+pipe
+
+opendir
+
+readdir
+
+closedir
+
+strerror
+
+perror
+
+isatty
+
+ttyname
+
+ttyslot
+
+ioctl
+
+getenv
+
+tcsetattr
+
+tcgetattr
+
+tgetent
+
+tgetflag
+
+tgetnum
+
+tgetstr
+
+tgoto
+
+tputs
+
+Headers to include:
+#include<stdio.h>
