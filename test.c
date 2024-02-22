@@ -37,8 +37,14 @@ int main(void)
 			line = NULL;
 			break ;
 		}
+		if (ft_str_match(line, "new line"))
+		{
+			printf("calling on new line!\n");
+			rl_on_new_line();
+		}
 		if (line)
 		{
+			add_history(line);
 			free(line);
 			line = NULL;
 		}

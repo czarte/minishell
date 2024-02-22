@@ -10,14 +10,26 @@ readline
 	-note: NEEDS TO BE COMPILED WITH -lreadline
 
 rl_clear_history
+	-definition: void rl_clear_history(void);
+	-clears the list of all lines saved by
+	add_history() function
 
 rl_on_new_line
+	-definition: void rl_on_new_line(void);
+	-when called, it will be guaranteed that
+	next prompt will be on new line (not after
+	something that program printed without new line
+	character at the end)
 
 rl_replace_line
 
 rl_redisplay
 
 add_history
+	-definition: void add_history(const char *string)
+	-adds string to the history list, cool thing is that
+	the historry can be called back, and moved back
+	and front using arrows
 
 access
 
