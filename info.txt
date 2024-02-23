@@ -22,16 +22,33 @@ rl_on_new_line
 	character at the end)
 
 rl_replace_line
+	-definition: void rl_replace_line(const char *line, int clean_undo);
+	-const char *line = new line to display instead of current prompt
+	-int clean_undo = flag indicationg whether to clean history
+	for this line (1 -> clean, 0 -> leave as it is)
+	-for actuall update of prompt line one needs to calle
+	rl_redisplay() function, making the change effective
 
 rl_redisplay
+	-definition: void rl_redisplay(void);
+	-updates the command line if something has changed
 
 add_history
-	-definition: void add_history(const char *string)
+	-definition: void add_history(const char *string);
 	-adds string to the history list, cool thing is that
 	the historry can be called back, and moved back
 	and front using arrows
 
 access
+	-definition: int access(const char *path, int mode);
+	-mode =
+		-R_OK: read permission
+		-W_OK: write permission
+		-X_OK: execute permission
+		-F_OK: file existence
+	-there can be multiple modes tested at once by using bitwise OR, 
+	so the mode can be (R_OK | W_OK)
+	-returns 0 if the tests were successfull and -1 when failed
 
 fork
 
@@ -111,3 +128,7 @@ tputs
 
 Headers to include:
 #include<stdio.h>
+#include<stdlib.h>
+#include<readline/readline.h>
+#include<readline/history.h>
+#include<unistd.h>
