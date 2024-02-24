@@ -30,7 +30,7 @@ int main(void)
 	line = NULL;
 	while (1)
 	{
-		line = readline("Type something: ");
+		line = readline("Type something: ");	//readline
 		printf("You typed: %s\n", line);
 		if (ft_str_match(line, "exit"))
 		{
@@ -42,8 +42,8 @@ int main(void)
 			rl_on_new_line();
 		if (ft_str_match(line, "replace0"))
 		{
-			rl_replace_line("What?? ", 0);
-			rl_redisplay();
+			rl_replace_line("What?? ", 0);		//replace with 0
+			rl_redisplay();						//don't know how it works yet :(
 			usleep(500000);
 		}
 		if (ft_str_match(line, "replace1"))
@@ -54,7 +54,7 @@ int main(void)
 		}
 		if (ft_str_match("access existing", line))
 		{
-			if (access("info.txt", F_OK) == 0)
+			if (access("info.txt", F_OK) == 0)		//access function
 				printf("File info.txt exists!\n");
 			else
 				printf("File info.txt does not exist!\n");
@@ -68,7 +68,7 @@ int main(void)
 		}
 		if (line)
 		{
-			add_history(line);
+			add_history(line);					//history function
 			free(line);
 			line = NULL;
 		}

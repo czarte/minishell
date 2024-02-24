@@ -53,16 +53,91 @@ access
 fork
 
 wait
+	-definition: pid_t wait(int *status);
+	-*status = pointer to integer where the exit status
+	of terminated child process will be stored
+	-on success returns PID of terminated process we were
+	waiting for, or -1 if error occurs
+	-basically suspends the calling process until one of
+	the child process/processes terminates
 
 waitpid
+	-definition: pid_t waitpid(pid_t pid, int *status, int options);
+	-*status = same as wait()
+	-options = same as wait3()
+	-pid = PID of child to wait for
+		-specific PID, wait for that PID to terminate
+		- -1 = wait for any child process
+		- 0 = wait for any child process in the same
+		process group as the calling process
+		- < -1 = wait for child whose process goup ID is equal
+		to the absolute value of PID
+	-otherwise functions in a same way as wait()
 
 wait3
+	-definition: pid_t wait3(int *status, int options, struct rusage *rusage);
+	-*status = same as with wait()
+	-options = flags specifying options, more flags can be
+	specified using bitwise OR ( | )
+		-WNOHANG: returns immediately if no child has exited
+		-WUNTRACED: returns if child has stopped but is not traced
+		via ptrace() ---don't know what implications this has yet
+	-*rusage = struct that will be filled with resource usage information
+		struct rusage {
+			struct timeval ru_utime; /* user CPU time used */
+			struct timeval ru_stime; /* system CPU time used */
+			long ru_maxrss;           /* maximum resident set size */
+			long ru_ixrss;            /* integral shared memory size */
+			long ru_idrss;            /* integral unshared data size */
+			long ru_isrss;            /* integral unshared stack size */
+			long ru_minflt;           /* page reclaims (soft page faults) */
+			long ru_majflt;           /* page faults (hard page faults) */
+			long ru_nswap;            /* swaps */
+			long ru_inblock;          /* block input operations */
+			long ru_oublock;          /* block output operations */
+			long ru_msgsnd;           /* IPC messages sent */
+			long ru_msgrcv;           /* IPC messages received */
+			long ru_nsignals;         /* signals received */
+			long ru_nvcsw;            /* voluntary context switches */
+			long ru_nivcsw;           /* involuntary context switches */
+		};
+	-function is similar to wait() but it has options and
+	rusage struct where we can track usage of the resources
+	by the process we are waiting for
 
 wait4
+	-definition: pid_t wait4(pid_t pid, int *status, int options, struct rusage *rusage);
+	-pid = PID of child to wait for
+	-*status = same as wait3()
+	-options = same as wait3()
+	-*rusage = same as wait3()
+	-functions in a same way as wait3() but here we can specify for
+	which PID we want to wait
+
 
 signal
+	-definition: void (*signal(int signum, void (*handler)(int)))(int)
+	signum = value of incoming signal, OS specific, library
+	has defined macros for them
+	-upon calling, the function sets a custom handler to defined
+	signal
+	-the handler function gets value of signal it receives (as int)
+	-handler can be set to SIG_DFL -> default handling of the signal
+	or SIG_IGN -> ignore signal
+	-returns pointer to previous handler, if error, returns SIG_ERR
 
 sigaction
+	-definition: int sigaction(int signum, const struct sigaction *action, struct sigaction *oldaction);
+	-signum = same as in signal()
+	-*act = pointer to struct sigaction
+		struct sigaction {
+			void (*sa_handler)(int);        // Pointer to signal handler function
+			void (*sa_sigaction)(int, siginfo_t *, void *); // Pointer to signal handling function (alternate)
+			sigset_t sa_mask;               // Additional signals to be blocked during handler execution
+			int sa_flags;                   // Flags for signal handling behavior
+			void (*sa_restorer)(void);      // Deprecated
+		};
+
 
 sigemptyset
 
@@ -132,3 +207,5 @@ Headers to include:
 #include<readline/readline.h>
 #include<readline/history.h>
 #include<unistd.h>
+#include<sys/wait.h>
+#include<signal.h>
