@@ -229,32 +229,121 @@ dup2
 		everything we print with printf(), for example, will be written to that file
 
 pipe
+	-definition: int pipe(int pipefd[2]);
+	-pipefd[2] = array of integers, pipe[0] is filedescriptor for reading, pipe[1] is
+		file descriptor for writing
+	-creates inter process communication channel (i.e. between child and parent), data
+		written to filedescriptor pipefd[1] could be read on pipefd[0]
+	-return - -1 when fail
 
 opendir
+	-definition: DIR *opendir(const char *dir_name);
+	-dir_name = null terminated string with the name of the directory, "." will open current
+		directory, can be also absolute path
+	-return - NULL in case of error
 
 readdir
+	-definition: struct dirent *readdir(DIR *dir);
+	-dir = directory opened by opendir()
+	-reads contents of the directory one entry at a time to a struct dirent
+	struct dirent {
+		ino_t          d_ino;       /* inode number */
+		off_t          d_off;       /* offset to the next dirent */
+		unsigned short d_reclen;    /* length of this record */
+		unsigned char  d_type;      /* type of file; not supported by all file system types */
+		char           d_name[256]; /* filename */
+	};
+	-return - pointer to struct or NULL when there are no more entries or in case of error
 
 closedir
+	-definition: int closedir(DIR *dir);
+	-closes the directory opened at *dir
 
 strerror
+	-definition: char *strerror(int errno);
+	-errnum = number of the error, global variable that gets set by system call
+		when some function encounters an error, so to get corresponding string,
+		it's enough to call just char *str = strerror(errno);
+	-is thread safe
+	-basically takes error number and returns corresponding error string to print
 
 perror
+	-definition: void perror(const char *str);
+	-str = string to prepend the error message of last occured error
+	-works almost the same as strerror except it prints the error right away
+		and the string is text that gives more description about the error,
+		like where in code the error happened or what we tried to do
+	-is not thread safe, therefore needs to be protected by mutex
+	-perror("Error opening file") will print, in case of unsuccessfull opening
+		of the file "Error opening file: No such file or directory"
 
 isatty
+	-definition: int isatty(int fd);
+	-fd = file descriptor to check
+	-checks file descriptor if it is a terminal device or a file
+	-return - 1 if the fd is terminal device, 0 if it's not
 
 ttyname
+	-definition: char *ttyname(int fd);
+	-fd = file descriptor
+	-return - null terminated string with name of terminal device or NULL
+		if there is no terminal device on that fd or when error occurs
 
 ttyslot
+	-definition: int ttyslot();
+	-return - slot number in the utmp file corresponding to the terminal
+		user that is logged on, -1 if error
+	-note: with header #include<utmp.h> and calling void "setutent()" before calling
+		function "struct utmp *getutent()" we can retrieve information to struct utmp,
+		when it returns NULL, error occured or there are no entries left, we need to
+		close the utmp file with "ednutent()", utmp file is owned by root so the
+		program needs to have root permission
 
 ioctl
+	-definition: int ioctl(int fd, unsigned long request, ...);
+	-fd = file descriptor
+	-request = represents the specific control command to execute on the device
+	-'...' = optional arguments that might be required for some control commands
+	-used for controlling devices, with this function we can set, for example,
+		a window size, baud rate, etc...
+	-return - -1 in case of error
 
 getenv
+	-definition: char *getenv(const char *name);
+	-name = string with name of environment variable
+	-searches for the environment varibale and returns pointer to string
+		with value of that variable
+	-return - string with data or NULL if error
 
 tcsetattr
+	-definition: int tcsetattr(int fd, int optional_actions, const struct termios *termios);
+	-fd = file descriptor associated with terminal device
+	-optional_actions = specifies when the change should take place and what to do
+		with pending data
+		-TCSANOW = changes are immediate
+		-TCSADRAIN = wait until quened output is outputted
+		-TCSAFLUSH = flush pending data, apply the change and wait
+			until all quened output is transmitted
+	-termios = pointer to struct termios with new terminal attributes
+	-allows to configure various terminal device attributes like input/output modes,
+		control modes, local modes...
+	-return - -1 in case of error
+	-NOTE: it might be good to save default terminal attributes before changing them
+		and at the end put things back how they were!!
 
 tcgetattr
+	-definition: int tcgetattr(int fd, struct termios *termios);
+	-fd = filedescriptor of terminal device
+	-termios = struct where to save the attributes
+	-retrives current attributes of the terminal device on fd
+	-return - -1 in case of error
 
 tgetent
+	-definition: int tgetent(char *buffer, const char *name);
+	-buffer = pointer to a buffer where terminal information will be stored,
+		allocated for like 1024 bytes
+	-name = name of the terminal type for which we request information
+	-return - 1 if success, -1 if error
 
 tgetflag
 
@@ -276,3 +365,7 @@ Headers to include:
 #include<sys/stat.h>
 #include<signal.h>
 #include<fcntl.h>
+#include<dirent.h>
+#include<sys/ioctl.h>
+#include<termios.h>
+#include<curses.h>
