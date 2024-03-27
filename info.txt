@@ -51,6 +51,12 @@ access
 	-returns 0 if the tests were successfull and -1 when failed
 
 fork
+	-definition: pid_t fork(void);
+	-creates new process which runs exact same copy of currently running process,
+		new process starts from the beggining of the code, it doesn't take any
+		arguments
+	-return: -1 for error, 0 if we are in the child process and PID if we are in
+		parent process
 
 wait
 	-definition: pid_t wait(int *status);
@@ -146,22 +152,81 @@ sigaddset
 kill
 
 getcwd
+	-definition: char *getcwd(char *buf, size_t size);
+	-buf = pointer to a buffer where the current working directory path will be stored
+	-size = size of buffer passing in
+	-it will write absolute path to the specified buffer
+	-return - NULL in case of error
 
 chdir
+	-definition: int chdir(const char *path);
+	-path = null terminated string containing path
+		-can be absolute or relative, just like with cd
+	-retrun - 0 when success, -1 when fail
 
 stat
+	-definition: int stat(const char *pathname, struct stat *statbuf);
+	-pathname = null terminated string with path to the file we want informations about
+	-statbuf = pointer to struct where the info about file is stored
+		struct stat {
+			dev_t     st_dev;         /* ID of device containing file */
+			ino_t     st_ino;         /* Inode number */
+			mode_t    st_mode;        /* File type and mode */
+			nlink_t   st_nlink;       /* Number of hard links */
+			uid_t     st_uid;         /* User ID of owner */
+			gid_t     st_gid;         /* Group ID of owner */
+			dev_t     st_rdev;        /* Device ID (if special file) */
+			off_t     st_size;        /* Total size, in bytes */
+			blksize_t st_blksize;     /* Block size for filesystem I/O */
+			blkcnt_t  st_blocks;      /* Number of 512B blocks allocated */
+			time_t    st_atime;       /* Last access time */
+			time_t    st_mtime;       /* Last modification time */
+			time_t    st_ctime;       /* Last status change time */
+		};
+	-return - 0 when success, -1 when fail
 
 lstat
+	-same as stat() except specialy for symlinks so it gets stats about the symlinks
+		and not about the file the symlink points to
+	-uses same stat struct
 
 fstat
+	-same as stat() except instead of path it gets filedescritor so the definition
+		is: int fstat(int fd, struct stat *statbuf);
+	-uses same stat struct
 
 unlink
+	-definition: int unlink(const char *pathname);
+	-pathname = null terminated string with path to file
+	-unlink works similar to rm command, it removes the link to file from
+		filesystem so the file is essentially deleted
+	-return - 0 on success and -1 on error
 
 execve
+	-definition: int execve(const char *filename, const char **argv, const char **envp)
+	-filename = null terminated string containing path to executable
+	-argv = array of arguments which are null terminated strings, last element is NULL pointer
+	-envp = array of environment variables which are null terminated strings and the array ends
+		with NULL pointer, much like argv
+	-return - -1 when error, otherwise nothing because executable starts executabling
+	-basically runs executable from the *filename path and it takes over the process
+		so the code under execve() is not executed because when executable stops executabling
+		it probably kills the process so the calling executable has nowhere to return
 
-sup
+dup
+	-definition: int dup(int old_fd);
+	-old_fd = file descriptor to duplicate
+	-return - -1 when error occurs or file descriptor that points to the same file as old_fd does
+	-both file descriptors can be used to write to that single file
+	-if one filedescriptor is closed, the second one remains open
 
 dup2
+	-definition: int dup2(int old_fd, int new_fd);
+	-same principle as dup but we can choose new filedescriptor
+	-if new_fd was already open, it will be closed and will point to same file as old_fd
+	-if the old_fd is not valid filedescriptor the function will fail and return -1
+	-if we duplicate the filedescriptor of file to filedescriptor of standard output,
+		everything we print with printf(), for example, will be written to that file
 
 pipe
 
@@ -208,4 +273,6 @@ Headers to include:
 #include<readline/history.h>
 #include<unistd.h>
 #include<sys/wait.h>
+#include<sys/stat.h>
 #include<signal.h>
+#include<fcntl.h>
