@@ -146,10 +146,23 @@ sigaction
 
 
 sigemptyset
+	-definition: int sigemptyset(sigset_t *set);
+	-set = pointer to a signal set
+	-used for initilaization of the signal set
+	-return - 0 if success, else error
 
 sigaddset
+	-definition: int sigaddset(sigset_t *set, int signum);
+	-set = pointer to signal set
+	-signum = signal number to be added to the set
+	-return - 0 on success, -1 on error
 
 kill
+	-definition: int kill(pid_t pid, int sig);
+	-pid = pid of the process we want to send signal to
+	-sig = number of the signal, defined by macro from signal.h
+	-sends a signal to a process
+	-return - 0 on success, -1 on error
 
 getcwd
 	-definition: char *getcwd(char *buf, size_t size);
