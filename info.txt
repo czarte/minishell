@@ -339,21 +339,48 @@ tcgetattr
 	-return - -1 in case of error
 
 tgetent
-	-definition: int tgetent(char *buffer, const char *name);
-	-buffer = pointer to a buffer where terminal information will be stored,
+	-definition: int tgetent(char *buf, const char *name);
+	-buf = pointer to a buffer where terminal information will be stored,
 		allocated for like 1024 bytes
 	-name = name of the terminal type for which we request information
 	-return - 1 if success, -1 if error
+	-NOTE: has to be called before we start calling other functions like
+		tgetflag(), tgetnum(), tgetstr()
 
 tgetflag
+	-definition: int tgetflag(const char *capname);
+	-capname = string with name of the terminal capability
+	-return - 1 if bool capability is present and true or 0 if false or
+		capability not present
 
 tgetnum
+	-definition: int tgetnum(const char *capname);
+	-basically the same as tgetflag() except it returns numerical values
+		of the capability or -1 if it has not that capability or error
 
 tgetstr
+	-definition: char *tgetstr(const char *capname, char **area);
+	-capname = string with name of the terminal capability
+	-area = ponter to a pointer in memory which can be used by tgetstr()
+		for temporary storage, it can be NULL
 
 tgoto
+	-definition: char *tgoto(const char *cm, int col, int row);
+	-cm = string we got from tgetstr() after asking for motion
+		capability ("cm")
+	-col = column we want to move cursor to
+	-row = row we want to move cursor to
+	-return - pointer to a cursor motion string or NULL if error
+	-NOTE: When printing the returned string, the cursor will end up where
+		we want
 
 tputs
+	-definition: int tputs(const char *str, int affnct, int (*putfunct)(int));
+	-str = string containing terminal capability or control sequence to be sent
+		to the terminal
+	-affcnt = not commonly used, usually set to 1
+	-putfunc = pointer to a function that outputs a single character (putchar)
+	-return - 0 on success, else error
 
 Headers to include:
 #include<stdio.h>
@@ -368,4 +395,4 @@ Headers to include:
 #include<dirent.h>
 #include<sys/ioctl.h>
 #include<termios.h>
-#include<curses.h>
+#include<termcap.h>
