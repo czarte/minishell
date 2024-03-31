@@ -5,9 +5,10 @@ void	print_folders(char **folder_strs)
 	int	i;
 
 	i = 0;
-	while (folder_strs[i])
+	while (*folder_strs)
 	{
-		printf("folder %i: |%s|\n", i, folder_strs[i]);
+		printf("folder %i: |%s|\n", i, *folder_strs);
+		folder_strs++;
 		i++;
 	}
 }
@@ -35,25 +36,29 @@ int	fpl(char *path)
 
 int	get_folders(char *path, char **folder_strs)
 {
-	int	i;
+	char	*current_str;
 
-	i = 0;
 	while (*path)
 	{
-		folder_strs[i] = malloc(sizeof(char) * (fpl(path) + 1));
-		if (folder_strs[i] == NULL)
+		*folder_strs = malloc(sizeof(char) * (fpl(path) + 1));
+		if (*folder_strs == NULL)
 		{
 			perror("Folder str: ");
 			return (-1);
 		}
+		current_str = *folder_strs;
 		while (*path != ':' && *path)
 		{
-			*folder_strs[i] = *path;
+			printf("%c", *path);
+			*current_str = *path;
+			printf("%c\n", *current_str);
 			path++;
-			folder_strs[i]++;
+			current_str++;
 		}
+		*current_str = '\0';
 		if (*path)
 			path++;
+		folder_strs++;
 	}
 	return (0);
 }
