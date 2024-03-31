@@ -44,5 +44,19 @@ int	data_init(t_data *data)
 	data->cmd_list->cmd = NULL;
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
+	data->last_c_l_node = data->cmd_list;
 	return (0);
+}
+
+void	free_folder_strs(char **folder_strs)
+{
+	int	i;
+
+	i = 0;
+	while (folder_strs[i] != NULL)
+	{
+		free(folder_strs[i]);
+		i++;
+	}
+	free(folder_strs);
 }

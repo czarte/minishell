@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = src/main.c src/data.c
+SRC = src/main.c src/data.c src/exec_folders.c
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan

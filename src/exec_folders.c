@@ -1,0 +1,238 @@
+#include "../incl/minishell.h"
+#include <dirent.h>
+
+// void	print_folders(char **folder_strs)
+// {
+// 	int	i;
+//
+// 	i = 0;
+// 	while (*folder_strs)
+// 	{
+// 		printf("folder %i: |%s|\n", i, *folder_strs);
+// 		folder_strs++;
+// 		i++;
+// 	}
+// }
+
+void	print_cmd_list(t_data *data)
+{
+	t_cmd_list	*current;
+
+	current = data->cmd_list->next;
+	while (current)
+	{
+		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
+		current = current->next;
+	}
+}
+
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*ft_memcpy(const char *str)
+{
+	char	*cpy;
+	int		i;
+
+	cpy = NULL;
+	i = 0;
+	cpy = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!cpy)
+		return (NULL);
+	while (str[i])
+	{
+		cpy[i] = str[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
+}
+
+char	*ft_strjoin(const char *str1, const char *str2)
+{
+	int		i;
+	int		j;
+	char	*ret;
+
+	i = 0;
+	j = 0;
+	ret = NULL;
+	ret = malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2) + 2));
+	if (!ret)
+		return (NULL);
+	while (str1[i])
+	{
+		ret[j] = str1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	ret[j] = '/';
+	j++;
+	while (str2[i])
+	{
+		ret[j] = str2[i];
+		i++;
+		j++;
+	}
+	ret[j] = '\0';
+	// printf("ret: %s\n", ret);
+	return (ret);
+}
+
+int	add_cmd_list_node(char *name, char *path, t_data *data)
+{
+	if (name[0] == '.')
+		return (0);
+	data->last_c_l_node->next = malloc(sizeof(t_cmd_list));
+	if (!data->last_c_l_node->next)
+	{
+		perror("Adding cmd_list node");
+		return (-1);
+	}
+	data->last_c_l_node = data->last_c_l_node->next;
+	data->last_c_l_node->next = NULL;
+	data->last_c_l_node->cmd = ft_memcpy(name);
+	data->last_c_l_node->full_path = ft_strjoin(path, name);
+	return (0);
+}
+
+int scan_folders(char **folder_strs, t_data *data)
+{
+	DIR				*dir;
+	int				i;
+	struct dirent	*dirent;
+
+	i = 0;
+	dir = NULL;
+	dirent = NULL;
+	data = data;
+	while (folder_strs[i])
+	{
+		// printf("opening: %s\n", folder_strs[i]);
+		dir = opendir(folder_strs[i]);
+		if (dir == NULL)
+			break ;
+		dirent = readdir(dir);
+		while (dirent != NULL)
+		{
+			// printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+			// free(dirent);
+			add_cmd_list_node(dirent->d_name, folder_strs[i], data);
+			dirent = readdir(dir);
+		}
+		closedir(dir);
+		i++;
+	}
+	print_cmd_list(data);
+	return (0);
+}
+
+// file path length
+int	fpl(char *path)
+{
+	int	i;
+
+	i = 0;
+	while (*path != ':' && *path)
+	{
+		i++;
+		path++;
+	}
+	return (i);
+}
+
+int	get_folders(char *path, char **folder_strs)
+{
+	char	*current_str;
+
+	while (*path)
+	{
+		*folder_strs = malloc(sizeof(char) * (fpl(path) + 1));
+		if (*folder_strs == NULL)
+		{
+			perror("Folder str: ");
+			return (-1);
+		}
+		current_str = *folder_strs;
+		while (*path != ':' && *path)
+		{
+			printf("%c", *path);
+			*current_str = *path;
+			printf("%c\n", *current_str);
+			path++;
+			current_str++;
+		}
+		*current_str = '\0';
+		if (*path)
+			path++;
+		folder_strs++;
+	}
+	return (0);
+}
+
+int	get_number_of_folders(char *path)
+{
+	int	i;
+
+	i = 1;
+	while (*path)
+	{
+		if (*path == ':')
+			i++;
+		path++;
+	}
+	return (i);
+}
+
+void	init_folder_strs(char **folder_strs, int num_of_flds)
+{
+	int	i;
+
+	i = 0;
+	while (i != num_of_flds)
+	{
+		folder_strs[i] = NULL;
+		i++;
+	}
+}
+
+int	get_cmd_list(t_data *data)
+{
+	char	*path;
+	char	**folder_strs;
+
+	data = data;
+	folder_strs = NULL;
+	path = NULL;
+	path = getenv("PATH");
+	if (path == NULL)
+	{
+		perror("Path: ");
+		return (-1);
+	}
+	folder_strs = malloc(sizeof(char *) * (get_number_of_folders(path) + 1));
+	if (folder_strs == NULL)
+	{
+		perror("Folder strings: ");
+		return (-1);
+	}
+	folder_strs[get_number_of_folders(path)] = NULL;
+	init_folder_strs(folder_strs, get_number_of_folders(path));
+	get_folders(path, folder_strs);
+	printf("%s\n", path);
+	printf("number of folders to scan: %i\n", get_number_of_folders(path));
+//	print_folders(folder_strs);
+	scan_folders(folder_strs, data);
+	free_folder_strs(folder_strs);
+	return (0);
+}
