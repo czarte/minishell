@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
+/*   Updated: 2024/04/02 01:47:29 by smelicha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
 
 int main(void)
@@ -14,6 +26,12 @@ int main(void)
 		return (-1);
 	if (get_cmd_list(data) == -1)
 		return (-1);
+	printf("look for: %s, path: %s\n", "ls", get_cmd_path("ls", data));
+	printf("look for: %s, path: %s\n", "pwd", get_cmd_path("pwd", data));
+	printf("look for: %s, path: %s\n", "nonexistent", get_cmd_path("nonexistent", data));
+	printf("current working directory: %s\n", data->work_dir);
+	cd("src", data);
+	printf("current working directory: %s\n", data->work_dir);
 	free_data(data);
-    return (0);
+	return (0);
 }

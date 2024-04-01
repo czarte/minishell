@@ -1,10 +1,11 @@
 NAME = minishell
 
-SRC = src/main.c src/data.c src/exec_folders.c
+SRC = src/main.c src/data.c src/exec_folders.c src/get_cmd_path.c \
+	src/builtin_cd.c
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan
-PRINT_FLAG = -D PRINT_NUMBER_OF_EATS=1
+LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)
 
@@ -17,7 +18,7 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) $(PRINT_FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) $(LIB) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_folders.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 01:35:34 by smelicha          #+#    #+#             */
+/*   Updated: 2024/04/02 01:35:45 by smelicha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
-#include <dirent.h>
+// #include <dirent.h>
 
 // void	print_folders(char **folder_strs)
 // {
@@ -14,17 +26,17 @@
 // 	}
 // }
 
-void	print_cmd_list(t_data *data)
-{
-	t_cmd_list	*current;
+// void	print_cmd_list(t_data *data)
+// {
+// 	t_cmd_list	*current;
 
-	current = data->cmd_list->next;
-	while (current)
-	{
-		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
-		current = current->next;
-	}
-}
+// 	current = data->cmd_list->next;
+// 	while (current)
+// 	{
+// 		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
+// 		current = current->next;
+// 	}
+// }
 
 int	ft_strlen(const char *str)
 {
@@ -133,7 +145,7 @@ int scan_folders(char **folder_strs, t_data *data)
 		closedir(dir);
 		i++;
 	}
-	print_cmd_list(data);
+	// print_cmd_list(data);
 	return (0);
 }
 

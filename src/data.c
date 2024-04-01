@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/02 01:35:05 by smelicha          #+#    #+#             */
+/*   Updated: 2024/04/02 01:35:09 by smelicha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
 
 void	free_cmd_list(t_data *data)
@@ -45,6 +57,7 @@ int	data_init(t_data *data)
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
 	data->last_c_l_node = data->cmd_list;
+	getcwd(data->work_dir, sizeof(data->work_dir));
 	return (0);
 }
 
