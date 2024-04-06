@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 18:24:45 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 20:59:34 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_data{
 	t_cmd_list	*cmd_list;
 	t_cmd_list	*last_c_l_node;
 	char		work_dir[4096];
+	char		prompt[66];
 }	t_data;
 
 
@@ -62,5 +63,6 @@ int		cli(t_data *data);
 
 /*----    Utils    ----*/
 int		str_comp(const char *str1, const char *str2);
+int		ft_strlen(const char *str);
 
 #endif

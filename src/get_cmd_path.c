@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 01:35:31 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 20:13:16 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
+	printf("retruning null from get_cmd_path\n");
 	return (NULL);
 }
