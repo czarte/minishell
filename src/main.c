@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 01:47:29 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:25:07 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int main(void)
 	printf("current working directory: %s\n", data->work_dir);
 	cd("src", data);
 	printf("current working directory: %s\n", data->work_dir);
+	cli(data);
 	free_data(data);
 	return (0);
 }

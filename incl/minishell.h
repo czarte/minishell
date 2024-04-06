@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 01:41:33 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:24:45 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,11 @@ char	*get_cmd_path(const char *cmd, t_data *data);
 
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
+
+/*----    CLI    ----*/
+int		cli(t_data *data);
+
+/*----    Utils    ----*/
+int		str_comp(const char *str1, const char *str2);
 
 #endif

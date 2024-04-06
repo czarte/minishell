@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 02:06:25 by smelicha         ###   ########.fr       */
+/*   Created: 2024/04/06 18:17:28 by smelicha          #+#    #+#             */
+/*   Updated: 2024/04/06 18:26:34 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
 
-void	cd(const char *new_wd, t_data *data)
+int	cli(t_data *data)
 {
-	if (chdir(new_wd) != 0)
+	char	*cmd;
+
+	data = data;
+	while (1)
 	{
-		perror("");
-		return ;
+		cmd = readline(">:");
+		printf("%s\n", cmd);
+		if (str_comp(cmd, "exit"))
+		{
+			free(cmd);
+			break ;
+		}
+		free(cmd);
 	}
-	getcwd(data->work_dir, sizeof(data->work_dir));
+	return (1);
 }

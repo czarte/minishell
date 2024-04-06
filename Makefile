@@ -1,7 +1,7 @@
 NAME = minishell
 
 SRC = src/main.c src/data.c src/exec_folders.c src/get_cmd_path.c \
-	src/builtin_cd.c
+	src/builtin_cd.c src/cli.c
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan
@@ -13,7 +13,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Linking $@"
-	@$(CC) $(OBJ) $(FLAGS) -o $(NAME)
+	@$(CC) $(OBJ) $(FLAGS) $(LIB) -o $(NAME)
 	@echo "Done!"
 
 %.o: %.c
