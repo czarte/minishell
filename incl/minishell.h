@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 20:59:34 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:00:06 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include<termcap.h>
 
 typedef struct s_cmd_list t_cmd_list;
+typedef struct s_cmd_chain t_cmd_chain;
 
 typedef struct s_cmd_list{
 	char		*cmd;
@@ -35,8 +36,14 @@ typedef struct s_cmd_list{
 	t_cmd_list	*next;
 }	t_cmd_list;
 
+typedef struct s_cmd_chain{
+	char	*cmd;
+	t_cmd_chain	*next;
+}	t_cmd_chain;
+
 typedef struct s_data{
 	t_cmd_list	*cmd_list;
+	t_cmd_chain	*cmd_chain;
 	t_cmd_list	*last_c_l_node;
 	char		work_dir[4096];
 	char		prompt[66];
@@ -47,10 +54,11 @@ typedef struct s_data{
 int		data_init(t_data *data);
 int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
+void	free_cmd_chain(t_data *data);
 void	free_folder_strs(char **folder_strs);
 
 /*----    Data preparation    ----*/
-int	    get_cmd_list(t_data *data);
+int		get_cmd_list(t_data *data);
 
 /*----    Command functions    ----*/
 char	*get_cmd_path(const char *cmd, t_data *data);
@@ -60,6 +68,9 @@ void	cd(const char *new_wd, t_data *data);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);
+
+/*----    Lexer    ----*/
+int		lexer(char *cmd, t_data *data);
 
 /*----    Utils    ----*/
 int		str_comp(const char *str1, const char *str2);

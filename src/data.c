@@ -6,16 +6,16 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:05 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 01:35:09 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:10:29 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
 
-void	free_cmd_list(t_data *data)
+void free_cmd_list(t_data *data)
 {
-	t_cmd_list	*tmp;
-	t_cmd_list	*current;
+	t_cmd_list *tmp;
+	t_cmd_list *current;
 
 	current = data->cmd_list->next;
 	if (data->cmd_list->cmd)
@@ -35,17 +35,39 @@ void	free_cmd_list(t_data *data)
 	}
 }
 
-int	free_data(t_data *data)
+void free_cmd_chain(t_data *data)
+{
+	t_cmd_chain *tmp;
+	t_cmd_chain *current;
+
+	current = data->cmd_chain->next;
+	if (data->cmd_chain->cmd)
+		free(data->cmd_chain->cmd);
+	while (current)
+	{
+		tmp = current->next;
+		if (current->cmd)
+			free(current->cmd);
+		free(current);
+		current = tmp;
+	}
+}
+
+int free_data(t_data *data)
 {
 	if (data->cmd_list)
 		free_cmd_list(data);
+	if (data->cmd_chain)
+		free_cmd_chain(data);
+	free(data->cmd_chain);
 	free(data);
 	return (0);
 }
 
-int	data_init(t_data *data)
+int data_init(t_data *data)
 {
 	data->cmd_list = NULL;
+	data->cmd_chain = NULL;
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{
@@ -57,13 +79,22 @@ int	data_init(t_data *data)
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
 	data->last_c_l_node = data->cmd_list;
+	data->cmd_chain = malloc(sizeof(t_cmd_chain));
+	if (data->cmd_chain == NULL)
+	{
+		perror("cmd_list: ");
+		free_data(data);
+		return (-1);
+	}
+	data->cmd_chain->cmd = NULL;
+	data->cmd_chain->next = NULL;
 	getcwd(data->work_dir, sizeof(data->work_dir));
 	return (0);
 }
 
-void	free_folder_strs(char **folder_strs)
+void free_folder_strs(char **folder_strs)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (folder_strs[i] != NULL)

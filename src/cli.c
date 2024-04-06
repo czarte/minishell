@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 18:17:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 21:53:04 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 23:00:14 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	cli(t_data *data)
 	{
 		create_prompt(data);
 		cmd = readline(data->prompt);
+		lexer(cmd, data);
 		path = get_cmd_path(cmd, data);
 		if (path)
 			printf("%s\n", path);
