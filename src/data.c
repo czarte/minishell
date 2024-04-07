@@ -35,19 +35,20 @@ void free_cmd_list(t_data *data)
 	}
 }
 
-void free_cmd_chain(t_data *data)
+void free_token_chain(t_data *data)
 {
-	t_cmd_chain *tmp;
-	t_cmd_chain *current;
+	t_token_chain *tmp;
+	t_token_chain *current;
 
-	current = data->cmd_chain->next;
-	if (data->cmd_chain->cmd)
-		free(data->cmd_chain->cmd);
+	current = data->token_chain->next;
+	data->token_chain->next = NULL;
+	if (data->token_chain->token)
+		free(data->token_chain->token);
 	while (current)
 	{
 		tmp = current->next;
-		if (current->cmd)
-			free(current->cmd);
+		if (current->token)
+			free(current->token);
 		free(current);
 		current = tmp;
 	}
@@ -57,9 +58,9 @@ int free_data(t_data *data)
 {
 	if (data->cmd_list)
 		free_cmd_list(data);
-	if (data->cmd_chain)
-		free_cmd_chain(data);
-	free(data->cmd_chain);
+	if (data->token_chain)
+		free_token_chain(data);
+	free(data->token_chain);
 	free(data);
 	return (0);
 }
@@ -67,7 +68,7 @@ int free_data(t_data *data)
 int data_init(t_data *data)
 {
 	data->cmd_list = NULL;
-	data->cmd_chain = NULL;
+	data->token_chain = NULL;
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{
@@ -79,15 +80,15 @@ int data_init(t_data *data)
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
 	data->last_c_l_node = data->cmd_list;
-	data->cmd_chain = malloc(sizeof(t_cmd_chain));
-	if (data->cmd_chain == NULL)
+	data->token_chain = malloc(sizeof(t_token_chain));
+	if (data->token_chain == NULL)
 	{
 		perror("cmd_list: ");
 		free_data(data);
 		return (-1);
 	}
-	data->cmd_chain->cmd = NULL;
-	data->cmd_chain->next = NULL;
+	data->token_chain->token = NULL;
+	data->token_chain->next = NULL;
 	getcwd(data->work_dir, sizeof(data->work_dir));
 	return (0);
 }

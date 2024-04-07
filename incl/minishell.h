@@ -28,7 +28,7 @@
 # include<termcap.h>
 
 typedef struct s_cmd_list t_cmd_list;
-typedef struct s_cmd_chain t_cmd_chain;
+typedef struct s_token_chain t_token_chain;
 
 typedef struct s_cmd_list{
 	char		*cmd;
@@ -36,14 +36,14 @@ typedef struct s_cmd_list{
 	t_cmd_list	*next;
 }	t_cmd_list;
 
-typedef struct s_cmd_chain{
-	char	*cmd;
-	t_cmd_chain	*next;
-}	t_cmd_chain;
+typedef struct s_token_chain{
+	char			*token;
+	t_token_chain	*next;
+}	t_token_chain;
 
 typedef struct s_data{
 	t_cmd_list	*cmd_list;
-	t_cmd_chain	*cmd_chain;
+	t_token_chain	*token_chain;
 	t_cmd_list	*last_c_l_node;
 	char		work_dir[4096];
 	char		prompt[66];
@@ -54,7 +54,7 @@ typedef struct s_data{
 int		data_init(t_data *data);
 int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
-void	free_cmd_chain(t_data *data);
+void	free_token_chain(t_data *data);
 void	free_folder_strs(char **folder_strs);
 
 /*----    Data preparation    ----*/

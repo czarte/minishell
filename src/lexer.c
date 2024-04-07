@@ -12,6 +12,18 @@
 
 #include "../incl/minishell.h"
 
+void	print_token_chain(t_data *data)
+{
+	t_token_chain	*current;
+
+	current = data->token_chain->next;
+	while (current)
+	{
+		printf("token: %s\n", current->token);
+		current = current->next;
+	}
+}
+
 int	number_of_tokens(char *cmd)
 {
 	int	i;
@@ -31,25 +43,66 @@ int	number_of_tokens(char *cmd)
 	return (n);
 }
 
-int	allocate_cmd_chain(char *cmd, t_data *data)
+int	token_length(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i] && cmd[i] != ' ')
+		i++;
+	return (i);
+}
+
+int	fill_token_chain(char *cmd, t_data *data)
+{
+	t_token_chain	*current;
+	char			*token;
+
+	current = data->token_chain->next;
+	while (*cmd && *cmd == ' ')
+		cmd++;
+	while (current)
+	{
+		current->token = malloc(sizeof(char) * (token_length(cmd) + 1));
+		if (current->token == NULL)
+		{
+			perror("token allocation:");
+			return (-1);
+		}
+		token = current->token;
+		while (*cmd && *cmd != ' ')
+		{
+			*token = *cmd;
+			token++;
+			cmd++;
+		}
+		*token = '\0';
+		while (*cmd && *cmd == ' ')
+			cmd++;
+		current = current->next;
+	}
+	return (0);
+}
+
+int	allocate_token_chain(char *cmd, t_data *data)
 {
 	int			i;
-	t_cmd_chain	*prev;
-	t_cmd_chain	*current;
+	t_token_chain	*prev;
+	t_token_chain	*current;
 
 	i = number_of_tokens(cmd);
 	current = NULL;
-	prev = data->cmd_chain;
+	prev = data->token_chain;
 	while (i)
 	{
-		current = malloc(sizeof(t_cmd_chain));
+		current = malloc(sizeof(t_token_chain));
 		if (!current)
 		{
-			perror("cmd_chain: ");
+			perror("token_chain: ");
 			return (-1);
 		}
 		current->next = NULL;
-		current->cmd = NULL;
+		current->token = NULL;
 		prev->next = current;
 		prev = current;
 		current = NULL;
@@ -64,5 +117,9 @@ int	lexer(char *cmd, t_data *data)
 
 	printf("cmd from lexer: %s\n", cmd);
 	printf("number of tokens: %i\n", number_of_tokens(cmd));
+	allocate_token_chain(cmd, data);
+	fill_token_chain(cmd, data);
+	print_token_chain(data);
+	free_token_chain(data);
 	return (0);
 }
