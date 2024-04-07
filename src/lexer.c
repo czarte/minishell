@@ -19,7 +19,7 @@ void	print_token_chain(t_data *data)
 	current = data->token_chain->next;
 	while (current)
 	{
-		printf("token: %s\n", current->token);
+		printf("token: %s\ttype: %s\n", current->token, current->type);
 		current = current->next;
 	}
 }
@@ -51,6 +51,34 @@ int	token_length(char *cmd)
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
 	return (i);
+}
+
+void	type_token(t_token_chain *token_node, char *type)
+{
+	int	i;
+
+	i = 0;
+	while (i != 3)
+	{
+		token_node->type[i] = type[i];
+		i++;
+	}
+}
+
+/*
+ TODO finish token typing logic
+ */
+void	type_token_chain(t_data *data)
+{
+	t_token_chain	*current;
+
+	current = data->token_chain->next;
+	while (current)
+	{
+		if (get_cmd_path(current->token, data))
+			type_token(current, "pr");
+		current = current->next;
+	}
 }
 
 int	fill_token_chain(char *cmd, t_data *data)

@@ -12,23 +12,6 @@
 
 #include "../incl/minishell.h"
 
-int	str_comp(const char *str1, const char *str2)
-{
-	int	i;
-
-	i = 0;
-	while (str1[i] && str2[i])
-	{
-		if (str1[i] == str2[i])
-			i++;
-		else
-			return (0);
-	}
-	if (str1[i] || str2[i])
-		return (0);
-	return (i);
-}
-
 // void	get_alternatives(const char *cmd, t_data *data)
 // {
 // 	t_cmd_list	*current;

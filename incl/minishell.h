@@ -36,8 +36,24 @@ typedef struct s_cmd_list{
 	t_cmd_list	*next;
 }	t_cmd_list;
 
+/*
+ type:
+	pr	program
+	bu	builtin
+	ar	argument
+	pi	pipe				|
+	ri	redirect input		<
+	ro	redirect output		>
+	rd	redirect delimiter	<<
+	ra	redirect append		>>
+	ev	environment var		$something
+	es	last pi ex. stat.	$?
+	sq	single quote		'
+	dq	double quote		"
+ */
 typedef struct s_token_chain{
 	char			*token;
+	char			type[3];
 	t_token_chain	*next;
 }	t_token_chain;
 
@@ -75,5 +91,7 @@ int		lexer(char *cmd, t_data *data);
 /*----    Utils    ----*/
 int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
+char	*ft_memcpy(const char *str);
+char	*ft_strjoin(const char *str1, const char *str2);
 
 #endif
