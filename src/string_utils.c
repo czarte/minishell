@@ -1,5 +1,17 @@
 #include "../incl/minishell.h"
 
+void	str_fill(char *to, char *from)
+{
+	int	i;
+
+	i = 0;
+	while (from[i])
+	{
+		to[i] = from[i];
+		i++;
+	}
+}
+
 int	str_comp(const char *str1, const char *str2)
 {
 	int	i;

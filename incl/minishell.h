@@ -61,6 +61,7 @@ typedef struct s_data{
 	t_cmd_list	*cmd_list;
 	t_token_chain	*token_chain;
 	t_cmd_list	*last_c_l_node;
+	char		**builtins;
 	char		work_dir[4096];
 	char		prompt[66];
 }	t_data;
@@ -89,6 +90,7 @@ int		cli(t_data *data);
 int		lexer(char *cmd, t_data *data);
 
 /*----    Utils    ----*/
+void	str_fill(char *to, char *from);
 int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
 char	*ft_memcpy(const char *str);
