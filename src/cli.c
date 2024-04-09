@@ -58,12 +58,11 @@ int	cli(t_data *data)
 	{
 		create_prompt(data);
 		cmd = readline(data->prompt);
-		lexer(cmd, data);
 		path = get_cmd_path(cmd, data);
-		if (path)
-			printf("%s\n", path);
-		else
-			printf("(null)\n");
+		// if (path)
+		// 	printf("%s\n", path);
+		// else
+		// 	printf("(null)\n");
 		if (str_comp(cmd, "exit"))
 		{
 			free(cmd);
@@ -74,6 +73,7 @@ int	cli(t_data *data)
 			add_history(cmd);
 			free(cmd);
 		}
+		lexer(cmd, data);
 	}
 	rl_clear_history();
 	return (1);
