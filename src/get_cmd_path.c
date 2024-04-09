@@ -38,6 +38,6 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
-	printf("retruning null from get_cmd_path\n");
+	// printf("retruning null from get_cmd_path\n");
 	return (NULL);
 }

@@ -56,10 +56,12 @@ int	token_length(char *cmd)
 	int	i;
 
 	i = 0;
+	printf("cmd from token length: %s\n", cmd);
 	if (cmd[i] == '\"' || cmd[i] == '\'')
 		return (1);
 	while (cmd[i] && cmd[i] != ' ')
 		i++;
+	printf("token length: %i\n", i);
 	return (i);
 }
 
@@ -86,11 +88,14 @@ int	fill_token_chain(char *cmd, t_data *data)
 			token++;
 			cmd++;
 		}
-		while (*cmd && *cmd != ' ' && !(*(cmd - 1) == '\"' || *(cmd - 1) == '\''))
+		else
 		{
-			*token = *cmd;
-			token++;
-			cmd++;
+			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
+			{
+				*token = *cmd;
+				token++;
+				cmd++;
+			}
 		}
 		*token = '\0';
 		while (*cmd && *cmd == ' ')
