@@ -98,9 +98,34 @@ int	is_last_pipe_exit(char *token)
 }
 
 /*
- TODO when parsing cmd to tokens, trat " and ' characters
- as single tokens
+ TODO when parsing cmd to tokens, treat " and ' characters as single tokens
  */
+
+void	prog_arg_fix(t_data *data)
+{
+	t_token_chain	*current;
+	char			pr_ar;
+
+	current = data->token_chain->next;
+	pr_ar = 0;
+	while (current)
+	{
+		if (str_comp(current->type, "pr") && !pr_ar)
+		{
+			pr_ar = 1;
+			current = current->next;
+		}
+		while (current && pr_ar && str_comp(current->type, "pr"))
+		{
+			type_token(current, "ar");
+			current = current->next;
+		}
+		if (current && pr_ar && !str_comp(current->type, "pr"))
+			pr_ar = 0;
+		if (current)
+			current = current->next;
+	}
+}
 
 void	type_token_chain(t_data *data)
 {
@@ -204,6 +229,9 @@ int	lexer(char *cmd, t_data *data)
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
+	print_token_chain(data);
+	prog_arg_fix(data);
+	printf("\n");
 	print_token_chain(data);
 	free_token_chain(data);
 	return (0);
