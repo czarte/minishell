@@ -33,7 +33,7 @@ int	number_of_tokens(char *cmd)
 	n = 0;
 	while (cmd[i])
 	{
-		while (cmd[i] && cmd[i] == ' ')
+		while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\"' || cmd[i] == '\''))
 		{
 			if (cmd[i] == '\"' || cmd[i] == '\'')
 				n++;
@@ -41,7 +41,7 @@ int	number_of_tokens(char *cmd)
 		}
 		if (cmd[i])
 			n++;
-		while (cmd[i] && cmd[i] != ' ')
+		while (cmd[i] && (cmd[i] != ' ' || cmd[i] == '\"' || cmd[i] == '\''))
 		{
 			if (cmd[i] == '\"' || cmd[i] == '\'')
 				n++;
