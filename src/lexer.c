@@ -26,30 +26,68 @@ void	print_token_chain(t_data *data)
 
 int	number_of_tokens(char *cmd)
 {
-	int	i;
 	int	n;
 
-	i = 0;
 	n = 0;
-	while (cmd[i])
+	while (*cmd)
 	{
-		while (cmd[i] && (cmd[i] == ' ' || cmd[i] == '\"' || cmd[i] == '\''))
+		while (*cmd && *cmd == ' ')
+			cmd++;
+		if (*cmd == '\"' || *cmd == '\'')
+			cmd++;
+		else
 		{
-			if (cmd[i] == '\"' || cmd[i] == '\'')
-				n++;
-			i++;
+			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
+				cmd++;
 		}
-		if (cmd[i])
-			n++;
-		while (cmd[i] && (cmd[i] != ' ' || cmd[i] == '\"' || cmd[i] == '\''))
-		{
-			if (cmd[i] == '\"' || cmd[i] == '\'')
-				n++;
-			i++;
-		}
+		n++;
 	}
 	return (n);
 }
+
+
+//OLD VERSION!!
+// int	number_of_tokens(char *cmd)
+// {
+// 	int	i;
+// 	int	n;
+// 	int	j;
+//
+// 	i = 0;
+// 	n = 0;
+// 	j = 0;
+// 	while (cmd[i])
+// 	{
+// 		while (cmd[i] && cmd[i] == ' ')
+// 		{
+// 			printf("while is space: %c\n", cmd[i]);
+// 			if (cmd[i] == '\"' || cmd[i] == '\'')
+// 			{
+// 				j++;
+// 				printf("that was quote nr: %i\n", j);
+// 				n++;
+// 			}
+// 			i++;
+// 		}
+// 		if (cmd[i])
+// 		{
+// 			n++;
+// 		}
+// 		while (cmd[i] && cmd[i] != ' ')
+// 		{
+// 			printf("while is not space: %c\n", cmd[i]);
+// 			if (cmd[i] == '\"' || cmd[i] == '\'')
+// 			{
+// 				j++;
+// 				printf("that was quote nr: %i\n", j);
+// 				n++;
+// 			}
+// 			i++;
+// 		}
+// 	}
+// 	printf("old return: %i\nnew return: %i\n", n, new_number_of_tokens(cmd));
+// 	return (n);
+// }
 
 int	token_length(char *cmd)
 {
@@ -58,9 +96,16 @@ int	token_length(char *cmd)
 	i = 0;
 	printf("cmd from token length: %s\n", cmd);
 	if (cmd[i] == '\"' || cmd[i] == '\'')
+	{
+		printf("token length: 1\n");
 		return (1);
+	}
 	while (cmd[i] && cmd[i] != ' ')
+	{
+		if (cmd[i] == '\"' || cmd[i] == '\'')
+			break ;
 		i++;
+	}
 	printf("token length: %i\n", i);
 	return (i);
 }
@@ -144,6 +189,7 @@ int	lexer(char *cmd, t_data *data)
 	print_token_chain(data);
 	printf("\n");
 	print_token_chain(data);
+	token_chain_analyzer(data);
 	free_token_chain(data);
 	return (0);
 }

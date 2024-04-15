@@ -89,6 +89,7 @@ int		cli(t_data *data);
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
 void	type_token_chain(t_data *data);
+int		token_chain_analyzer(t_data *data);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);
