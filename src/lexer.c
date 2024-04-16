@@ -190,6 +190,7 @@ int	lexer(char *cmd, t_data *data)
 	printf("\n");
 	print_token_chain(data);
 	token_chain_analyzer(data);
+	executer(data);
 	free_token_chain(data);
 	return (0);
 }

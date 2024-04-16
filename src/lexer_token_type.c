@@ -40,10 +40,6 @@ int	is_last_pipe_exit(char *token)
 	return (0);
 }
 
-/*
- TODO when parsing cmd to tokens, treat " and ' characters as single tokens
- */
-
 void	prog_arg_fix(t_data *data)
 {
 	t_token_chain	*current;
@@ -53,17 +49,17 @@ void	prog_arg_fix(t_data *data)
 	pr_ar = 0;
 	while (current)
 	{
-		if (str_comp(current->type, "pr") && !pr_ar)
+		if ((str_comp(current->type, "pr") || str_comp(current->type, "bu")) && !pr_ar)
 		{
 			pr_ar = 1;
 			current = current->next;
 		}
-		while (current && pr_ar && str_comp(current->type, "pr"))
+		while (current && pr_ar && (str_comp(current->type, "pr") || str_comp(current->type, "bu")))
 		{
 			type_token(current, "ar");
 			current = current->next;
 		}
-		if (current && pr_ar && !str_comp(current->type, "pr"))
+		if (current && pr_ar && !(str_comp(current->type, "pr") || str_comp(current->type, "bu")))
 			pr_ar = 0;
 		if (current)
 			current = current->next;

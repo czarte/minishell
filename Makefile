@@ -2,7 +2,7 @@ NAME = minishell
 
 SRC = src/main.c src/data.c src/exec_folders.c src/get_cmd_path.c \
 	src/builtin_cd.c src/cli.c src/lexer.c src/string_utils.c \
-	src/lexer_token_type.c src/lexer_analyzer.c
+	src/lexer_token_type.c src/lexer_analyzer.c src/executer.c
 
 CC = cc
 FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan
