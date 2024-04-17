@@ -25,6 +25,11 @@
 // 	}
 // }
 
+/**
+ * Function to retrive executables path for particular command, returns pointer to
+ * the string
+ * RETURN OF THIS FUNCTION SHOULD NOT BE FREED AFTER USE IN CALLING FUNCTION!!!
+ */
 char	*get_cmd_path(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;

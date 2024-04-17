@@ -1,14 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
+/*   Updated: 2024/04/17 17:51:07 by stepan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
 
+/**
+ * Finds out which of the builtin commands to execute
+ */
 int	execute_builtin(t_token_chain *current, t_data *data)
 {
 	if (str_comp(current->token, "cd") && current->next)
 		cd(current->next->token, data);
 	else if (str_comp(current->token, "pwd"))
 		printf("%s\n", data->work_dir);
+	else if (str_comp(current->token, "echo"))
+		echo(current);
 	return (0);
 }
 
+/**
+ * Executes commands from token chain
+ */
 int	executer(t_data *data)
 {
 	t_token_chain	*current;

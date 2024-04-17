@@ -38,6 +38,10 @@
 // 	}
 // }
 
+/**
+ * Allocates memory for a node in a linked list anf fills it with data,
+ * which are name of the command and path to its executable
+ */
 int	add_cmd_list_node(char *name, char *path, t_data *data)
 {
 	if (name[0] == '.')
@@ -55,6 +59,9 @@ int	add_cmd_list_node(char *name, char *path, t_data *data)
 	return (0);
 }
 
+/**
+ * Scans the folders for executables it contains
+ */
 int scan_folders(char **folder_strs, t_data *data)
 {
 	DIR				*dir;
@@ -64,7 +71,6 @@ int scan_folders(char **folder_strs, t_data *data)
 	i = 0;
 	dir = NULL;
 	dirent = NULL;
-	data = data;
 	while (folder_strs[i])
 	{
 		// printf("opening: %s\n", folder_strs[i]);
@@ -129,6 +135,9 @@ int	get_folders(char *path, char **folder_strs)
 	return (0);
 }
 
+/**
+ * Gets number of folders that should contain executables, delimited by ':'
+ */
 int	get_number_of_folders(char *path)
 {
 	int	i;
@@ -155,6 +164,9 @@ void	init_folder_strs(char **folder_strs, int num_of_flds)
 	}
 }
 
+/**
+ * Main routine to get list of commands and path to their executables in current environment
+ */
 int	get_cmd_list(t_data *data)
 {
 	char	*path;

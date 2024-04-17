@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 02:06:25 by smelicha         ###   ########.fr       */
+/*   Created: 2024/04/17 17:51:19 by stepan            #+#    #+#             */
+/*   Updated: 2024/04/17 17:51:21 by stepan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
 
 /**
- * Builtin cd command function, takes the argument as a string where the path
- * to the new working directory is specified, either absolute or relative
+ * Builtin echo command function, work in progress
  */
-void	cd(const char *new_wd, t_data *data)
+void	echo(t_token_chain *echo_tok)
 {
-	if (chdir(new_wd) != 0)
+	t_token_chain	*current;
+
+	current = echo_tok->next;
+	while (current && str_comp(current->type, "ar"))
 	{
-		perror("");
-		return ;
+		printf(" %s", current->token);
+		current = current->next;
 	}
-	getcwd(data->work_dir, sizeof(data->work_dir));
+	printf("\n");
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_token_type.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
+/*   Updated: 2024/04/17 17:51:44 by stepan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
 
 void	type_token(t_token_chain *token_node, char *type)
@@ -40,6 +52,11 @@ int	is_last_pipe_exit(char *token)
 	return (0);
 }
 
+/**
+ * Takes care of case when the argument of program is the name of another program,
+ * all tokens between program/builtin and pipe/redirections that are also name of
+ * program or builtin are retyped to argument
+ */
 void	prog_arg_fix(t_data *data)
 {
 	t_token_chain	*current;
@@ -66,6 +83,9 @@ void	prog_arg_fix(t_data *data)
 	}
 }
 
+/**
+ * Routine to type the token chain linked list
+ */
 void	type_token_chain(t_data *data)
 {
 	t_token_chain	*current;

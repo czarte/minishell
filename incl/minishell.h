@@ -82,6 +82,7 @@ char	*get_cmd_path(const char *cmd, t_data *data);
 
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
+void	echo(t_token_chain *echo_tok);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);

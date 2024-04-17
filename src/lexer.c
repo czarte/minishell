@@ -12,6 +12,9 @@
 
 #include "../incl/minishell.h"
 
+/**
+ * Debug function
+ */
 void	print_token_chain(t_data *data)
 {
 	t_token_chain	*current;
@@ -24,6 +27,9 @@ void	print_token_chain(t_data *data)
 	}
 }
 
+/**
+ * Counts how many tokens are in the command
+ */
 int	number_of_tokens(char *cmd)
 {
 	int	n;
@@ -89,6 +95,9 @@ int	number_of_tokens(char *cmd)
 // 	return (n);
 // }
 
+/**
+ * Returns length of token string in command, uses spaces for delimiter
+ */
 int	token_length(char *cmd)
 {
 	int	i;
@@ -110,6 +119,9 @@ int	token_length(char *cmd)
 	return (i);
 }
 
+/**
+ * Tokenizes command and saves it to the linked list of tokens for further processing
+ */
 int	fill_token_chain(char *cmd, t_data *data)
 {
 	t_token_chain	*current;
@@ -150,6 +162,9 @@ int	fill_token_chain(char *cmd, t_data *data)
 	return (0);
 }
 
+/**
+ * Allocates linked list for all tokens present in command
+ */
 int	allocate_token_chain(char *cmd, t_data *data)
 {
 	int			i;
@@ -177,6 +192,11 @@ int	allocate_token_chain(char *cmd, t_data *data)
 	return (0);
 }
 
+/*TODO everything in between of single quotes is handled as single argument, including spaces*/
+
+/**
+ * Takes command and processes it resulting in linked list of typed tokens ready for execution
+ */
 int	lexer(char *cmd, t_data *data)
 {
 	data = data;
