@@ -111,10 +111,6 @@ void	type_token_chain(t_data *data)
 			type_token(current, "es");
 		else if (is_env_var(current->token))
 			type_token(current, "ev");
-		else if (str_comp(current->token, "\""))
-			type_token(current, "dq");
-		else if (str_comp(current->token, "\'"))
-			type_token(current, "sq");
 		else
 			type_token(current, "ar");
 		current = current->next;

@@ -27,8 +27,61 @@ int	analyze_pipes(t_data *data)
 	return (0);
 }
 
+/**
+ * Expands the environment variable and makes an argument from it
+ */
+int	expand_env_var(t_token_chain *current)
+{
+	char	*var_name;
+	char	*env_var;
+	char	*new_token;
+
+	var_name = current->token + 1;
+	env_var = NULL;
+	new_token = NULL;
+	// printf("env var name: %s\n", var_name);
+	env_var = getenv(var_name);
+	// printf("env var value: %s\n", env_var);
+	new_token = ft_memcpy(env_var);
+	if (!new_token)
+	{
+		perror("Allocation of expanded env var");
+		return (-1);
+	}
+	// str_fill(new_token, env_var);
+	free(current->token);
+	// printf("new_token: %s\n", new_token);
+	current->token = new_token;
+	str_fill(current->type, "ar");
+	return (0);
+}
+
+/**
+ * Checks if the token chain contains environment variable to expand
+ */
+int	check_for_env_vars(t_data *data)
+{
+	t_token_chain	*current;
+
+	current = data->token_chain->next;
+	while (current)
+	{
+		if (str_comp(current->type, "ev"))
+			if (expand_env_var(current))
+				return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
+/**
+ * Main analyzing function
+ * TODO add flags to main struct while creating the token chain what it contains so the chain doesn't need to be scanned for each type, like for env vars...
+ */
 int	token_chain_analyzer(t_data *data)
 {
 	data = data;
+	if (check_for_env_vars(data))
+		return (-1);
 	return (0);
 }

@@ -48,8 +48,6 @@ typedef struct s_cmd_list{
 	ra	redirect append		>>
 	ev	environment var		$something
 	es	last pi ex. stat.	$?
-	sq	single quote		'
-	dq	double quote		"
  */
 typedef struct s_token_chain{
 	char			*token;
@@ -65,7 +63,6 @@ typedef struct s_data{
 	char		work_dir[4096];
 	char		prompt[66];
 }	t_data;
-
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data);
