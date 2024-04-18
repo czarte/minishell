@@ -203,7 +203,6 @@ int	cmd_quotes_pair_check(char *cmd)
  */
 int	lexer(char *cmd, t_data *data)
 {
-	data = data;
 
 	// printf("cmd from lexer: %s\n", cmd);
 	// printf("number of tokens: %i\n", number_of_tokens(cmd));

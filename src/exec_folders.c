@@ -171,7 +171,6 @@ int	get_cmd_list(t_data *data)
 	char	*path;
 	char	**folder_strs;
 
-	data = data;
 	folder_strs = NULL;
 	path = NULL;
 	path = getenv("PATH");

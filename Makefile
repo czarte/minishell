@@ -5,8 +5,8 @@ SRC = src/main.c src/data.c src/exec_folders.c src/get_cmd_path.c \
 	src/lexer_token_type.c src/lexer_analyzer.c src/executer.c \
 	src/builtin_echo.c
 
-CC = cc
-FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan
+CC = clang
+FLAGS = -Wall -Wextra -Werror -g #-fsanitize=address #-static-libsan
 LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)
@@ -20,7 +20,7 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) $(LIB) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

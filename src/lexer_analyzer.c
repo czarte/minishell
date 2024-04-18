@@ -80,7 +80,6 @@ int	check_for_env_vars(t_data *data)
  */
 int	token_chain_analyzer(t_data *data)
 {
-	data = data;
 	if (check_for_env_vars(data))
 		return (-1);
 	return (0);
