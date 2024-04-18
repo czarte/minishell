@@ -121,6 +121,7 @@ int	fill_token_chain(char *cmd, t_data *data)
 				token++;
 				cmd++;
 			}
+			cmd++;
 		}
 		else
 		{
@@ -214,9 +215,9 @@ int	lexer(char *cmd, t_data *data)
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
-	// print_token_chain(data);
-	// printf("\n");
-	// print_token_chain(data);
+	print_token_chain(data);
+	printf("\n");
+	print_token_chain(data);
 	token_chain_analyzer(data);
 	executer(data);
 	free_token_chain(data);
