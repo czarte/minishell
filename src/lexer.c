@@ -59,50 +59,6 @@ int	number_of_tokens(char *cmd)
 	return (n);
 }
 
-
-//OLD VERSION!!
-// int	number_of_tokens(char *cmd)
-// {
-// 	int	i;
-// 	int	n;
-// 	int	j;
-//
-// 	i = 0;
-// 	n = 0;
-// 	j = 0;
-// 	while (cmd[i])
-// 	{
-// 		while (cmd[i] && cmd[i] == ' ')
-// 		{
-// 			printf("while is space: %c\n", cmd[i]);
-// 			if (cmd[i] == '\"' || cmd[i] == '\'')
-// 			{
-// 				j++;
-// 				printf("that was quote nr: %i\n", j);
-// 				n++;
-// 			}
-// 			i++;
-// 		}
-// 		if (cmd[i])
-// 		{
-// 			n++;
-// 		}
-// 		while (cmd[i] && cmd[i] != ' ')
-// 		{
-// 			printf("while is not space: %c\n", cmd[i]);
-// 			if (cmd[i] == '\"' || cmd[i] == '\'')
-// 			{
-// 				j++;
-// 				printf("that was quote nr: %i\n", j);
-// 				n++;
-// 			}
-// 			i++;
-// 		}
-// 	}
-// 	printf("old return: %i\nnew return: %i\n", n, new_number_of_tokens(cmd));
-// 	return (n);
-// }
-
 /**
  * Returns length of token string in command, uses spaces for delimiter
  */
@@ -113,14 +69,14 @@ int	token_length(char *cmd)
 
 	i = 0;
 	quote = '\0';
-	printf("cmd from token length: %s\n", cmd);
+	// printf("cmd from token length: %s\n", cmd);
 	if (cmd[i] == '\"' || cmd[i] == '\'')
 	{
 		quote = cmd[i];
 		i++;
 		while (cmd[i] != quote)
 			i++;
-		printf("token length: %i\n", i - 1);
+		// printf("token length: %i\n", i - 1);
 		return (i - 1);
 	}
 	while (cmd[i] && cmd[i] != ' ')
@@ -129,7 +85,7 @@ int	token_length(char *cmd)
 			break ;
 		i++;
 	}
-	printf("token length: %i\n", i);
+	// printf("token length: %i\n", i);
 	return (i);
 }
 
@@ -248,8 +204,8 @@ int	lexer(char *cmd, t_data *data)
 {
 	data = data;
 
-	printf("cmd from lexer: %s\n", cmd);
-	printf("number of tokens: %i\n", number_of_tokens(cmd));
+	// printf("cmd from lexer: %s\n", cmd);
+	// printf("number of tokens: %i\n", number_of_tokens(cmd));
 	if (!cmd_quotes_pair_check(cmd))
 	{
 		printf("Unclosed quotes!\n");
@@ -258,9 +214,9 @@ int	lexer(char *cmd, t_data *data)
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
-	print_token_chain(data);
-	printf("\n");
-	print_token_chain(data);
+	// print_token_chain(data);
+	// printf("\n");
+	// print_token_chain(data);
 	token_chain_analyzer(data);
 	executer(data);
 	free_token_chain(data);

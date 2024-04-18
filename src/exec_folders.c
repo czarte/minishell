@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
-// #include <dirent.h>
-
+/**
+ * Debug function
+ */
 // void	print_folders(char **folder_strs)
 // {
 // 	int	i;
@@ -81,14 +82,12 @@ int scan_folders(char **folder_strs, t_data *data)
 		while (dirent != NULL)
 		{
 			// printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
-			// free(dirent);
 			add_cmd_list_node(dirent->d_name, folder_strs[i], data);
 			dirent = readdir(dir);
 		}
 		closedir(dir);
 		i++;
 	}
-	// print_cmd_list(data);
 	return (0);
 }
 

@@ -60,17 +60,11 @@ void	create_prompt(t_data *data)
 int	cli(t_data *data)
 {
 	char	*cmd;
-	// char	*path;
 
 	while (1)
 	{
 		create_prompt(data);
 		cmd = readline(data->prompt);
-		// path = get_cmd_path(cmd, data);
-		// if (path)
-		// 	printf("%s\n", path);
-		// else
-		// 	printf("(null)\n");
 		if (str_comp(cmd, "exit"))
 		{
 			free(cmd);
