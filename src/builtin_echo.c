@@ -22,8 +22,10 @@ void	echo(t_token_chain *echo_tok)
 	current = echo_tok->next;
 	while (current && str_comp(current->type, "ar"))
 	{
-		printf(" %s", current->token);
+		write(1, current->token, ft_strlen(current->token));
 		current = current->next;
+		if (current)
+			write(1, " ", 1);
 	}
-	printf("\n");
+	write(1, "\n", 1);
 }

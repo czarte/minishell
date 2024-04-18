@@ -32,15 +32,23 @@ void	print_token_chain(t_data *data)
  */
 int	number_of_tokens(char *cmd)
 {
-	int	n;
+	int		n;
+	char	quote;
 
 	n = 0;
+	quote = '\0';
 	while (*cmd)
 	{
 		while (*cmd && *cmd == ' ')
 			cmd++;
 		if (*cmd == '\"' || *cmd == '\'')
+		{
+			quote = *cmd;
 			cmd++;
+			while (*cmd && *cmd != quote)
+				cmd++;
+			cmd++;
+		}
 		else
 		{
 			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
@@ -100,14 +108,20 @@ int	number_of_tokens(char *cmd)
  */
 int	token_length(char *cmd)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
+	quote = '\0';
 	printf("cmd from token length: %s\n", cmd);
 	if (cmd[i] == '\"' || cmd[i] == '\'')
 	{
-		printf("token length: 1\n");
-		return (1);
+		quote = cmd[i];
+		i++;
+		while (cmd[i] != quote)
+			i++;
+		printf("token length: %i\n", i - 1);
+		return (i - 1);
 	}
 	while (cmd[i] && cmd[i] != ' ')
 	{
@@ -126,8 +140,10 @@ int	fill_token_chain(char *cmd, t_data *data)
 {
 	t_token_chain	*current;
 	char			*token;
+	char			quote;
 
 	current = data->token_chain->next;
+	quote = '\0';
 	while (*cmd && *cmd == ' ')
 		cmd++;
 	while (current)
@@ -141,9 +157,14 @@ int	fill_token_chain(char *cmd, t_data *data)
 		token = current->token;
 		if (*cmd == '\"' || *cmd == '\'')
 		{
-			*token = *cmd;
-			token++;
+			quote = *cmd;
 			cmd++;
+			while (*cmd && *cmd != quote)
+			{
+				*token = *cmd;
+				token++;
+				cmd++;
+			}
 		}
 		else
 		{
@@ -195,6 +216,32 @@ int	allocate_token_chain(char *cmd, t_data *data)
 /*TODO everything in between of single quotes is handled as single argument, including spaces*/
 
 /**
+ * Checks for unclosed quotes in command
+ * returns 1 if ok
+ * returns 0 if ko
+ */
+int	cmd_quotes_pair_check(char *cmd)
+{
+	int	dq;
+	int	sq;
+
+	dq = 0;
+	sq = 0;
+	while (*cmd)
+	{
+		if (*cmd == '\"')
+			dq++;
+		else if (*cmd == '\'')
+			sq++;
+		cmd++;
+	}
+	if (dq % 2 || sq % 2)
+		return (0);
+	else
+		return (1);
+}
+
+/**
  * Takes command and processes it resulting in linked list of typed tokens ready for execution
  */
 int	lexer(char *cmd, t_data *data)
@@ -203,6 +250,11 @@ int	lexer(char *cmd, t_data *data)
 
 	printf("cmd from lexer: %s\n", cmd);
 	printf("number of tokens: %i\n", number_of_tokens(cmd));
+	if (!cmd_quotes_pair_check(cmd))
+	{
+		printf("Unclosed quotes!\n");
+		return (0);
+	}
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
