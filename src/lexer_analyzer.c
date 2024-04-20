@@ -32,15 +32,15 @@ int	analyze_pipes(t_data *data)
  */
 int	expand_env_var(t_token_chain *current)
 {
-	char	*var_name;
+	// char	*var_name;
 	char	*env_var;
 	char	*new_token;
 
-	var_name = current->token + 1;
+	// var_name = current->token + 1;
 	env_var = NULL;
 	new_token = NULL;
 	// printf("env var name: %s\n", var_name);
-	env_var = getenv(var_name);
+	env_var = getenv("");
 	// printf("env var value: %s\n", env_var);
 	new_token = ft_memcpy(env_var);
 	if (!new_token)

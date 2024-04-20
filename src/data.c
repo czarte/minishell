@@ -171,11 +171,12 @@ int	init_builtins(t_data *data)
 /**
  * Main data initialization routine
  */
-int data_init(t_data *data)
+int data_init(t_data *data, char **envp)
 {
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;
+	data->envp = envp;
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{

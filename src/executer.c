@@ -23,6 +23,8 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 		printf("%s\n", data->work_dir);
 	else if (str_comp(current->token, "echo"))
 		echo(current);
+	else if (str_comp(current->token, "env"))
+		env(current, data);
 	return (0);
 }
 
