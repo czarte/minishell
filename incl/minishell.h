@@ -56,13 +56,13 @@ typedef struct s_token_chain{
 }	t_token_chain;
 
 typedef struct s_data{
-	t_cmd_list	*cmd_list;
+	t_cmd_list		*cmd_list;
 	t_token_chain	*token_chain;
-	t_cmd_list	*last_c_l_node;
-	char		**envp;
-	char		**builtins;
-	char		work_dir[4096];
-	char		prompt[66];
+	t_cmd_list		*last_c_l_node;
+	char			**envp;
+	char			**builtins;
+	char			work_dir[4096];
+	char			prompt[66];
 }	t_data;
 
 /*----    Data functions    ----*/
@@ -81,7 +81,7 @@ char	*get_cmd_path(const char *cmd, t_data *data);
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
 void	echo(t_token_chain *echo_tok);
-int		env(t_token_chain *current, t_data *data);
+void	env(t_data *data);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);

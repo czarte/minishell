@@ -1,20 +1,15 @@
 #include "../incl/minishell.h"
 
-void	print_env(char **envp)
+void	env(t_data *data)
 {
-	int	i;
+	int		i;
+	char	**envp;
 
 	i = 0;
+	envp = data->envp;
 	while (envp[i])
 	{
 		printf("%s\n", envp[i]);
 		i++;
 	}
-}
-
-int	env(t_token_chain *current, t_data *data)
-{
-	if (!current->next)
-		print_env(data->envp);
-	return (0);
 }

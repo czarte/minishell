@@ -24,7 +24,7 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 	else if (str_comp(current->token, "echo"))
 		echo(current);
 	else if (str_comp(current->token, "env"))
-		env(current, data);
+		env(data);
 	return (0);
 }
 

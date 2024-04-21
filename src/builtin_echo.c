@@ -18,8 +18,15 @@
 void	echo(t_token_chain *echo_tok)
 {
 	t_token_chain	*current;
+	char			new_line;
 
 	current = echo_tok->next;
+	new_line = 1;
+	if (str_comp(current->token, "-n"))
+	{
+		new_line = 0;
+		current = current->next;
+	}
 	while (current && str_comp(current->type, "ar"))
 	{
 		write(1, current->token, ft_strlen(current->token));
@@ -27,5 +34,6 @@ void	echo(t_token_chain *echo_tok)
 		if (current)
 			write(1, " ", 1);
 	}
-	write(1, "\n", 1);
+	if (new_line)
+		write(1, "\n", 1);
 }
