@@ -88,6 +88,8 @@ int free_data(t_data *data)
 		free_token_chain(data);
 	if (data->builtins)
 		free_builtins(data);
+	if (data->envp)
+		free_old_envp(data->envp);
 	free(data->token_chain);
 	free(data);
 	return (0);
@@ -177,6 +179,8 @@ int data_init(t_data *data, char **envp)
 	data->token_chain = NULL;
 	data->builtins = NULL;
 	data->envp = envp;
+	if (envp_add_reallocate(data, NULL))
+		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{

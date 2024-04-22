@@ -83,6 +83,10 @@ void	cd(const char *new_wd, t_data *data);
 void	echo(t_token_chain *echo_tok);
 void	env(t_data *data);
 
+/*----    Builtin utils    ----*/
+int		envp_add_reallocate(t_data *data, char *new_var);
+void	free_old_envp(char **envp);
+
 /*----    CLI    ----*/
 int		cli(t_data *data);
 
