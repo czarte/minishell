@@ -170,8 +170,6 @@ int	allocate_token_chain(char *cmd, t_data *data)
 	return (0);
 }
 
-/*TODO everything in between of single quotes is handled as single argument, including spaces*/
-
 /**
  * Checks for unclosed quotes in command
  * returns 1 if ok
