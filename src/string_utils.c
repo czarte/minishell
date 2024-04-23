@@ -36,6 +36,8 @@ int	str_comp(const char *str1, const char *str2)
 	int	i;
 
 	i = 0;
+	if (!str1 || !str2)
+		return (0);
 	while (str1[i] && str2[i])
 	{
 		if (str1[i] == str2[i])
@@ -67,6 +69,8 @@ char	*ft_memcpy(const char *str)
 
 	cpy = NULL;
 	i = 0;
+	if (!str)
+		return (NULL);
 	cpy = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!cpy)
 		return (NULL);

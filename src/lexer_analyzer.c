@@ -27,12 +27,50 @@ int	analyze_pipes(t_data *data)
 	return (0);
 }
 
+char	*b_getenv(char *name, t_data *data)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (data->local_temp_envp && data->local_temp_envp[i])
+	{
+		while (data->local_temp_envp[i][j] == name[k])
+		{
+			j++;
+			k++;
+		}
+		if (data->local_temp_envp[i][j] == '=')
+			return (data->local_temp_envp[i] + j + 1);
+		j = 0;
+		k = 0;
+		i++;
+	}
+	i = 0;
+	while (data->envp && data->envp[i])
+	{
+		while (data->envp[i][j] == name[k])
+		{
+			j++;
+			k++;
+		}
+		if (data->envp[i][j] == '=')
+			return (data->envp[i] + j + 1);
+		j = 0;
+		k = 0;
+		i++;
+	}
+	return (NULL);
+}
+
 /**
  * Expands the environment variable and makes an argument from it
  */
-int	expand_env_var(t_token_chain *current)
+int	expand_env_var(t_token_chain *current, t_data *data)
 {
-	// char	*var_name;
 	char	*env_var;
 	char	*new_token;
 
@@ -40,10 +78,10 @@ int	expand_env_var(t_token_chain *current)
 	env_var = NULL;
 	new_token = NULL;
 	// printf("env var name: %s\n", var_name);
-	env_var = getenv("");
+	env_var = b_getenv((current->token + 1), data);
 	// printf("env var value: %s\n", env_var);
 	new_token = ft_memcpy(env_var);
-	if (!new_token)
+	if (!new_token && env_var)
 	{
 		perror("Allocation of expanded env var");
 		return (-1);
@@ -67,7 +105,7 @@ int	check_for_env_vars(t_data *data)
 	while (current)
 	{
 		if (str_comp(current->type, "ev"))
-			if (expand_env_var(current))
+			if (expand_env_var(current, data))
 				return (1);
 		current = current->next;
 	}
