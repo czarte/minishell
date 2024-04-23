@@ -45,6 +45,7 @@ int	is_env_var(char *token)
 	return (0);
 }
 
+//TODO How to save last pipe output stream? :D
 int	is_last_pipe_exit(char *token)
 {
 	if (token[0] == '$' && token[1] == '?' && !token[2])
@@ -52,6 +53,14 @@ int	is_last_pipe_exit(char *token)
 	return (0);
 }
 
+int	is_var_decl(char *token)
+{
+	while ((*token >= 'A' && *token <= 'Z') || (*token >= '0' && *token <= '9') || *token == '_')
+		token++;
+	if (*token == '=')
+		return (1);
+	return (0);
+}
 /**
  * Takes care of case when the argument of program is the name of another program,
  * all tokens between program/builtin and pipe/redirections that are also name of
@@ -111,6 +120,8 @@ void	type_token_chain(t_data *data)
 			type_token(current, "es");
 		else if (is_env_var(current->token))
 			type_token(current, "ev");
+		else if (is_var_decl(current->token))
+			type_token(current, "vd");
 		else
 			type_token(current, "ar");
 		current = current->next;

@@ -47,6 +47,7 @@ typedef struct s_cmd_list{
 	rd	redirect delimiter	<<
 	ra	redirect append		>>
 	ev	environment var		$something
+	vd	variable declar.	VAR_NAME=VALUE
 	es	last pi ex. stat.	$?
  */
 typedef struct s_token_chain{
@@ -61,6 +62,7 @@ typedef struct s_data{
 	t_cmd_list		*last_c_l_node;
 	char			**envp;
 	char			**builtins;
+	char			**local_temp_envp;
 	char			work_dir[4096];
 	char			prompt[66];
 }	t_data;
@@ -82,9 +84,10 @@ char	*get_cmd_path(const char *cmd, t_data *data);
 void	cd(const char *new_wd, t_data *data);
 void	echo(t_token_chain *echo_tok);
 void	env(t_data *data);
+int		b_export(t_token_chain *current, t_data *data);
 
 /*----    Builtin utils    ----*/
-int		envp_add_reallocate(t_data *data, char *new_var);
+int		envp_add_reallocate(t_data *data, char *new_var, char temp);
 void	free_old_envp(char **envp);
 
 /*----    CLI    ----*/
