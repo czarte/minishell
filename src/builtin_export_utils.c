@@ -51,7 +51,7 @@ void	free_old_envp(char **envp)
 	free(envp);
 }
 
-//TODO fix unitialized value valgrind error
+//TODO
 //		test adding new entry
 //		add a new type of token, local env val, and another datastructure to support these temporary env vars
 //		create export function that takes temporary env var and saves it into data->envp
@@ -74,7 +74,7 @@ int	envp_add_reallocate(t_data *data, char *new_var)
 		perror("Envp reallocation");
 		return (-1);
 	}
-	while (i != n_o_v)
+	while (i != (n_o_v + 1))
 	{
 		new_envp[i] = NULL;
 		i++;
