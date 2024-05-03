@@ -25,7 +25,6 @@ int	export_from_token(t_token_chain *current, t_data *data)
 /**
  * Debug function
  */
-
 void	print_envp(char **envp)
 {
 	int	i;

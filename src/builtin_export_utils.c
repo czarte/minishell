@@ -51,6 +51,49 @@ void	free_old_envp(char **envp)
 	free(envp);
 }
 
+//TODO check if it works correctly
+int	check_envp_for_duplicate(char **envp, char *new_var)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!envp || !new_var)
+		return (-1);
+	while (envp[i])
+	{
+		while(envp[i][j] == new_var[j] && new_var[j] != '=')
+			j++;
+		if (envp[i][j] == '=' && new_var[j] == '=')
+			return (j);
+		j = 0;
+		i++;
+	}
+	return (-1);
+}
+
+int	update_envp_var(char **envp, char *new_var, int	v_pos)
+{
+	int	i;
+
+	i = 0;
+	if (v_pos >= 0)
+		printf("envp [%i] update original: %s\n", v_pos, envp[v_pos]);
+	if (v_pos == -1)
+		return (1);
+	free(envp[v_pos]);
+	envp[v_pos] = NULL;
+	envp[v_pos] = malloc(ft_strlen(new_var) + 1);
+	while (new_var[i])
+	{
+		envp[v_pos][i] = new_var[i];
+		i++;
+	}
+	envp[v_pos][i] = '\0';
+	return (0);
+}
+
 //TODO
 //		create export function that takes temporary env var and saves it into data->envp
 
@@ -65,14 +108,19 @@ int	envp_add_reallocate(t_data *data, char *new_var, char temp)
 	char	**old_envp;
 	int		n_o_v;
 	int		i;
+	int		ret;
 
 	n_o_v = 0;
 	i = 0;
 	new_envp = NULL;
+	ret = 0;
 	if (temp)
 		old_envp = data->local_temp_envp;
 	else
 		old_envp = data->envp;
+	ret = update_envp_var(old_envp, new_var, check_envp_for_duplicate(old_envp, new_var));
+	if (ret == 0 || ret == -1)
+		return (ret);
 	n_o_v = num_of_vars(old_envp);
 	if (new_var)
 		n_o_v++;
