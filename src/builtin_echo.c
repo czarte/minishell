@@ -22,7 +22,7 @@ void	echo(t_token_chain *echo_tok)
 
 	current = echo_tok->next;
 	new_line = 1;
-	if (str_comp(current->token, "-n"))
+	if (current && str_comp(current->token, "-n"))
 	{
 		new_line = 0;
 		current = current->next;

@@ -53,8 +53,17 @@ int	is_last_pipe_exit(char *token)
 	return (0);
 }
 
-int	is_var_decl(char *token)
+int	is_var_decl(char *token, t_data *data)
 {
+	t_token_chain	*current;
+
+	current = data->token_chain;
+	while (current)
+	{
+		if (str_comp(current->token, "export"))
+			return (0);
+		current = current->next;
+	}
 	while ((*token >= 'A' && *token <= 'Z') || (*token >= '0' && *token <= '9') || *token == '_')
 		token++;
 	if (*token == '=')
@@ -120,7 +129,7 @@ void	type_token_chain(t_data *data)
 			type_token(current, "es");
 		else if (is_env_var(current->token))
 			type_token(current, "ev");
-		else if (is_var_decl(current->token))
+		else if (is_var_decl(current->token, data))
 			type_token(current, "vd");
 		else
 			type_token(current, "ar");

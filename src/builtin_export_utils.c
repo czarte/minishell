@@ -52,7 +52,6 @@ void	free_old_envp(char **envp)
 }
 
 //TODO
-//		add a new type of token, local env val, and another datastructure to support these temporary env vars
 //		create export function that takes temporary env var and saves it into data->envp
 
 /**

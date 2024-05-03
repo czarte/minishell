@@ -25,6 +25,8 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 		echo(current);
 	else if (str_comp(current->token, "env"))
 		env(data);
+	else if (str_comp(current->token, "export"))
+		b_export(current, data);
 	return (0);
 }
 
@@ -40,6 +42,8 @@ int	executer(t_data *data)
 	{
 		if (str_comp(current->type, "bu"))
 			execute_builtin(current, data);
+		else if (str_comp(current->type, "vd"))
+			envp_add_reallocate(data, current->token, 1);
 		current = current->next;
 	}
 	return (0);
