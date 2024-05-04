@@ -85,10 +85,13 @@ void	cd(const char *new_wd, t_data *data);
 void	echo(t_token_chain *echo_tok);
 void	env(t_data *data);
 int		b_export(t_token_chain *current, t_data *data);
+int		unset(t_token_chain *current, t_data *data);
 
 /*----    Builtin utils    ----*/
 int		envp_add_reallocate(t_data *data, char *new_var, char temp);
 void	free_old_envp(char **envp);
+int		check_envp_for_duplicate(char **envp, char *new_var);
+int		num_of_vars(char **envp);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);

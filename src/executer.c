@@ -27,6 +27,8 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 		env(data);
 	else if (str_comp(current->token, "export"))
 		b_export(current, data);
+	else if (str_comp(current->token, "unset"))
+		unset(current, data);
 	return (0);
 }
 
