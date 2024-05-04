@@ -63,10 +63,11 @@ int	check_envp_for_duplicate(char **envp, char *new_var)
 		return (-1);
 	while (envp[i])
 	{
+// 		printf("%s %s\n", envp[i], new_var);
 		while(envp[i][j] == new_var[j] && new_var[j] != '=')
 			j++;
 		if (envp[i][j] == '=' && new_var[j] == '=')
-			return (j);
+			return (i);
 		j = 0;
 		i++;
 	}

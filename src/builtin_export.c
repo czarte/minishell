@@ -8,7 +8,7 @@ int	export_from_local(t_data *data)
 		return (-1);
 	}
 	free(data->local_temp_envp[0]);
-	data->local_temp_envp = NULL;
+	data->local_temp_envp[0] = NULL;
 	return (0);
 }
 
