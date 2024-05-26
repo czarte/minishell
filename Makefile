@@ -1,10 +1,15 @@
 NAME = minishell
 
 SRC = src/main.c src/data.c src/exec_folders.c src/get_cmd_path.c \
-	src/builtin_cd.c src/cli.c src/lexer.c src/string_utils.c
+	src/builtin_cd.c src/cli.c src/lexer.c src/string_utils.c \
+	src/lexer_token_type.c src/lexer_analyzer.c src/executer.c \
+	src/builtin_echo.c src/builtin_env.c src/builtin_export_utils.c \
+	src/builtin_export.c src/builtin_unset.c
 
-CC = cc
-FLAGS = -Wall -Wextra -Werror -g# -fsanitize=address #-static-libsan
+CC = clang
+# -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
+# compatible with valgrind 3.18.1
+FLAGS = -Wall -Wextra -Werror -gdwarf-4 #-fsanitize=address #-static-libsan
 LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)
@@ -18,7 +23,7 @@ $(NAME): $(OBJ)
 
 %.o: %.c
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) $(LIB) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

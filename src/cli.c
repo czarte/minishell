@@ -12,6 +12,10 @@
 
 #include "../incl/minishell.h"
 
+/**
+ * Simple function to make a string to display as a prompt for command
+ * line interface
+ */
 void	create_prompt(t_data *data)
 {
 	int	i;
@@ -49,26 +53,24 @@ void	create_prompt(t_data *data)
 	}
 }
 
+/**
+ * Command line interface function with loop that where commands are recieved
+ * and sent for further processing
+ */
 int	cli(t_data *data)
 {
 	char	*cmd;
-	char	*path;
 
 	while (1)
 	{
 		create_prompt(data);
 		cmd = readline(data->prompt);
-		lexer(cmd, data);
-		path = get_cmd_path(cmd, data);
-		if (path)
-			printf("%s\n", path);
-		else
-			printf("(null)\n");
 		if (str_comp(cmd, "exit"))
 		{
 			free(cmd);
 			break ;
 		}
+		lexer(cmd, data);
 		if (cmd)
 		{
 			add_history(cmd);

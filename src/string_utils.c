@@ -1,5 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/17 17:51:54 by stepan            #+#    #+#             */
+/*   Updated: 2024/04/17 17:52:40 by stepan           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../incl/minishell.h"
 
+/**
+ * Copies string to preallocated memory from from to to
+ */
 void	str_fill(char *to, char *from)
 {
 	int	i;
@@ -12,11 +27,17 @@ void	str_fill(char *to, char *from)
 	}
 }
 
+/**
+ * Compares two strings and returns the length of the strings if they are same
+ * or 0 if they differ from each other
+ */
 int	str_comp(const char *str1, const char *str2)
 {
 	int	i;
 
 	i = 0;
+	if (!str1 || !str2)
+		return (0);
 	while (str1[i] && str2[i])
 	{
 		if (str1[i] == str2[i])
@@ -48,6 +69,8 @@ char	*ft_memcpy(const char *str)
 
 	cpy = NULL;
 	i = 0;
+	if (!str)
+		return (NULL);
 	cpy = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!cpy)
 		return (NULL);

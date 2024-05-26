@@ -3,3 +3,4 @@ a.out
 src/*.o
 minishell
 .*
+valgrind_log.txt

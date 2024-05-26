@@ -12,6 +12,9 @@
 
 #include "../incl/minishell.h"
 
+/**
+ * Debug function
+ */
 void	print_token_chain(t_data *data)
 {
 	t_token_chain	*current;
@@ -24,150 +27,79 @@ void	print_token_chain(t_data *data)
 	}
 }
 
+/**
+ * Counts how many tokens are in the command
+ */
 int	number_of_tokens(char *cmd)
 {
-	int	i;
-	int	n;
+	int		n;
+	char	quote;
 
-	i = 0;
 	n = 0;
-	while (cmd[i])
+	quote = '\0';
+	while (*cmd)
 	{
-		while (cmd[i] && cmd[i] == ' ')
-			i++;
-		if (cmd[i])
-			n++;
-		while (cmd[i] && cmd[i] != ' ')
-			i++;
+		while (*cmd && *cmd == ' ')
+			cmd++;
+		if (*cmd == '\"' || *cmd == '\'')
+		{
+			quote = *cmd;
+			cmd++;
+			while (*cmd && *cmd != quote)
+				cmd++;
+			cmd++;
+		}
+		else
+		{
+			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
+				cmd++;
+		}
+		n++;
 	}
 	return (n);
 }
 
+/**
+ * Returns length of token string in command, uses spaces for delimiter
+ */
 int	token_length(char *cmd)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
-	while (cmd[i] && cmd[i] != ' ')
+	quote = '\0';
+	// printf("cmd from token length: %s\n", cmd);
+	if (cmd[i] == '\"' || cmd[i] == '\'')
+	{
+		quote = cmd[i];
 		i++;
+		while (cmd[i] != quote)
+			i++;
+		// printf("token length: %i\n", i - 1);
+		return (i - 1);
+	}
+	while (cmd[i] && cmd[i] != ' ')
+	{
+		if (cmd[i] == '\"' || cmd[i] == '\'')
+			break ;
+		i++;
+	}
+	// printf("token length: %i\n", i);
 	return (i);
 }
 
-void	type_token(t_token_chain *token_node, char *type)
-{
-	int	i;
-
-	i = 0;
-	while (i != 3)
-	{
-		token_node->type[i] = type[i];
-		i++;
-	}
-}
-
-/*
- TODO finish token typing logic
+/**
+ * Tokenizes command and saves it to the linked list of tokens for further processing
  */
-
-int	is_builtin(char *token, t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i != 7)
-	{
-		if (str_comp(token, data->builtins[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	is_env_var(char *token)
-{
-	if (token[0] == '$' && token[1] != '?')
-		return (1);
-	return (0);
-}
-
-int	is_last_pipe_exit(char *token)
-{
-	if (token[0] == '$' && token[1] == '?' && !token[2])
-		return (1);
-	return (0);
-}
-
-/*
- TODO when parsing cmd to tokens, treat " and ' characters as single tokens
- */
-
-void	prog_arg_fix(t_data *data)
-{
-	t_token_chain	*current;
-	char			pr_ar;
-
-	current = data->token_chain->next;
-	pr_ar = 0;
-	while (current)
-	{
-		if (str_comp(current->type, "pr") && !pr_ar)
-		{
-			pr_ar = 1;
-			current = current->next;
-		}
-		while (current && pr_ar && str_comp(current->type, "pr"))
-		{
-			type_token(current, "ar");
-			current = current->next;
-		}
-		if (current && pr_ar && !str_comp(current->type, "pr"))
-			pr_ar = 0;
-		if (current)
-			current = current->next;
-	}
-}
-
-void	type_token_chain(t_data *data)
-{
-	t_token_chain	*current;
-
-	current = data->token_chain->next;
-	while (current)
-	{
-		if (is_builtin(current->token, data))
-			type_token(current, "bu");
-		else if (get_cmd_path(current->token, data))
-			type_token(current, "pr");
-		else if (str_comp(current->token, "|"))
-			type_token(current, "pi");
-		else if (str_comp(current->token, "<"))
-			type_token(current, "ri");
-		else if (str_comp(current->token, ">"))
-			type_token(current, "ro");
-		else if (str_comp(current->token, "<<"))
-			type_token(current, "rd");
-		else if (str_comp(current->token, ">>"))
-			type_token(current, "ra");
-		else if (is_last_pipe_exit(current->token))
-			type_token(current, "es");
-		else if (is_env_var(current->token))
-			type_token(current, "ev");
-		else if (str_comp(current->token, "\""))
-			type_token(current, "dq");
-		else if (str_comp(current->token, "\'"))
-			type_token(current, "sq");
-		else
-			type_token(current, "ar");
-		current = current->next;
-	}
-}
-
 int	fill_token_chain(char *cmd, t_data *data)
 {
 	t_token_chain	*current;
 	char			*token;
+	char			quote;
 
 	current = data->token_chain->next;
+	quote = '\0';
 	while (*cmd && *cmd == ' ')
 		cmd++;
 	while (current)
@@ -179,11 +111,26 @@ int	fill_token_chain(char *cmd, t_data *data)
 			return (-1);
 		}
 		token = current->token;
-		while (*cmd && *cmd != ' ')
+		if (*cmd == '\"' || *cmd == '\'')
 		{
-			*token = *cmd;
-			token++;
+			quote = *cmd;
 			cmd++;
+			while (*cmd && *cmd != quote)
+			{
+				*token = *cmd;
+				token++;
+				cmd++;
+			}
+			cmd++;
+		}
+		else
+		{
+			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
+			{
+				*token = *cmd;
+				token++;
+				cmd++;
+			}
 		}
 		*token = '\0';
 		while (*cmd && *cmd == ' ')
@@ -193,6 +140,9 @@ int	fill_token_chain(char *cmd, t_data *data)
 	return (0);
 }
 
+/**
+ * Allocates linked list for all tokens present in command
+ */
 int	allocate_token_chain(char *cmd, t_data *data)
 {
 	int			i;
@@ -220,19 +170,53 @@ int	allocate_token_chain(char *cmd, t_data *data)
 	return (0);
 }
 
+/**
+ * Checks for unclosed quotes in command
+ * returns 1 if ok
+ * returns 0 if ko
+ */
+int	cmd_quotes_pair_check(char *cmd)
+{
+	int	dq;
+	int	sq;
+
+	dq = 0;
+	sq = 0;
+	while (*cmd)
+	{
+		if (*cmd == '\"')
+			dq++;
+		else if (*cmd == '\'')
+			sq++;
+		cmd++;
+	}
+	if (dq % 2 || sq % 2)
+		return (0);
+	else
+		return (1);
+}
+
+/**
+ * Takes command and processes it resulting in linked list of typed tokens ready for execution
+ */
 int	lexer(char *cmd, t_data *data)
 {
-	data = data;
 
-	printf("cmd from lexer: %s\n", cmd);
-	printf("number of tokens: %i\n", number_of_tokens(cmd));
+	// printf("cmd from lexer: %s\n", cmd);
+	// printf("number of tokens: %i\n", number_of_tokens(cmd));
+	if (!cmd_quotes_pair_check(cmd))
+	{
+		printf("Unclosed quotes!\n");
+		return (0);
+	}
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
 	print_token_chain(data);
-	prog_arg_fix(data);
 	printf("\n");
 	print_token_chain(data);
+	token_chain_analyzer(data);
+	executer(data);
 	free_token_chain(data);
 	return (0);
 }

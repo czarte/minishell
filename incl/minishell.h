@@ -47,9 +47,8 @@ typedef struct s_cmd_list{
 	rd	redirect delimiter	<<
 	ra	redirect append		>>
 	ev	environment var		$something
+	vd	variable declar.	VAR_NAME=VALUE
 	es	last pi ex. stat.	$?
-	sq	single quote		'
-	dq	double quote		"
  */
 typedef struct s_token_chain{
 	char			*token;
@@ -58,17 +57,18 @@ typedef struct s_token_chain{
 }	t_token_chain;
 
 typedef struct s_data{
-	t_cmd_list	*cmd_list;
+	t_cmd_list		*cmd_list;
 	t_token_chain	*token_chain;
-	t_cmd_list	*last_c_l_node;
-	char		**builtins;
-	char		work_dir[4096];
-	char		prompt[66];
+	t_cmd_list		*last_c_l_node;
+	char			**envp;
+	char			**builtins;
+	char			**local_temp_envp;
+	char			work_dir[4096];
+	char			prompt[66];
 }	t_data;
 
-
 /*----    Data functions    ----*/
-int		data_init(t_data *data);
+int		data_init(t_data *data, char **envp);
 int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
 void	free_token_chain(t_data *data);
@@ -82,12 +82,27 @@ char	*get_cmd_path(const char *cmd, t_data *data);
 
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
+void	echo(t_token_chain *echo_tok);
+void	env(t_data *data);
+int		b_export(t_token_chain *current, t_data *data);
+int		unset(t_token_chain *current, t_data *data);
+
+/*----    Builtin utils    ----*/
+int		envp_add_reallocate(t_data *data, char *new_var, char temp);
+void	free_old_envp(char **envp);
+int		check_envp_for_duplicate(char **envp, char *new_var);
+int		num_of_vars(char **envp);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);
 
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
+void	type_token_chain(t_data *data);
+int		token_chain_analyzer(t_data *data);
+
+/*----    Executer    ----*/
+int		executer(t_data *data);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);

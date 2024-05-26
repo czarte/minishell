@@ -12,6 +12,9 @@
 
 #include "../incl/minishell.h"
 
+/**
+ * Routine to free linked list with commands and paths to their binaries
+ */
 void free_cmd_list(t_data *data)
 {
 	t_cmd_list *tmp;
@@ -35,6 +38,9 @@ void free_cmd_list(t_data *data)
 	}
 }
 
+/**
+ * Routine to free linked list with tokens
+ */
 void free_token_chain(t_data *data)
 {
 	t_token_chain *tmp;
@@ -54,6 +60,9 @@ void free_token_chain(t_data *data)
 	}
 }
 
+/**
+ * Routine to free array with names of builtin commands
+ */
 void	free_builtins(t_data *data)
 {
 	int	i;
@@ -68,6 +77,9 @@ void	free_builtins(t_data *data)
 	free(data->builtins);
 }
 
+/**
+ * Main freeing routine
+ */
 int free_data(t_data *data)
 {
 	if (data->cmd_list)
@@ -76,11 +88,18 @@ int free_data(t_data *data)
 		free_token_chain(data);
 	if (data->builtins)
 		free_builtins(data);
+	if (data->envp)
+		free_old_envp(data->envp);
+	if (data->local_temp_envp)
+		free_old_envp(data->local_temp_envp);
 	free(data->token_chain);
 	free(data);
 	return (0);
 }
 
+/**
+ * Null initialization for array with names of builtin commands
+ */
 void	null_builtins(t_data *data)
 {
 	int	i;
@@ -93,6 +112,9 @@ void	null_builtins(t_data *data)
 	}
 }
 
+/**
+ * Fills names of the builtin command into the array
+ */
 void	fill_builtins(t_data *data)
 {
 	str_fill(data->builtins[0], "echo");
@@ -104,6 +126,9 @@ void	fill_builtins(t_data *data)
 	str_fill(data->builtins[6], "exit");
 }
 
+/**
+ * Allocates memory forstrings in array with builtin commands
+ */
 int	allocate_builtins(t_data *data)
 {
 	int	i;
@@ -130,6 +155,9 @@ int	allocate_builtins(t_data *data)
 	return (0);
 }
 
+/**
+ * Allocates and initializes array with builtin command names
+ */
 int	init_builtins(t_data *data)
 {
 	data->builtins = malloc(sizeof(char *) * 8);
@@ -144,11 +172,18 @@ int	init_builtins(t_data *data)
 	return (0);
 }
 
-int data_init(t_data *data)
+/**
+ * Main data initialization routine
+ */
+int data_init(t_data *data, char **envp)
 {
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;
+	data->envp = envp;
+	data->local_temp_envp = NULL;
+	if (envp_add_reallocate(data, NULL, 0))
+		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{
