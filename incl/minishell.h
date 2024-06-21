@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 23:00:06 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:00:20 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ int		lexer(char *cmd, t_data *data);
 void	type_token_chain(t_data *data);
 int		token_chain_analyzer(t_data *data);
 
-/*----    Executer    ----*/
-int		executer(t_data *data);
+/*----    Executor    ----*/
+int		executor(t_data *data);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);
@@ -110,5 +110,9 @@ int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
 char	*ft_memcpy(const char *str);
 char	*ft_strjoin(const char *str1, const char *str2);
+
+/*----	  Help		----*/
+void    help();
+
 
 #endif

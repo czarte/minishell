@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
-/*   Updated: 2024/04/17 17:51:07 by stepan           ###   ########.fr       */
+/*   Updated: 2024/06/21 16:56:29 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 /**
  * Executes commands from token chain
  */
-int	executer(t_data *data)
+int	executor(t_data *data)
 {
 	t_token_chain	*current;
 
