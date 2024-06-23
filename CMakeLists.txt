@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
-project(my_project)
+project(minishell)
+
+include_directories("./incl")
+
+file(GLOB sources "./src/*.c")
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
@@ -18,11 +22,15 @@ enable_testing()
 
 add_executable(
     unit_tests
-    unit_tests.cc
+        tests/unit_tests.cc
+    ${sources}
+
 )
 target_link_libraries(
     unit_tests
     GTest::gtest_main
+    readline
+    history
 )
 
 include(GoogleTest)
