@@ -62,10 +62,20 @@ TEST(Tests, InitData)
     auto *data = new t_data;
     char **expecteddata = envp.data();
     data_init(data, envp.data());
-    // while (*data->envp)
-    // {
-    //     EXPECT_EQ(*data->envp, *expecteddata);
-    //     data->envp++;
-    //     expecteddata++;
-    // }
+    /*for (int i = envp.size() - 1; i >= 0; i--)
+    {
+        std::cout << envp[i];
+        std::cout << "\n";
+    }
+    for (int i = envp.size() - 1; i >= 0; i--)
+    {
+        std::cout << data->envp[i];
+        std::cout << "\n";
+    }*/
+    while (*data->envp)
+    {
+        EXPECT_EQ(*data->envp, *expecteddata);
+        data->envp++;
+        expecteddata++;
+    }
 }
