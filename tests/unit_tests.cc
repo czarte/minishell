@@ -20,7 +20,6 @@ export [-fn] [name[=value] ...] or export -p\
 unset [-f] [-v] [-n] [name ...]";
 	help();
     std::string output = testing::internal::GetCapturedStdout();
-    std::cout << output;
     EXPECT_EQ(output, expected);
 }
 
