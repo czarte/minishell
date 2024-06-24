@@ -79,6 +79,7 @@ int		get_cmd_list(t_data *data);
 
 /*----    Command functions    ----*/
 char	*get_cmd_path(const char *cmd, t_data *data);
+int		add_cmd_list_node(char *name, char *path, t_data *data);
 
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
