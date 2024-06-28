@@ -182,8 +182,8 @@ int data_init(t_data *data, char **envp)
 	data->builtins = NULL;
 	data->envp = envp;
 	data->local_temp_envp = NULL;
-	// if (envp_add_reallocate(data, NULL, 0))
-	// 	return (-1);
+	if (envp_add_reallocate(data, NULL, 0))
+		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{

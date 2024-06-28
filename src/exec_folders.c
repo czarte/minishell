@@ -63,7 +63,7 @@ int	add_cmd_list_node(char *name, char *path, t_data *data)
 /**
  * Scans the folders for executables it contains
  */
-int scan_folders(char **folder_strs, t_data *data)
+int		scan_folders(char **folder_strs, t_data *data)
 {
 	DIR				*dir;
 	int				i;
@@ -72,21 +72,23 @@ int scan_folders(char **folder_strs, t_data *data)
 	i = 0;
 	dir = NULL;
 	dirent = NULL;
-	while (folder_strs[i])
+	while (*folder_strs)
 	{
-		// printf("opening: %s\n", folder_strs[i]);
-		dir = opendir(folder_strs[i]);
+		printf("opening: %s\n", *folder_strs);
+		dir = opendir(*folder_strs);
+		printf("dir %p\n", dir);
 		if (dir == NULL)
 			break ;
 		dirent = readdir(dir);
+		printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
-			// printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
-			add_cmd_list_node(dirent->d_name, folder_strs[i], data);
+			printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+			add_cmd_list_node(dirent->d_name, *folder_strs, data);
 			dirent = readdir(dir);
 		}
 		closedir(dir);
-		i++;
+		folder_strs++;
 	}
 	return (0);
 }
@@ -122,7 +124,7 @@ int	get_folders(char *path, char **folder_strs)
 		{
 			// printf("%c", *path);
 			*current_str = *path;
-			// printf("%c\n", *current_str);
+			//printf("%c\n", *current_str);
 			path++;
 			current_str++;
 		}
@@ -190,7 +192,7 @@ int	get_cmd_list(t_data *data)
 	get_folders(path, folder_strs);
 	// printf("%s\n", path);
 	// printf("number of folders to scan: %i\n", get_number_of_folders(path));
-//	print_folders(folder_strs);
+	//print_folders(folder_strs);
 	scan_folders(folder_strs, data);
 	free_folder_strs(folder_strs);
 	return (0);

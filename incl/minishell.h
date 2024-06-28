@@ -101,6 +101,9 @@ int		cli(t_data *data);
 int		lexer(char *cmd, t_data *data);
 void	type_token_chain(t_data *data);
 int		token_chain_analyzer(t_data *data);
+int		get_number_of_folders(char *path);
+int		get_folders(char *path, char **folder_strs);
+int		scan_folders(char **folder_strs, t_data *data);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
