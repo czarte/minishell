@@ -6,11 +6,11 @@ SRC = main.c src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
 	src/builtins/builtin_export.c src/builtins/builtin_unset.c src/help.c
 
-TSRC = src/data.c src/exec_folders.c src/get_cmd_path.c \
-	src/builtin_cd.c src/cli.c src/lexer.c src/string_utils.c \
-	src/lexer_token_type.c src/lexer_analyzer.c src/executor.c \
-	src/builtin_echo.c src/builtin_env.c src/builtin_export_utils.c \
-	src/builtin_export.c src/builtin_unset.c src/help.c
+TSRC = src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
+	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
+	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
+	src/builtins/builtin_export.c src/builtins/builtin_unset.c src/help.c
 
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
