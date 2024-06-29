@@ -1,4 +1,4 @@
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
 int	export_from_local(t_data *data)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/minishell.h"
+#include "./incl/minishell.h"
 
 int main(int argc, char **argv, char **envp)
 {

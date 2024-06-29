@@ -1,4 +1,4 @@
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
 void	env(t_data *data)
 {

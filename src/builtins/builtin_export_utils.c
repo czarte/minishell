@@ -1,4 +1,4 @@
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
 int	num_of_vars(char **envp)
 {

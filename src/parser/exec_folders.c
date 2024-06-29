@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 /**
  * Debug function
  */
@@ -75,7 +75,7 @@ int		scan_folders(char **folder_strs, t_data *data)
 	while (*folder_strs)
 	{
 		printf("opening: %s\n", *folder_strs);
-		dir = opendir(*folder_strs);
+		dir = fdopendir(open(*folder_strs, O_DIRECTORY));
 		printf("dir %p\n", dir);
 		if (dir == NULL)
 			break ;

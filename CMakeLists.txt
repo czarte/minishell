@@ -3,7 +3,7 @@ project(minishell)
 
 include_directories("./incl")
 
-file(GLOB sources "./src/*.c")
+file(GLOB sources "./src/*.c", "./src/*/*.c")
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)

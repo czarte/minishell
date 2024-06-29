@@ -1,4 +1,4 @@
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
 
 //TODO Deleting the entry in envp or local temp envp from the var pos
