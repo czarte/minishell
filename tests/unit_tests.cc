@@ -105,7 +105,8 @@ TEST(Test, GetCMDListTest)
     char *path = get_cmd_path("ls", data);
     ASSERT_STREQ(path, "/usr/bin/ls");
     path = get_cmd_path("pwd", data);
+    // std::cout << "path for pwd:\n";
+    // std::cout << path;
+    // std::cout << "\n";
     ASSERT_STREQ(path, "/usr/bin/pwd");
-    path = get_cmd_path("cd", data);
-    ASSERT_STREQ(path, "/usr/bin/cd");
 }

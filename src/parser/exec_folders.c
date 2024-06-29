@@ -74,17 +74,21 @@ int		scan_folders(char **folder_strs, t_data *data)
 	dirent = NULL;
 	while (*folder_strs)
 	{
-		printf("opening: %s\n", *folder_strs);
-		dir = fdopendir(open(*folder_strs, O_DIRECTORY));
-		printf("dir %p\n", dir);
+		// TODO fix this function so it won't fail when dir in path does not exists or user has no access rights
+		//printf("opening: %s\n", *folder_strs);
+		dir = opendir(*folder_strs);
 		if (dir == NULL)
 			break ;
 		dirent = readdir(dir);
-		printf("dirent %p\n", dirent);
+		//printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
-			printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
-			add_cmd_list_node(dirent->d_name, *folder_strs, data);
+			//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+			if (access(ft_strjoin(ft_strjoin(*folder_strs, "/"), dirent->d_name), X_OK))
+			{
+				//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+				add_cmd_list_node(dirent->d_name, *folder_strs, data);
+			}
 			dirent = readdir(dir);
 		}
 		closedir(dir);
