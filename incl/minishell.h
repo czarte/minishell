@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/06/21 20:00:20 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/06/30 12:23:54 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
 char	*ft_memcpy(const char *str);
 char	*ft_strjoin(const char *str1, const char *str2);
+void	*ft_memcpy_o(void *dst, const void *src, size_t n);
+char	**ft_split(char const *s, char c);
 
 /*----	  Help		----*/
 void    help();
