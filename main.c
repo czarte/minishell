@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/02 18:56:06 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
@@ -19,6 +31,7 @@ int main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (0);
 	argv++;
+	(void)argv;
 	// print_env(envp);
 	data = malloc(sizeof(t_data));
 	if (data == NULL)

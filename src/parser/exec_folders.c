@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
-/*   Updated: 2024/06/30 13:42:14 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:44:50 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int		scan_folders(char **folder_strs, t_data *data)
 	struct dirent	*dirent;
 
 	i = 0;
+	(void)i;
 	dir = NULL;
 	dirent = NULL;
 	while (*folder_strs)
@@ -181,12 +182,13 @@ void	init_folder_strs(char **folder_strs, int num_of_flds)
 	}
 }
 
-char *ft_getenv(char *path, t_data *data)
-{
-	char **envpath = ft_split((const char *) data->envp, '=');
-	free(envpath[0]);
-	return (envpath[1]);
-}
+//char *ft_getenv(char *path, t_data *data)
+//{
+//	(void)path;
+//	char **envpath = ft_split((const char *) data->envp, '=');
+//	free(envpath[0]);
+//	return (envpath[1]);
+//}
 /**
  * Main routine to get list of commands and path to their executables in current environment
  */

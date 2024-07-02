@@ -82,22 +82,34 @@ TEST(Test, GetCMDListTest)
     envp.push_back(strdup("LANG=en_US.UTF-8"));
     envp.push_back(strdup("XDG_CURRENT_DESKTOP=ubuntu:GNOME"));
     envp.push_back(strdup("VTE_VERSION=6800"));
-    envp.push_back(strdup("PATH=/Users/vojtechparkan/.nvm/versions/node/v13.0.1/bin:/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"));
-    auto *data = new t_data;
-    data_init(data, envp.data());
+    envp.push_back(strdup("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"));
+	putenv("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	auto *data = new t_data;
+
     std::string envpath = getenv("PATH");
-    std::string expect_envpath = "/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
-    //ASSERT_EQ(envpath, expect_envpath);
+    std::string expect_envpath = "/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin";
+    ASSERT_EQ(envpath, expect_envpath);
+	setenv("PATH", "/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/nonexistent", 1);
+	data_init(data, envp.data());
+	envpath = getenv("PATH");
+	expect_envpath = "/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/nonexistent";
+	ASSERT_EQ(envpath, expect_envpath);
     char	**folder_strs = NULL;
     folder_strs = (char**) malloc(sizeof(char *) * (get_number_of_folders(getenv("PATH")) + 1));
-    get_folders(getenv("PATH"), folder_strs);
-     while (*folder_strs)
+	while (*data->envp)
      {
-         std::cout << "folders:\n";
-         std::cout << *folder_strs;
+         std::cout << *data->envp;
          std::cout << "\n";
-         folder_strs++;
+		 data->envp++;
      }
+    get_folders(getenv("PATH"), folder_strs);
+//     while (*folder_strs)
+//     {
+//         std::cout << "folders:\n";
+//         std::cout << *folder_strs;
+//         std::cout << "\n";
+//         folder_strs++;
+//     }
     scan_folders(folder_strs, data);
     get_cmd_list(data);
     add_cmd_list_node("pwd", "/usr/bin", data);
