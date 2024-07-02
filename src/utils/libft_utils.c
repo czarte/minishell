@@ -94,3 +94,27 @@ static int	ft_create_tokens(char **result, char const *s, char c)
 	}
 	return (0);
 }
+
+char	*ft_strrchr(const char *s, int c)
+{
+	int		sl;
+	int		i;
+	char	*res;
+
+	sl = ft_strlen(s);
+	i = sl;
+	res = NULL;
+	if ((char) c == '\0')
+		return ((char *)(s + sl));
+	while (i >= 0)
+	{
+		if (s[i] == (char) c)
+		{
+			res = ((char *) s + i);
+			break ;
+		}
+		i--;
+	}
+	return ((char *)res);
+}
+

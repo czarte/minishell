@@ -26,6 +26,8 @@ add_executable(
         ${sources}
         src/utils/libft_utils.c
         src/utils/libft_memutils.c
+        src/executor/ft_pipes.c
+        src/executor/ft_command_parser.c
 
 )
 target_link_libraries(
