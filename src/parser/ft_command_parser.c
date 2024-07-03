@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incl/minishell.h"
-#include "../../incl/executor.h"
+#include "minishell.h"
+#include "executor.h"
 
 void	ft_check_access(char *pathcmd, char ***array)
 {
