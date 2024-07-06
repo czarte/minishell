@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 18:52:12 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:29:04 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,8 @@ int data_init(t_data *data, char **envp)
 	data->builtins = NULL;
 	data->envp = envp;
 	data->local_temp_envp = NULL;
-//	if (envp_add_reallocate(data, NULL, 0))
-//		return (-1);
+	if (envp_add_reallocate(data, NULL, 0))
+		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
 	{
