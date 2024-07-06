@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 14:29:12 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:36:19 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ int		scan_folders(char **folder_strs, t_data *data)
 	dirent = NULL;
 	while (*folder_strs)
 	{
-		// TODO fix this function so it won't fail when dir in path does not exists or user has no access rights
-		//printf("opening: %s\n", *folder_strs);
 		dir = opendir(*folder_strs);
 		if (dir == NULL)
 			break ;
@@ -113,7 +111,6 @@ int		scan_folders(char **folder_strs, t_data *data)
 		//printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
-			//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
 			if (check_exec_access(*folder_strs, dirent))
 				add_cmd_list_node(dirent->d_name, *folder_strs, data);
 			dirent = readdir(dir);
