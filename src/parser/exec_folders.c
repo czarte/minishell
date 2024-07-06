@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_folders.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 19:44:50 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:36:19 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,23 @@ int	add_cmd_list_node(char *name, char *path, t_data *data)
 	return (0);
 }
 
+int	check_exec_access(char *folder, struct dirent *dirent)
+{
+	char	*path_to_check;
+	char	*temp;
+
+	temp = ft_strjoin(folder, "/");
+	path_to_check = ft_strjoin(temp, dirent->d_name);
+	free (temp);
+	if (access(path_to_check, X_OK))
+	{
+		free(path_to_check);
+		return (0);
+	}
+	free(path_to_check);
+	return (1);
+}
+
 /**
  * Scans the folders for executables it contains
  */
@@ -87,8 +104,6 @@ int		scan_folders(char **folder_strs, t_data *data)
 	dirent = NULL;
 	while (*folder_strs)
 	{
-		// TODO fix this function so it won't fail when dir in path does not exists or user has no access rights
-		//printf("opening: %s\n", *folder_strs);
 		dir = opendir(*folder_strs);
 		if (dir == NULL)
 			break ;
@@ -96,12 +111,8 @@ int		scan_folders(char **folder_strs, t_data *data)
 		//printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
-			//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
-			if (access(ft_strjoin(ft_strjoin(*folder_strs, "/"), dirent->d_name), X_OK))
-			{
-				//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+			if (check_exec_access(*folder_strs, dirent))
 				add_cmd_list_node(dirent->d_name, *folder_strs, data);
-			}
 			dirent = readdir(dir);
 		}
 		closedir(dir);
