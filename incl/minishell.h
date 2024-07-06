@@ -121,6 +121,7 @@ char	*ft_strjoin(const char *str1, const char *str2);
 void	*ft_memcpy_o(void *dst, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
 int		ft_contains_char(const char *str, char character);
+int 	tokens_len(t_token_chain *tokens);
 
 /*----	  Help		----*/
 void    help();

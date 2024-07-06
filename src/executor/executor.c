@@ -49,7 +49,8 @@ int	executor(t_data *data)
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
-			char **command = malloc(3 * sizeof (char *));
+			char **command = malloc(tokens_len(current) * sizeof (char *));
+			while (tokens_len(current))
 			command[0] = current->token;
 			command[1] = get_cmd_path(current->token, data);
 			if (str_comp(current->next->type, "ar"))
