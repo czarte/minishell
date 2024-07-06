@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 13:14:15 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/06 14:29:12 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,11 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 	temp = ft_strjoin(folder, "/");
 	path_to_check = ft_strjoin(temp, dirent->d_name);
 	free (temp);
-	if (access(path_to_check, ))
-	
+	if (access(path_to_check, X_OK))
+	{
+		free(path_to_check);
+		return (0);
+	}
 	free(path_to_check);
 	return (1);
 }
@@ -111,11 +114,8 @@ int		scan_folders(char **folder_strs, t_data *data)
 		while (dirent != NULL)
 		{
 			//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
-			if (/*access(ft_strjoin(ft_strjoin(*folder_strs, "/"), dirent->d_name), X_OK)*/ 1)
-			{
-				//printf("filename: %s, type: %i\n", dirent->d_name, dirent->d_type);
+			if (check_exec_access(*folder_strs, dirent))
 				add_cmd_list_node(dirent->d_name, *folder_strs, data);
-			}
 			dirent = readdir(dir);
 		}
 		closedir(dir);
