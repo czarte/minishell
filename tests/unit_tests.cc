@@ -83,7 +83,7 @@ TEST(Test, GetCMDListTest)
     envp.push_back(strdup("XDG_CURRENT_DESKTOP=ubuntu:GNOME"));
     envp.push_back(strdup("VTE_VERSION=6800"));
     envp.push_back(strdup("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"));
-	putenv("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	//putenv("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
 	auto *data = new t_data;
 
     std::string envpath = getenv("PATH");
@@ -121,4 +121,38 @@ TEST(Test, GetCMDListTest)
     // std::cout << path;
     // std::cout << "\n";
     ASSERT_STREQ(path, "/usr/bin/pwd");
+}
+
+TEST(Test, SetEnvVar) {
+	std::vector<char *> envp;
+	envp.push_back(strdup("SHELL=/bin/zsh"));
+	envp.push_back(strdup("SESSION_MANAGER=local/c3r1s3.42prague.com:@/tmp/.ICE-unix/1794201,unix/c3r1s3.42prague.com:/tmp/.ICE-unix/1794201"));
+	envp.push_back(strdup("QT_ACCESSIBILITY=1"));
+	envp.push_back(strdup("COLORTERM=truecolor"));
+	envp.push_back(strdup("XDG_CONFIG_DIRS=/etc/xdg/xdg-ubuntu:/etc/xdg"));
+	envp.push_back(strdup("SSH_AGENT_LAUNCHER=gnome-keyring"));
+	envp.push_back(strdup("XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session22"));
+	envp.push_back(strdup("PWD=/nfs/homes/voparkan"));
+	envp.push_back(strdup("KRB5CCNAME=FILE:/tmp/krb5cc_101745_ZLHYd6"));
+	envp.push_back(strdup("LOGNAME=voparkan"));
+	envp.push_back(strdup("XDG_SESSION_DESKTOP=ubuntu"));
+	envp.push_back(strdup("XDG_SESSION_TYPE=x11"));
+	envp.push_back(strdup("HOME=/nfs/homes/voparkan"));
+	envp.push_back(strdup("LANG=en_US.UTF-8"));
+	envp.push_back(strdup("XDG_CURRENT_DESKTOP=ubuntu:GNOME"));
+	envp.push_back(strdup("VTE_VERSION=6800"));
+	envp.push_back(strdup("PATH=/nfs/homes/voparkan/bin:/nfs/homes/voparkan/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"));
+	auto *data = new t_data;
+	data_init(data, envp.data());
+	auto value = new t_token_chain;
+	value->token = strdup("TEST=test");
+	memcpy(value->type, "ar", 3);
+	value->next = nullptr;
+	auto current = new t_token_chain;
+	current->token = strdup("export");
+	memcpy(current->type, "bu", 3);
+	current->next = value;
+	b_export(current, data);
+	char *testres = b_getenv("TEST", data);
+	ASSERT_STREQ(testres, "test");
 }

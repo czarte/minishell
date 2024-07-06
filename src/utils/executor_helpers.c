@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:10:53 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:11:07 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 10:38:12 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,22 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		if (*c++ != *d++ || (!*(c - 1) || !*(d - 1)))
 			return (*(c - 1) - *(d - 1));
 	return (0);
+}
+
+int	wait_subprocess(t_executor *pt)
+{
+	int	pid;
+	int	exit_code;
+	int	status;
+
+	pid = 1;
+	exit_code = 0;
+	while (pid != -1)
+	{
+		pid = waitpid(-1, &status, WNOHANG);
+		if (pid == pt->pid)
+			exit_code = WEXITSTATUS(status);
+	}
+	free_alloc(pt);
+	return (exit_code);
 }
