@@ -47,6 +47,17 @@ void	print_envp(char **envp)
  */
 int	b_export(t_token_chain *current, t_data *data)
 {
+	int	temp_var_position;
+
+	temp_var_position = 0;
+	if (current->next && !ft_contains_char(current->next->token, '='))
+	{
+		temp_var_position = check_envp_for_duplicate(data->local_temp_envp, current->next->token);
+		// printf("Temp var pos: %i\ntoken:%s\n", temp_var_position, current->next->token);
+		if (temp_var_position >= 0)
+			envp_add_reallocate(data, data->local_temp_envp[temp_var_position], 0);
+		return (0);
+	}
 	if (current->next)
 	{
 		if (export_from_token(current->next, data))

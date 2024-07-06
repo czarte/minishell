@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/06 12:38:55 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:12:22 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	*ft_memcpy(const char *str);
 char	*ft_strjoin(const char *str1, const char *str2);
 void	*ft_memcpy_o(void *dst, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
+int		ft_contains_char(const char *str, char character);
 
 /*----	  Help		----*/
 void    help();
