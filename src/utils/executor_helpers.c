@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:10:53 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 10:38:12 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 21:28:24 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ int	wait_subprocess(t_executor *pt)
 		if (pid == pt->pid)
 			exit_code = WEXITSTATUS(status);
 	}
-	free_alloc(pt);
+	//free_alloc(pt);
 	return (exit_code);
 }

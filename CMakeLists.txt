@@ -28,6 +28,7 @@ add_executable(
         src/utils/libft_memutils.c
         src/executor/ft_pipes.c
         src/parser/ft_command_parser.c
+        src/utils/token_utils.c
 
 )
 target_link_libraries(
