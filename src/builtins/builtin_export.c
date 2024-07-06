@@ -47,30 +47,14 @@ void	print_envp(char **envp)
  */
 int	b_export(t_token_chain *current, t_data *data)
 {
-// 	printf("current: %p\n", current);
-	printf("Local temp envp:\n");
-	print_envp(data->local_temp_envp);
-	if (data->local_temp_envp && current->next != NULL)
-		printf("Can't decide what to export\n");
-	else if (!data->local_temp_envp && current->next == NULL)
-		printf("Nothing to export\n");
-	else if (data->local_temp_envp && !data->local_temp_envp[1])
-	{
-		if (export_from_local(data))
-		{
-			perror("Export from local");
-			return (-1);
-		}
-	}
-	else if (!data->local_temp_envp && current->next)
+	if (current->next)
 	{
 		if (export_from_token(current->next, data))
-		{
-			perror("Export from token");
 			return (-1);
-		}
 	}
-	else
-		printf("Can't export :(\n");
+	if (!current->next)
+	{
+		printf("Should print what export without argument prints\n");
+	}
 	return (0);
 }
