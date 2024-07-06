@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/06/30 12:23:54 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:38:55 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int		envp_add_reallocate(t_data *data, char *new_var, char temp);
 void	free_old_envp(char **envp);
 int		check_envp_for_duplicate(char **envp, char *new_var);
 int		num_of_vars(char **envp);
+void	print_envp(char **envp);
+char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:11:55 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/05 22:06:12 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	init_file(t_executor *pt)
 	return (1);
 }
 
-t_executor	ft_init_pipex(int argc, char **argv, char **env)
+t_executor	ft_init_exec(int argc, char **argv, char **env)
 {
 	t_executor	pt;
 

@@ -6,11 +6,12 @@
 /*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
-/*   Updated: 2024/06/21 16:56:29 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 12:52:51 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+#include "../../incl/executor.h"
 
 /**
  * Finds out which of the builtin commands to execute
@@ -38,6 +39,7 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 int	executor(t_data *data)
 {
 	t_token_chain	*current;
+	t_executor 		pt;
 
 	current = data->token_chain->next;
 	while (current)
@@ -46,6 +48,19 @@ int	executor(t_data *data)
 			execute_builtin(current, data);
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
+		else if (str_comp(current->type, "pr")) {
+			char **command = malloc(3 * sizeof (char *));
+			command[0] = current->token;
+			command[1] = get_cmd_path(current->token, data);
+			if (str_comp(current->next->type, "ar"))
+				command[2] = current->next->token;
+			else
+				command[2] = NULL;
+			command[3] = NULL;
+			pt = ft_init_exec(0, &data->cmd_list->cmd, data->envp);
+			ft_loop(&pt);
+			wait_subprocess(&pt);
+		}
 		current = current->next;
 	}
 	return (0);
