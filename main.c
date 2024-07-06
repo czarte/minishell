@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 16:09:10 by voparkan         ###   ########.fr       */
+/*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
+/*   Updated: 2024/04/06 18:25:07 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

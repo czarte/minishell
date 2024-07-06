@@ -42,35 +42,56 @@ void	print_envp(char **envp)
 	}
 }
 
+void	no_option_export(char **envp)
+{
+	int		i;
+	int		j;
+	bool	first_equal_sgn;
+
+	i = 0;
+	j = 0;
+	while (envp[i])
+	{
+		write(1, "declare -x ", 12);
+		first_equal_sgn = true;
+		while (envp[i][j])
+		{
+			write(1, &envp[i][j], 1);
+			if (envp[i][j] == '=' && first_equal_sgn)
+			{
+				write(1, "\"", 1);
+				first_equal_sgn = false;
+			}
+			j++;
+		}
+		write(1, "\"\n", 2);
+		j = 0;
+		i++;
+	}
+}
+
 /**
  * note: export() is reserved
  */
 int	b_export(t_token_chain *current, t_data *data)
 {
-// 	printf("current: %p\n", current);
-	printf("Local temp envp:\n");
-	print_envp(data->local_temp_envp);
-	if (data->local_temp_envp && current->next != NULL)
-		printf("Can't decide what to export\n");
-	else if (!data->local_temp_envp && current->next == NULL)
-		printf("Nothing to export\n");
-	else if (data->local_temp_envp && !data->local_temp_envp[1])
+	int	temp_var_position;
+
+	temp_var_position = 0;
+	if (current->next && !ft_contains_char(current->next->token, '='))
 	{
-		if (export_from_local(data))
-		{
-			perror("Export from local");
-			return (-1);
-		}
+		temp_var_position = check_envp_for_duplicate(data->local_temp_envp, current->next->token);
+		// printf("Temp var pos: %i\ntoken:%s\n", temp_var_position, current->next->token);
+		if (temp_var_position >= 0)
+			envp_add_reallocate(data, data->local_temp_envp[temp_var_position], 0);
+		return (0);
 	}
-	else if (!data->local_temp_envp && current->next)
+	if (current->next)
 	{
 		if (export_from_token(current->next, data))
-		{
-			perror("Export from token");
 			return (-1);
-		}
 	}
-	else
-		printf("Can't export :(\n");
+	if (!current->next)
+		no_option_export(data->envp);
 	return (0);
 }

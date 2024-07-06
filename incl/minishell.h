@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/06 18:34:00 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:53:15 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include<stdio.h>
 # include<stdlib.h>
+#include<stdbool.h>
 # include<readline/readline.h>
 # include<readline/history.h>
 # include<unistd.h>
@@ -119,6 +120,7 @@ char	*ft_memcpy(const char *str);
 char	*ft_strjoin(const char *str1, const char *str2);
 void	*ft_memcpy_o(void *dst, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
+int		ft_contains_char(const char *str, char character);
 int 	tokens_len(t_token_chain *tokens);
 
 /*----	  Help		----*/
