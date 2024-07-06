@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/06 12:52:51 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:11:21 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	executor(t_data *data)
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
-			char **command = malloc(3 * sizeof (char *));
+			char **command = malloc(tokens_len(current) * sizeof (char *));
+			while (tokens_len(current))
 			command[0] = current->token;
 			command[1] = get_cmd_path(current->token, data);
 			if (str_comp(current->next->type, "ar"))
