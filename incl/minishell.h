@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/06 18:12:22 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:53:15 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include<stdio.h>
 # include<stdlib.h>
+#include<stdbool.h>
 # include<readline/readline.h>
 # include<readline/history.h>
 # include<unistd.h>
