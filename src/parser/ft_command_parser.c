@@ -6,12 +6,12 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:17:25 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:16:26 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "executor.h"
+#include "../../incl/minishell.h"
+#include "../../incl/executor.h"
 
 void	ft_check_access(char *pathcmd, char ***array)
 {
@@ -48,22 +48,22 @@ char	**parse_argv(char *arg, t_executor *pt)
 	return (psr.array);
 }
 
-void	check_commands(t_executor *pt)
-{
-	t_list	*temp;
-	int		end;
-
-	temp = pt->comm;
-	end = 1;
-	while (pt->comm)
-	{
-		if (access(pt->comm->content[0], X_OK == -1))
-			printf("minishell: command not found: %s\n", (char *)
-					pt->comm->content[0]);
-		pt->comm = pt->comm->next;
-	}
-	pt->comm = temp;
-}
+//void	check_commands(t_executor *pt)
+//{
+//	t_list	*temp;
+//	int		end;
+//
+//	temp = pt->comm;
+//	end = 1;
+//	while (pt->comm)
+//	{
+//		if (access(pt->comm->content[0], X_OK == -1))
+//			printf("minishell: command not found: %s\n", (char *)
+//					pt->comm->content[0]);
+//		pt->comm = pt->comm->next;
+//	}
+//	pt->comm = temp;
+//}
 
 void	parse_path(t_executor *pt, int *flag, char **argv, char **tmp)
 {

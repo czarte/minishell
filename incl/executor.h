@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 13:07:31 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:16:26 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ void		ft_lstadd_back(t_list **lst, t_list *nlist);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
 char		*ft_strrchr(const char *s, int c);
+void		check_commands(t_executor *pt);
 
 #endif // !EXECUTOR_H
