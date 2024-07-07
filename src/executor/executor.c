@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:31:37 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:21:53 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,9 @@ int	executor(t_data *data)
 {
 	t_token_chain	*current;
 	t_executor 		pt;
+	bool			run;
 
+	run = false;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
 	print_exec_data(data->exec);
@@ -172,6 +174,7 @@ int	executor(t_data *data)
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
+			run = true;
 			printf("debug: %d", tokens_len(current));
 			char **command = malloc((tokens_len(current) + 2)* sizeof (char *));
 			//while (tokens_len(current))
@@ -187,8 +190,11 @@ int	executor(t_data *data)
 		current = current->next;
 	}
 	check_commands(&pt);
-	ft_loop(&pt);
-	wait_subprocess(&pt);
+	if (run)
+	{
+		ft_loop(&pt);
+		wait_subprocess(&pt);
+	}
 	free_exec(data);
 	return (0);
 }
