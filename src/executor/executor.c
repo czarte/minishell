@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/07 11:31:37 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
@@ -118,6 +130,28 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 	return (0);
 }
 
+void	check_commands(t_executor *pt)
+{
+	t_list	*temp;
+
+	temp = pt->comm;
+	while (pt->comm)
+	{
+		printf("-----------\n");
+		char **con = (char **) pt->comm->content;
+		while (*con) {
+			printf("command: %s\n",*con);
+			con++;
+		}
+		printf("-----------\n");
+		if (access(pt->comm->content[0], X_OK == -1))
+			printf("minishell: command not found: %s\n", (char *)
+					pt->comm->content[0]);
+		pt->comm = pt->comm->next;
+	}
+	pt->comm = temp;
+}
+
 /**
  * Executes commands from token chain
  */
@@ -130,6 +164,7 @@ int	executor(t_data *data)
 		return (-1);
 	print_exec_data(data->exec);
 	current = data->token_chain->next;
+	pt = ft_init_exec(0, NULL, data->envp);
 	while (current)
 	{
 		if (str_comp(current->type, "bu"))
@@ -137,21 +172,23 @@ int	executor(t_data *data)
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
-			char **command = malloc(tokens_len(current) * sizeof (char *));
-			while (tokens_len(current))
-			command[0] = current->token;
-			command[1] = get_cmd_path(current->token, data);
-			if (str_comp(current->next->type, "ar"))
+			printf("debug: %d", tokens_len(current));
+			char **command = malloc((tokens_len(current) + 2)* sizeof (char *));
+			//while (tokens_len(current))
+			command[0] = get_cmd_path(current->token, data);
+			command[1] = current->token;
+			if (current->next && str_comp(current->next->type, "ar"))
 				command[2] = current->next->token;
 			else
 				command[2] = NULL;
 			command[3] = NULL;
-			pt = ft_init_exec(0, &data->cmd_list->cmd, data->envp);
-			ft_loop(&pt);
-			wait_subprocess(&pt);
+			ft_lstadd_back(&pt.comm, ft_lstnew((void *) command));
 		}
 		current = current->next;
 	}
+	check_commands(&pt);
+	ft_loop(&pt);
+	wait_subprocess(&pt);
 	free_exec(data);
 	return (0);
 }

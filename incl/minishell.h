@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/06 20:04:38 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
@@ -28,7 +40,7 @@
 # include<sys/ioctl.h>
 # include<termios.h>
 # include<termcap.h>
-# include"executor.h"
+# include "executor.h"
 
 typedef struct s_cmd_list t_cmd_list;
 typedef struct s_token_chain t_token_chain;
@@ -80,6 +92,7 @@ typedef struct s_data{
 	char				prompt[66];
 	int					n_cmd;
 }	t_data;
+
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
