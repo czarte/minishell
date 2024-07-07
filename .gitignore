@@ -4,3 +4,5 @@ src/*.o
 minishell
 .*
 valgrind_log.txt
+build
+cmake-build-debug

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/minishell.h"
+#include "./incl/minishell.h"
 
 int main(int argc, char **argv, char **envp)
 {
@@ -19,6 +19,7 @@ int main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (0);
 	argv++;
+	(void)argv;
 	// print_env(envp);
 	data = malloc(sizeof(t_data));
 	if (data == NULL)

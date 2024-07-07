@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:54 by stepan            #+#    #+#             */
-/*   Updated: 2024/04/17 17:52:40 by stepan           ###   ########.fr       */
+/*   Updated: 2024/07/06 17:22:44 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
 /**
  * Copies string to preallocated memory from from to to
@@ -113,4 +113,25 @@ char	*ft_strjoin(const char *str1, const char *str2)
 	ret[j] = '\0';
 	// printf("ret: %s\n", ret);
 	return (ret);
+}
+
+/**
+ * Count how many characters does the string contain
+ */
+int	ft_contains_char(const char *str, char character)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == character)
+			res++;
+		i++;
+	}
+	return (res);
 }
