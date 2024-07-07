@@ -40,6 +40,7 @@
 # include<sys/ioctl.h>
 # include<termios.h>
 # include<termcap.h>
+# include "executor.h"
 
 typedef struct s_cmd_list t_cmd_list;
 typedef struct s_token_chain t_token_chain;
@@ -70,6 +71,13 @@ typedef struct s_token_chain{
 	t_token_chain	*next;
 }	t_token_chain;
 
+typedef struct s_fs {
+	t_list			*cmd_list;
+	char			*file[2];
+	bool			delimiter;
+	bool			appedn;
+} t_fs;
+
 typedef struct s_data{
 	t_cmd_list		*cmd_list;
 	t_token_chain	*token_chain;
@@ -79,7 +87,9 @@ typedef struct s_data{
 	char			**local_temp_envp;
 	char			work_dir[4096];
 	char			prompt[66];
+	t_fs			*fs;
 }	t_data;
+
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:13:17 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:21:55 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:35:04 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_free_content(char *content)
 {
-	if (*content)
+	if (content)
 		free(content);
 }
 
@@ -39,8 +39,8 @@ void	free_alloc(t_executor *pt)
 {
 	if (pt->comm)
 		ft_lstclear(&pt->comm, (void *)(ft_free_content));
-	if (pt->pwd)
-		free(pt->pwd);
-	if (*pt->path)
-		free(pt->path);
+//	if (pt->pwd)
+//		free(pt->pwd);
+//	if (*pt->path)
+//		free(pt->path);
 }

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 21:38:47 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:31:37 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	executor(t_data *data)
 	t_executor 		pt;
 
 	current = data->token_chain->next;
+	pt = ft_init_exec(0, NULL, data->envp);
 	while (current)
 	{
 		if (str_comp(current->type, "bu"))
@@ -93,7 +94,6 @@ int	executor(t_data *data)
 			else
 				command[2] = NULL;
 			command[3] = NULL;
-			pt = ft_init_exec(0, NULL, data->envp);
 			ft_lstadd_back(&pt.comm, ft_lstnew((void *) command));
 		}
 		current = current->next;

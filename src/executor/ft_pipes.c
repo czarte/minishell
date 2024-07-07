@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 18:13:35 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:34:16 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,15 @@ t_executor	ft_init_exec(int argc, char **argv, char **env)
 {
 	t_executor	pt;
 
+	(void)argv;
 	pt.comm = malloc(sizeof(t_list));
 	pt.comm = NULL;
 	pt.end = 0;
 	pt.status = 0;
 	pt.env = env;
-	pt.argv = argv;
+	pt.pwd = NULL;
+	pt.path = NULL;
+//	pt.argv = argv;
 	pt.argc = argc;
 //	pt.psucc = init_path(&pt);
 //	pt.fsucc = init_file(&pt);

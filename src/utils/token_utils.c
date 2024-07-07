@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:24:18 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 18:34:39 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:40:33 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int 	tokens_len(t_token_chain *tokens)
 
 	curr = tokens;
 	len = 0;
-	while (curr)
+	while (curr && !str_comp(curr->type, "pi"))
 	{
 		len++;
 		curr = curr->next;
