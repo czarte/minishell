@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/06 19:53:15 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:35:44 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include<stdio.h>
 # include<stdlib.h>
-#include<stdbool.h>
+# include<stdbool.h>
 # include<readline/readline.h>
 # include<readline/history.h>
 # include<unistd.h>
@@ -28,6 +28,7 @@
 # include<sys/ioctl.h>
 # include<termios.h>
 # include<termcap.h>
+# include"executor.h"
 
 typedef struct s_cmd_list t_cmd_list;
 typedef struct s_token_chain t_token_chain;
@@ -43,10 +44,12 @@ typedef struct s_cmd_list{
 	pr	program
 	bu	builtin
 	ar	argument
+	fp	file path
 	pi	pipe				|
 	ri	redirect input		<
 	ro	redirect output		>
 	rd	redirect delimiter	<<
+	dl	delimiter
 	ra	redirect append		>>
 	ev	environment var		$something
 	vd	variable declar.	VAR_NAME=VALUE
@@ -58,23 +61,35 @@ typedef struct s_token_chain{
 	t_token_chain	*next;
 }	t_token_chain;
 
+typedef struct s_exec_data{
+	t_list	*cmd;			//command structured array
+	char	*file[2];		//file paths
+	bool	limit;			//delimiter flag
+	bool	append;			//append flag
+}	t_exec;
+
 typedef struct s_data{
-	t_cmd_list		*cmd_list;
-	t_token_chain	*token_chain;
-	t_cmd_list		*last_c_l_node;
-	char			**envp;
-	char			**builtins;
-	char			**local_temp_envp;
-	char			work_dir[4096];
-	char			prompt[66];
+	t_cmd_list			*cmd_list;
+	t_token_chain		*token_chain;
+	t_cmd_list			*last_c_l_node;
+	t_exec				*exec;
+	char				**envp;
+	char				**builtins;
+	char				**local_temp_envp;
+	char				work_dir[4096];
+	char				prompt[66];
+	int					n_cmd;
 }	t_data;
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
+int		exec_data_init(t_data *data);
 int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
 void	free_token_chain(t_data *data);
+void	free_exec(t_data *data);
 void	free_folder_strs(char **folder_strs);
+int		data_perror(t_data *data, char *msg);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);
@@ -108,6 +123,7 @@ int		token_chain_analyzer(t_data *data);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
 int		scan_folders(char **folder_strs, t_data *data);
+void	type_token(t_token_chain *token_node, char *type);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);

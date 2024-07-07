@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 16:08:55 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 16:23:32 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,31 @@ void	free_builtins(t_data *data)
 	free(data->builtins);
 }
 
+void	free_exec(t_data *data)
+{
+	t_list	*current;
+	t_list	*next;
+
+	current = data->exec->cmd;
+	if (current)
+		next = data->exec->cmd->next;
+	while (current)
+	{
+		while (*current->content)
+		{
+			free(*current->content);
+			current->content++;
+		}
+		// free(current->content);
+		current = next;
+		if (current)
+			next = current->next;
+	}
+	free(current);
+	free(data->exec);
+	data->exec = NULL;
+}
+
 /**
  * Main freeing routine
  */
@@ -92,6 +117,8 @@ int free_data(t_data *data)
 		free_old_envp(data->envp);
 	if (data->local_temp_envp)
 		free_old_envp(data->local_temp_envp);
+	if (data->exec)
+		free_exec(data);
 	free(data->token_chain);
 	free(data);
 	return (0);
@@ -172,6 +199,26 @@ int	init_builtins(t_data *data)
 	return (0);
 }
 
+int	data_perror(t_data *data, char *msg)
+{
+	perror(msg);
+	free_data(data);
+	return (-1);
+}
+
+int	exec_data_init(t_data *data)
+{
+	data->exec = malloc(sizeof(t_exec));
+	if (data->exec == NULL)
+		return(data_perror(data, "exec_struct"));
+	data->exec->cmd = NULL;
+	data->exec->file[0] = NULL;
+	data->exec->file[1] = NULL;
+	data->exec->append = false;
+	data->exec->limit = false;
+	return (0);
+}
+
 /**
  * Main data initialization routine
  */
@@ -180,30 +227,29 @@ int data_init(t_data *data, char **envp)
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;
+	data->exec = NULL;
 	data->envp = envp;
 	data->local_temp_envp = NULL;
 	if (envp_add_reallocate(data, NULL, 0))
 		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
-	{
-		perror("cmd_list: ");
-		free_data(data);
-		return (-1);
-	}
+		return(data_perror(data, "cmd_list"));
 	data->cmd_list->cmd = NULL;
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
 	data->last_c_l_node = data->cmd_list;
 	data->token_chain = malloc(sizeof(t_token_chain));
 	if (data->token_chain == NULL)
-	{
-		perror("cmd_list: ");
-		free_data(data);
-		return (-1);
-	}
+		return(data_perror(data, "token_list"));
 	data->token_chain->token = NULL;
 	data->token_chain->next = NULL;
+	// data->exec = malloc(sizeof(t_exec));
+	// if (data->exec == NULL)
+	// 	return(data_perror(data, "exec_struct"));
+	// data->exec->cmd = NULL;
+	// data->exec->file[0] = NULL;
+	// data->exec->file[1] = NULL;
 	getcwd(data->work_dir, sizeof(data->work_dir));
 	init_builtins(data);
 	return (0);
