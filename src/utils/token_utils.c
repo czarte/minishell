@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 02:06:25 by smelicha         ###   ########.fr       */
+/*   Created: 2024/07/06 18:24:18 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/07 11:40:33 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../incl/minishell.h"
+#include "../../incl/minishell.h"
 
-void	cd(const char *new_wd, t_data *data)
+int 	tokens_len(t_token_chain *tokens)
 {
-	if (chdir(new_wd) != 0)
+	t_token_chain	*curr;
+	int				len;
+
+	curr = tokens;
+	len = 0;
+	while (curr && !str_comp(curr->type, "pi"))
 	{
-		perror("");
-		return ;
+		len++;
+		curr = curr->next;
 	}
-	getcwd(data->work_dir, sizeof(data->work_dir));
+	return (len);
 }

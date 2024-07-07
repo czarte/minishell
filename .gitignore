@@ -3,4 +3,9 @@ a.out
 src/*.o
 minishell
 .*
+<<<<<<< HEAD
+=======
+valgrind_log.txt
+build
+>>>>>>> 8adb9103e8bd8fefe54b5b024d3176c9efdfc0c0
 cmake-build-debug

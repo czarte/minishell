@@ -5,13 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:05 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 23:10:29 by smelicha         ###   ########.fr       */
+/*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/07 16:23:32 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
 
+/**
+ * Routine to free linked list with commands and paths to their binaries
+ */
 void free_cmd_list(t_data *data)
 {
 	t_cmd_list *tmp;
@@ -35,6 +38,9 @@ void free_cmd_list(t_data *data)
 	}
 }
 
+/**
+ * Routine to free linked list with tokens
+ */
 void free_token_chain(t_data *data)
 {
 	t_token_chain *tmp;
@@ -54,6 +60,9 @@ void free_token_chain(t_data *data)
 	}
 }
 
+/**
+ * Routine to free array with names of builtin commands
+ */
 void	free_builtins(t_data *data)
 {
 	int	i;
@@ -68,6 +77,34 @@ void	free_builtins(t_data *data)
 	free(data->builtins);
 }
 
+void	free_exec(t_data *data)
+{
+	t_list	*current;
+	t_list	*next;
+
+	current = data->exec->cmd;
+	if (current)
+		next = data->exec->cmd->next;
+	while (current)
+	{
+		while (*current->content)
+		{
+			free(*current->content);
+			current->content++;
+		}
+		// free(current->content);
+		current = next;
+		if (current)
+			next = current->next;
+	}
+	free(current);
+	free(data->exec);
+	data->exec = NULL;
+}
+
+/**
+ * Main freeing routine
+ */
 int free_data(t_data *data)
 {
 	if (data->cmd_list)
@@ -76,11 +113,20 @@ int free_data(t_data *data)
 		free_token_chain(data);
 	if (data->builtins)
 		free_builtins(data);
+	if (data->envp)
+		free_old_envp(data->envp);
+	if (data->local_temp_envp)
+		free_old_envp(data->local_temp_envp);
+	if (data->exec)
+		free_exec(data);
 	free(data->token_chain);
 	free(data);
 	return (0);
 }
 
+/**
+ * Null initialization for array with names of builtin commands
+ */
 void	null_builtins(t_data *data)
 {
 	int	i;
@@ -93,6 +139,9 @@ void	null_builtins(t_data *data)
 	}
 }
 
+/**
+ * Fills names of the builtin command into the array
+ */
 void	fill_builtins(t_data *data)
 {
 	str_fill(data->builtins[0], "echo");
@@ -104,6 +153,9 @@ void	fill_builtins(t_data *data)
 	str_fill(data->builtins[6], "exit");
 }
 
+/**
+ * Allocates memory forstrings in array with builtin commands
+ */
 int	allocate_builtins(t_data *data)
 {
 	int	i;
@@ -130,6 +182,9 @@ int	allocate_builtins(t_data *data)
 	return (0);
 }
 
+/**
+ * Allocates and initializes array with builtin command names
+ */
 int	init_builtins(t_data *data)
 {
 	data->builtins = malloc(sizeof(char *) * 8);
@@ -144,31 +199,57 @@ int	init_builtins(t_data *data)
 	return (0);
 }
 
-int data_init(t_data *data)
+int	data_perror(t_data *data, char *msg)
+{
+	perror(msg);
+	free_data(data);
+	return (-1);
+}
+
+int	exec_data_init(t_data *data)
+{
+	data->exec = malloc(sizeof(t_exec));
+	if (data->exec == NULL)
+		return(data_perror(data, "exec_struct"));
+	data->exec->cmd = NULL;
+	data->exec->file[0] = NULL;
+	data->exec->file[1] = NULL;
+	data->exec->append = false;
+	data->exec->limit = false;
+	return (0);
+}
+
+/**
+ * Main data initialization routine
+ */
+int data_init(t_data *data, char **envp)
 {
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;
+	data->exec = NULL;
+	data->envp = envp;
+	data->local_temp_envp = NULL;
+	if (envp_add_reallocate(data, NULL, 0))
+		return (-1);
 	data->cmd_list = malloc(sizeof(t_cmd_list));
 	if (data->cmd_list == NULL)
-	{
-		perror("cmd_list: ");
-		free_data(data);
-		return (-1);
-	}
+		return(data_perror(data, "cmd_list"));
 	data->cmd_list->cmd = NULL;
 	data->cmd_list->full_path = NULL;
 	data->cmd_list->next = NULL;
 	data->last_c_l_node = data->cmd_list;
 	data->token_chain = malloc(sizeof(t_token_chain));
 	if (data->token_chain == NULL)
-	{
-		perror("cmd_list: ");
-		free_data(data);
-		return (-1);
-	}
+		return(data_perror(data, "token_list"));
 	data->token_chain->token = NULL;
 	data->token_chain->next = NULL;
+	// data->exec = malloc(sizeof(t_exec));
+	// if (data->exec == NULL)
+	// 	return(data_perror(data, "exec_struct"));
+	// data->exec->cmd = NULL;
+	// data->exec->file[0] = NULL;
+	// data->exec->file[1] = NULL;
 	getcwd(data->work_dir, sizeof(data->work_dir));
 	init_builtins(data);
 	return (0);
