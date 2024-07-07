@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_analyzer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/04/17 17:51:37 by stepan           ###   ########.fr       */
+/*   Updated: 2024/07/07 14:36:21 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,22 @@
 /**
  * Work in progress, will analyze pipes between programs
  */
-int	analyze_pipes(t_data *data)
+int	analyze_redirections(t_data *data)
 {
 	t_token_chain	*current;
 
 	current = data->token_chain->next;
+	printf("Hello from redirections analyzer!\n");
 	while (current)
 	{
+		if (str_comp(current->type, "ri") && current->next)
+			type_token(current->next, "fp");
+		if (str_comp(current->type, "rd") && current->next)
+			type_token(current->next, "dl");
+		if (str_comp(current->type, "ro") && current->next)
+			type_token(current->next, "fp");
+		if (str_comp(current->type, "ra") && current->next)
+			type_token(current->next, "fp");
 		current = current->next;
 	}
 	return (0);
@@ -112,6 +121,18 @@ int	check_for_env_vars(t_data *data)
 	return (0);
 }
 
+void	count_cmds(t_data *data)
+{
+	t_token_chain *current;
+
+	current = data->token_chain->next;
+	while (current)
+	{
+		if (str_comp(current->type, "pr"))
+			data->n_cmd++;
+		current = current->next;
+	}
+}
 /**
  * Main analyzing function
  * TODO add flags to main struct while creating the token chain what it contains so the chain doesn't need to be scanned for each type, like for env vars...
@@ -120,5 +141,7 @@ int	token_chain_analyzer(t_data *data)
 {
 	if (check_for_env_vars(data))
 		return (-1);
+	analyze_redirections(data);
+	count_cmds(data);
 	return (0);
 }

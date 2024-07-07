@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/06/21 18:13:47 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:57:26 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,8 @@ int	lexer(char *cmd, t_data *data)
 	type_token_chain(data);
 	print_token_chain(data);
 	printf("\n");
-	print_token_chain(data);
 	token_chain_analyzer(data);
+	print_token_chain(data);
 	executor(data);
 	free_token_chain(data);
 	return (0);
