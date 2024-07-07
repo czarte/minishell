@@ -1,0 +1,49 @@
+cmake_minimum_required(VERSION 3.14)
+project(minishell)
+
+include_directories("./incl")
+
+file(GLOB sources
+        "./src/*.c"
+        "./src/builtins/*.c"
+        "./src/cli/*.c"
+        "./src/executor/*.c"
+        "./src/lexer/*.c"
+        "./src/parser/*.c"
+        "./src/utils/*.c"
+)
+
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+add_executable(
+        unit_tests
+        tests/unit_tests.cc
+        ${sources}
+        src/utils/libft_utils.c
+        src/utils/libft_memutils.c
+        src/executor/ft_pipes.c
+        src/parser/ft_command_parser.c
+        src/utils/token_utils.c
+
+)
+target_link_libraries(
+        unit_tests
+        GTest::gtest_main
+        readline
+)
+
+include(GoogleTest)
+gtest_discover_tests(unit_tests)

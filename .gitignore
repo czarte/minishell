@@ -3,3 +3,4 @@ a.out
 src/*.o
 minishell
 .*
+cmake-build-debug
