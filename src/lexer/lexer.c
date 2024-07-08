@@ -37,7 +37,7 @@ int	number_of_tokens(char *cmd)
 
 	n = 0;
 	quote = '\0';
-	while (*cmd)
+	while (cmd && *cmd)
 	{
 		while (*cmd && *cmd == ' ')
 			cmd++;
@@ -100,7 +100,7 @@ int	fill_token_chain(char *cmd, t_data *data)
 
 	current = data->token_chain->next;
 	quote = '\0';
-	while (*cmd && *cmd == ' ')
+	while (cmd && *cmd && *cmd == ' ')
 		cmd++;
 	while (current)
 	{
@@ -182,7 +182,7 @@ int	cmd_quotes_pair_check(char *cmd)
 
 	dq = 0;
 	sq = 0;
-	while (*cmd)
+	while (cmd && *cmd)
 	{
 		if (*cmd == '\"')
 			dq++;
