@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:07:28 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:18:26 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,14 @@ void	ft_exec_child(t_executor *pt, char **argv)
 
 	if (pt->end)
 	{
-		dup2(pt->filefd[1], STDOUT_FILENO);
-		close(pt->filefd[1]);
+		if (pt->file[1]) {
+			dup2(pt->filefd[1], STDOUT_FILENO);
+			close(pt->filefd[1]);
+		} else {
+			dup2(pt->fd[1], STDOUT_FILENO);
+			close(pt->fd[1]);
+			close(pt->fd[0]);
+		}
 		res = execve(argv[0], &argv[1], pt->env);
 		if (res == -1)
 			exit (127);
@@ -40,8 +46,14 @@ void	ft_exec_parent(t_executor *pt)
 {
 	if (pt->end)
 	{
-		dup2(pt->filefd[1], STDOUT_FILENO);
-		close(pt->filefd[1]);
+		if (pt->file[1]) {
+			dup2(pt->filefd[1], STDOUT_FILENO);
+			close(pt->filefd[1]);
+		}
+		else {
+			close(pt->fd[0]);
+			close(pt->fd[1]);
+		}
 	}
 	else
 	{

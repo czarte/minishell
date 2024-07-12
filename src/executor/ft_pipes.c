@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:34:16 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:27:17 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ t_executor	ft_init_exec(int argc, char **argv, char **env)
 	pt.env = env;
 	pt.pwd = NULL;
 	pt.path = NULL;
-//	pt.argv = argv;
 	pt.argc = argc;
 //	pt.psucc = init_path(&pt);
-//	pt.fsucc = init_file(&pt);
 	pt.file[0] = malloc(sizeof (char *));
 	pt.file[1] = malloc(sizeof (char *));
 	return (pt);
@@ -102,6 +100,10 @@ t_executor	ft_init_exec(int argc, char **argv, char **env)
 
 void	ft_loop(t_executor *pt)
 {
+	if (pt->file[0])
+		pt->fsucc = init_in_file(pt);
+	if (pt->file[1])
+		pt->fsucc = init_out_file(pt);
 	while (!pt->end)
 	{
 		if (!pt->end)

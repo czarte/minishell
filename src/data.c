@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/07 17:11:02 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/10 20:10:22 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
@@ -80,22 +92,21 @@ void	free_builtins(t_data *data)
 void	free_exec(t_data *data)
 {
 	t_list	*current;
-	t_list	*next;
+	char 	*tmp;
 
 	current = data->exec->cmd;
-	if (current)
-		next = data->exec->cmd->next;
 	while (current)
 	{
 		while (*current->content)
 		{
-			free(*current->content);
+			tmp = *current->content;
+			free(tmp);
 			current->content++;
 		}
 		// free(current->content);
-		current = next;
-		if (current)
-			next = current->next;
+		//current = next;
+		if (current->next)
+			current = current->next;
 	}
 	free(current);
 	free(data->exec);

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 17:21:53 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:16:44 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int	executor(t_data *data)
 	run = false;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
-	print_exec_data(data->exec);
+	//print_exec_data(data->exec);
 	current = data->token_chain->next;
 	pt = ft_init_exec(0, NULL, data->envp);
 	while (current)
@@ -175,20 +175,19 @@ int	executor(t_data *data)
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
 			run = true;
-			printf("debug: %d", tokens_len(current));
-			char **command = malloc((tokens_len(current) + 2)* sizeof (char *));
-			//while (tokens_len(current))
-			command[0] = get_cmd_path(current->token, data);
-			command[1] = current->token;
-			if (current->next && str_comp(current->next->type, "ar"))
-				command[2] = current->next->token;
-			else
-				command[2] = NULL;
-			command[3] = NULL;
-			ft_lstadd_back(&pt.comm, ft_lstnew((void *) command));
 		}
 		current = current->next;
 	}
+	//print_exec_data(data->exec);
+	pt.comm = data->exec->cmd;
+	if (data->exec->file[0])
+		pt.file[0] = data->exec->file[0];
+	else
+		pt.file[0] = NULL;
+	if (data->exec->file[1])
+		pt.file[1] = data->exec->file[1];
+	else
+		pt.file[1] = NULL;
 	check_commands(&pt);
 	if (run)
 	{
