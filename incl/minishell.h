@@ -33,6 +33,7 @@
 # include<unistd.h>
 # include<sys/wait.h>
 # include<sys/stat.h>
+# include<sys/types.h>
 # include<signal.h>
 # include<fcntl.h>
 # include<dirent.h>
@@ -128,6 +129,9 @@ char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);
+
+/*----    Signal handling    ----*/
+void signal_handler(int signum);
 
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
