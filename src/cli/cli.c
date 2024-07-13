@@ -78,7 +78,7 @@ int	cli(t_data *data)
 		signal(SIGINT, signal_handler);
 		create_prompt(data);
 		cmd = readline(data->prompt);
-		if (str_comp(cmd, "exit"))
+		if (str_comp(cmd, "exit") || !cmd)
 		{
 			free(cmd);
 			break ;

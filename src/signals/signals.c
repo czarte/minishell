@@ -1,9 +1,14 @@
-#include "../../incl/minishell.h"
+#include"../../incl/minishell.h"
 
 void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
-        printf("Signal received!\n");
+        if (pid)
+        {
+            printf("\nSIGINT for pid: %i\n", pid);  //for debug
+            kill(pid, SIGINT);
+            pid = 0;
+        }
     }
 }
