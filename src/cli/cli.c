@@ -73,9 +73,18 @@ int	cli(t_data *data)
 {
 	char	*cmd;
 
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
+	// signal(SIGINT, signal_handler);
+	struct sigaction sa;
+    sa.sa_handler = signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &sa, NULL);
+
+
 	while (1)
 	{
-		signal(SIGINT, signal_handler);
 		create_prompt(data);
 		cmd = readline(data->prompt);
 		if (str_comp(cmd, "exit") || !cmd)
