@@ -81,6 +81,7 @@ int	cli(t_data *data)
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 
 
 	while (1)
