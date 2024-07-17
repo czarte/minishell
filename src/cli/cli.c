@@ -75,15 +75,12 @@ int	cli(t_data *data)
 
 	rl_catch_signals = 0;
 	rl_change_environment = 0;
-	// signal(SIGINT, signal_handler);
 	struct sigaction sa;
     sa.sa_handler = signal_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-
-
 	while (1)
 	{
 		create_prompt(data);
