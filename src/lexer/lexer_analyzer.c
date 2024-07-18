@@ -133,6 +133,143 @@ void	count_cmds(t_data *data)
 		current = current->next;
 	}
 }
+
+int	count_slashes(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (*str == '/')
+			i++;
+		str++;
+	}
+	return (i);
+}
+
+/**
+ * check for executing permission, if it is not executable, don't add it to the cmd list
+ * check if the executable already is in the cmd list (same name and path; name can be the same
+ * wih different paths or same path with different names)
+ * 
+ * 
+ * In case of executing binary that is in the same working directory
+ */
+int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
+{
+	char 	*name;
+	char	*path;
+
+	name = ft_memcpy((current->token + 2));
+	if (!name)
+	{
+		perror("Binary cwd path name allocation");
+		return (-1);
+	}
+	path = ft_strjoin(data->work_dir, name);
+	if (!path)
+	{
+		perror("Binary cwd path path allocation");
+		return (-1);
+	}
+	if (!access(path, X_OK))
+	{
+		printf("\nExecutable OK!!!!!!!!\n\n");
+		add_cmd_list_node(name, data->work_dir, data);
+	}
+	else
+		printf("\nExecutable NOT OK!!!\n\n");
+	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
+	free(name);
+	name = NULL;
+	free(path);
+	path = NULL;
+	return (0);
+}
+
+/**
+ * Gives back position of the last slah in the given string
+ */
+int last_slash(const char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (*str == '/')
+			j = i;
+		str++;
+		i++;
+	}
+	return (j);
+}
+
+/**
+ * In case of executing binary using the absolute path
+ */
+int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
+{
+	char	*name;
+	char	*path;
+
+	name = ft_memcpy((current->token + last_slash(current->token) + 1));
+	if (!name)
+	{
+		perror("Binary abs path name allocation");
+		return (-1);
+	}
+	path = ft_memcpy((current->token + 1));
+	if (!path)
+	{
+		perror("Binary abs path path allocation");
+		return (-1);
+	}
+	if (!access(path, X_OK))
+	{
+		printf("\nExecutable OK!!!!!!!!\n\n");
+		add_cmd_list_node(name, data->work_dir, data);
+	}
+	else
+		printf("\nExecutable NOT OK!!!\n\n");
+
+	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
+	free(name);
+	name = NULL;
+	free(path);
+	path = NULL;
+	return (0);
+}
+
+int	check_for_binary_paths(t_data *data)
+{
+	t_token_chain	*current;
+
+	current = data->token_chain->next;
+	while (current)
+	{
+		if (str_comp(current->type, "bp") && count_slashes(current->token) == 1)
+		{
+			if (add_binary_cwd_path_to_commands(current, data))
+				return (-1);
+		}
+		else if (str_comp(current->type, "bp") && count_slashes(current->token) > 1)
+		{
+			if (add_binary_abs_path_to_commands(current, data))
+				return (-1);
+		}
+		current = current->next;
+	}
+	return (0);
+}
+
 /**
  * Main analyzing function
  * TODO add flags to main struct while creating the token chain what it contains so the chain doesn't need to be scanned for each type, like for env vars...
@@ -142,6 +279,7 @@ int	token_chain_analyzer(t_data *data)
 	if (check_for_env_vars(data))
 		return (-1);
 	analyze_redirections(data);
+	check_for_binary_paths(data);
 	count_cmds(data);
 	return (0);
 }
