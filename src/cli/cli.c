@@ -91,6 +91,8 @@ int	cli(t_data *data)
 			break ;
 		}
 		lexer(cmd, data);
+		// executor(data);
+		free_token_chain(data);
 		if (cmd)
 		{
 			add_history(cmd);

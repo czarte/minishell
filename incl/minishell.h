@@ -59,6 +59,7 @@ typedef struct s_cmd_list{
 /*
  type:
 	pr	program
+	bp	binary path			./binary or ./home/user/folder/binary
 	bu	builtin
 	ar	argument
 	fp	file path
