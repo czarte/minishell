@@ -29,5 +29,6 @@ int	ft_atoi(const char *str)
 
 int main(int argc, char **argv)
 {
+    printf("Returning: %s\n", argv[1]);
     return (ft_atoi(argv[1]));
 }

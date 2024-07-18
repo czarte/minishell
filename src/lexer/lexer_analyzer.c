@@ -183,6 +183,9 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 	else
 		printf("\nExecutable NOT OK!!!\n\n");
 	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
+	type_token(current, "pr");
+	free(current->token);
+	current->token = ft_memcpy(name);
 	free(name);
 	name = NULL;
 	free(path);
@@ -241,6 +244,9 @@ int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
 		printf("\nExecutable NOT OK!!!\n\n");
 
 	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
+	type_token(current, "pr");
+	free(current->token);
+	current->token = ft_memcpy(name);
 	free(name);
 	name = NULL;
 	free(path);
