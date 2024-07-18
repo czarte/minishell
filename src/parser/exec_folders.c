@@ -39,17 +39,17 @@
 // 	}
 // }
 
-// void	print_cmd_list(t_data *data)
-// {
-// 	t_cmd_list	*current;
+void	print_cmd_list(t_data *data)
+{
+	t_cmd_list	*current;
 
-// 	current = data->cmd_list->next;
-// 	while (current)
-// 	{
-// 		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
-// 		current = current->next;
-// 	}
-// }
+	current = data->cmd_list->next;
+	while (current)
+	{
+		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
+		current = current->next;
+	}
+}
 
 /**
  * Allocates memory for a node in a linked list anf fills it with data,
@@ -104,11 +104,20 @@ int		scan_folders(char **folder_strs, t_data *data)
 	dirent = NULL;
 	while (*folder_strs)
 	{
+		printf("Hello from scan folders! %s\n", *folder_strs);
 		dir = opendir(*folder_strs);
 		if (dir == NULL)
-			break ;
+		{
+			if (*folder_strs)
+			{
+				folder_strs++;
+				continue ;
+			}
+			else
+				break ;
+		}
 		dirent = readdir(dir);
-		//printf("dirent %p\n", dirent);
+		printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
 			if (check_exec_access(*folder_strs, dirent))
@@ -118,6 +127,7 @@ int		scan_folders(char **folder_strs, t_data *data)
 		closedir(dir);
 		folder_strs++;
 	}
+	print_cmd_list(data);
 	return (0);
 }
 

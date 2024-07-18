@@ -25,6 +25,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define _POSIX_C_SOURCE 200809L
+
 # include<stdio.h>
 # include<stdlib.h>
 # include<stdbool.h>
@@ -33,6 +35,7 @@
 # include<unistd.h>
 # include<sys/wait.h>
 # include<sys/stat.h>
+# include<sys/types.h>
 # include<signal.h>
 # include<fcntl.h>
 # include<dirent.h>
@@ -40,7 +43,9 @@
 # include<sys/ioctl.h>
 # include<termios.h>
 # include<termcap.h>
-# include "executor.h"
+# include"executor.h"
+
+extern pid_t	pid;
 
 typedef struct s_cmd_list t_cmd_list;
 typedef struct s_token_chain t_token_chain;
@@ -128,6 +133,9 @@ char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
 int		cli(t_data *data);
+
+/*----    Signal handling    ----*/
+void signal_handler(int signum);
 
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
