@@ -150,6 +150,37 @@ int	count_slashes(const char *str)
 	return (i);
 }
 
+bool	binary_is_in_list(char *name, char *path, t_data *data)
+{
+	t_cmd_list	*cmd_list;
+	t_cmd_list	*prev;
+
+	cmd_list = data->cmd_list;
+	prev = NULL;
+	while (cmd_list)
+	{
+		if (str_comp(name, cmd_list->cmd))
+		{
+			if (str_comp(path, cmd_list->full_path))
+			{
+				printf("Binary is already in the list!\n");
+				return true;
+			}
+			else if (prev)
+			{
+				prev->next = cmd_list->next;
+				free(cmd_list->cmd);
+				free(cmd_list->full_path);
+				free(cmd_list);
+				return (false);
+			}
+		}
+		prev = cmd_list;
+		cmd_list = cmd_list->next;
+	}
+	return false;
+}
+
 /**
  * check for executing permission, if it is not executable, don't add it to the cmd list
  * check if the executable already is in the cmd list (same name and path; name can be the same
@@ -178,7 +209,8 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 	if (!access(path, X_OK))
 	{
 		printf("\nExecutable OK!!!!!!!!\n\n");
-		add_cmd_list_node(name, data->work_dir, data);
+		if (!binary_is_in_list(name, path, data))
+			add_cmd_list_node(name, data->work_dir, data);
 		type_token(current, "pr");
 	}
 	else
@@ -242,7 +274,8 @@ int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
 	if (!access(path, X_OK))
 	{
 		printf("\nExecutable OK!!!!!!!!\n\n");
-		add_cmd_list_node(name, data->work_dir, data);
+		if (!binary_is_in_list(name, path, data))
+			add_cmd_list_node(name, data->work_dir, data);
 	}
 	else
 		printf("\nExecutable NOT OK!!!\n\n");
