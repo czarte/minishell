@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/07 13:57:26 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:24:32 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,12 @@ int	token_length(char *cmd)
 
 	i = 0;
 	quote = '\0';
-	// printf("cmd from token length: %s\n", cmd);
 	if (cmd[i] == '\"' || cmd[i] == '\'')
 	{
 		quote = cmd[i];
 		i++;
 		while (cmd[i] != quote)
 			i++;
-		// printf("token length: %i\n", i - 1);
 		return (i - 1);
 	}
 	while (cmd[i] && cmd[i] != ' ')
@@ -85,12 +83,12 @@ int	token_length(char *cmd)
 			break ;
 		i++;
 	}
-	// printf("token length: %i\n", i);
 	return (i);
 }
 
 /**
- * Tokenizes command and saves it to the linked list of tokens for further processing
+ * Tokenizes command and saves it to the linked list of tokens for
+ * further processing
  */
 int	fill_token_chain(char *cmd, t_data *data)
 {
@@ -145,7 +143,7 @@ int	fill_token_chain(char *cmd, t_data *data)
  */
 int	allocate_token_chain(char *cmd, t_data *data)
 {
-	int			i;
+	int				i;
 	t_token_chain	*prev;
 	t_token_chain	*current;
 
@@ -197,13 +195,11 @@ int	cmd_quotes_pair_check(char *cmd)
 }
 
 /**
- * Takes command and processes it resulting in linked list of typed tokens ready for execution
+ * Takes command and processes it resulting in linked list of typed tokens
+ * ready for execution
  */
 int	lexer(char *cmd, t_data *data)
 {
-
-	// printf("cmd from lexer: %s\n", cmd);
-	// printf("number of tokens: %i\n", number_of_tokens(cmd));
 	if (!cmd_quotes_pair_check(cmd))
 	{
 		printf("Unclosed quotes!\n");

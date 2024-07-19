@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:04:14 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 17:11:51 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:43:19 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/minishell.h"
 
-void    help()
+void	help(void)
 {
-    printf("minishell, version 0.1.1-release \
+	printf("minishell, version 0.1.1-release \
 These shell commands are defined internally.  Type `help` to see this list. \
 Type `help name` to find out more about the function `name`. \
 Use `info bash` to find out more about the shell in general. \

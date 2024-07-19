@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 17:16:26 by smelicha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_folders.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/02 01:35:45 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:32:01 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +68,7 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 /**
  * Scans the folders for executables it contains
  */
-int		scan_folders(char **folder_strs, t_data *data)
+int	scan_folders(char **folder_strs, t_data *data)
 {
 	DIR				*dir;
 	int				i;
@@ -145,9 +133,7 @@ int	get_folders(char *path, char **folder_strs)
 		current_str = *folder_strs;
 		while (*path != ':' && *path)
 		{
-			// printf("%c", *path);
 			*current_str = *path;
-			//printf("%c\n", *current_str);
 			path++;
 			current_str++;
 		}
@@ -220,9 +206,6 @@ int	get_cmd_list(t_data *data)
 	folder_strs[get_number_of_folders(path)] = NULL;
 	init_folder_strs(folder_strs, get_number_of_folders(path));
 	get_folders(path, folder_strs);
-	// printf("%s\n", path);
-	// printf("number of folders to scan: %i\n", get_number_of_folders(path));
-	//print_folders(folder_strs);
 	scan_folders(folder_strs, data);
 	free_folder_strs(folder_strs);
 	return (0);

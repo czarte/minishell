@@ -6,19 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 17:35:55 by smelicha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cli.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/06 18:17:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 23:00:14 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:51:09 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +15,10 @@
 void	prompt_finish(int i, t_data *data)
 {
 	data->prompt[i] = ' ';
-	data->prompt[i+1] = '$';
-	data->prompt[i+2] = ':';
-	data->prompt[i+3] = ' ';
-	data->prompt[i+4] = '\0';
+	data->prompt[i + 1] = '$';
+	data->prompt[i + 2] = ':';
+	data->prompt[i + 3] = ' ';
+	data->prompt[i + 4] = '\0';
 }
 
 /**
@@ -69,14 +57,14 @@ void	create_prompt(t_data *data)
 bool	contains_printables(char *str)
 {
 	if (!str)
-		return false;
+		return (false);
 	while (*str)
 	{
 		if (*str >= 33 && *str != 127)
-			return true;
+			return (true);
 		str++;
 	}
-	return false;
+	return (false);
 }
 
 /**

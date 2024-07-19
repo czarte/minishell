@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_type.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stepan <stepan@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/04/17 17:51:44 by stepan           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:27:04 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,18 @@ int	is_var_decl(char *token, t_data *data)
 			return (0);
 		current = current->next;
 	}
-	while ((*token >= 'A' && *token <= 'Z') || (*token >= '0' && *token <= '9') || *token == '_')
+	while ((*token >= 'A' && *token <= 'Z') || (*token >= '0' && *token <= '9')
+		|| *token == '_')
 		token++;
 	if (*token == '=')
 		return (1);
 	return (0);
 }
+
 /**
- * Takes care of case when the argument of program is the name of another program,
- * all tokens between program/builtin and pipe/redirections that are also name of
- * program or builtin are retyped to argument
+ * Takes care of case when the argument of program is the name of another
+ * program, all tokens between program/builtin and pipe/redirections that
+ * are also name of program or builtin are retyped to argument
  */
 void	prog_arg_fix(t_data *data)
 {
@@ -84,17 +86,20 @@ void	prog_arg_fix(t_data *data)
 	pr_ar = 0;
 	while (current)
 	{
-		if ((str_comp(current->type, "pr") || str_comp(current->type, "bu")) && !pr_ar)
+		if ((str_comp(current->type, "pr") || str_comp(current->type, "bu"))
+			&& !pr_ar)
 		{
 			pr_ar = 1;
 			current = current->next;
 		}
-		while (current && pr_ar && (str_comp(current->type, "pr") || str_comp(current->type, "bu")))
+		while (current && pr_ar && (str_comp(current->type, "pr")
+				|| str_comp(current->type, "bu")))
 		{
 			type_token(current, "ar");
 			current = current->next;
 		}
-		if (current && pr_ar && !(str_comp(current->type, "pr") || str_comp(current->type, "bu")))
+		if (current && pr_ar && !(str_comp(current->type, "pr")
+				|| str_comp(current->type, "bu")))
 			pr_ar = 0;
 		if (current)
 			current = current->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/06/30 12:00:56 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:18:58 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ int	check_envp_for_duplicate(char **envp, char *new_var)
 		return (-1);
 	while (envp[i])
 	{
-// 		printf("%s %s\n", envp[i], new_var);
-		while(envp[i][j] == new_var[j] && new_var[j] != '=')
+		while (envp[i][j] == new_var[j] && new_var[j] != '=')
 			j++;
 		if (envp[i][j] == '=' && (new_var[j] == '=' || new_var[j] == '\0'))
 			return (i);
@@ -86,7 +85,7 @@ int	check_envp_for_duplicate(char **envp, char *new_var)
 	return (-1);
 }
 
-int	update_envp_var(char **envp, char *new_var, int	v_pos)
+int	update_envp_var(char **envp, char *new_var, int v_pos)
 {
 	int	i;
 
@@ -106,9 +105,6 @@ int	update_envp_var(char **envp, char *new_var, int	v_pos)
 	envp[v_pos][i] = '\0';
 	return (0);
 }
-
-//TODO
-//		create export function that takes temporary env var and saves it into data->envp
 
 /**
  * Adds environment variable to the local environment
@@ -131,13 +127,14 @@ int	envp_add_reallocate(t_data *data, char *new_var, char temp)
 		old_envp = data->local_temp_envp;
 	else
 		old_envp = data->envp;
-	ret = update_envp_var(old_envp, new_var, check_envp_for_duplicate(old_envp, new_var));
+	ret = update_envp_var(old_envp, new_var,
+			check_envp_for_duplicate(old_envp, new_var));
 	if (ret == 0 || ret == -1)
 		return (ret);
 	n_o_v = num_of_vars(old_envp);
 	if (new_var)
 		n_o_v++;
-	new_envp = malloc(sizeof(char*) * (n_o_v + 1));
+	new_envp = malloc(sizeof(char *) * (n_o_v + 1));
 	if (!new_envp)
 	{
 		perror("Envp reallocation");

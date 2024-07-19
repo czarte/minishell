@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/19 17:29:57 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:30:12 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	check_for_env_vars(t_data *data)
 
 void	count_cmds(t_data *data)
 {
-	t_token_chain *current;
+	t_token_chain	*current;
 
 	current = data->token_chain->next;
 	while (current)
@@ -156,7 +156,7 @@ bool	binary_is_in_list(char *name, char *path, t_data *data)
 		if (str_comp(name, cmd_list->cmd))
 		{
 			if (str_comp(path, cmd_list->full_path))
-				return true;
+				return (true);
 			else if (prev)
 			{
 				prev->next = cmd_list->next;
@@ -169,7 +169,7 @@ bool	binary_is_in_list(char *name, char *path, t_data *data)
 		prev = cmd_list;
 		cmd_list = cmd_list->next;
 	}
-	return false;
+	return (false);
 }
 
 int	add_binary_finish(char *name, char *path, t_token_chain *current)
@@ -189,16 +189,11 @@ int	add_binary_finish(char *name, char *path, t_token_chain *current)
 }
 
 /**
- * check for executing permission, if it is not executable, don't add it to the cmd list
- * check if the executable already is in the cmd list (same name and path; name can be the same
- * wih different paths or same path with different names)
- * 
- * 
  * In case of executing binary that is in the same working directory
  */
 int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 {
-	char 	*name;
+	char	*name;
 	char	*path;
 
 	name = ft_memcpy((current->token + 2));
@@ -225,19 +220,13 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 		printf("\n%s: Nonexistent or not executable!\n\n", name);
 	}
 	add_binary_finish(name, path, current);
-	// free(current->token);
-	// current->token = ft_memcpy(name);
-	// free(name);
-	// name = NULL;
-	// free(path);
-	// path = NULL;
 	return (0);
 }
 
 /**
  * Gives back position of the last slah in the given string
  */
-int last_slash(const char *str)
+int	last_slash(const char *str)
 {
 	int	i;
 	int	j;
@@ -285,12 +274,6 @@ int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
 		printf("\n%s: Nonexistent or not executable!\n\n", name);
 	type_token(current, "pr");
 	add_binary_finish(name, path, current);
-	// free(current->token);
-	// current->token = ft_memcpy(name);
-	// free(name);
-	// name = NULL;
-	// free(path);
-	// path = NULL;
 	return (0);
 }
 
@@ -306,7 +289,8 @@ int	check_for_binary_paths(t_data *data)
 			if (add_binary_cwd_path_to_commands(current, data))
 				return (-1);
 		}
-		else if (str_comp(current->type, "bp") && count_slashes(current->token) > 1)
+		else if (str_comp(current->type, "bp")
+			&& count_slashes(current->token) > 1)
 		{
 			if (add_binary_abs_path_to_commands(current, data))
 				return (-1);
@@ -318,7 +302,9 @@ int	check_for_binary_paths(t_data *data)
 
 /**
  * Main analyzing function
- * TODO add flags to main struct while creating the token chain what it contains so the chain doesn't need to be scanned for each type, like for env vars...
+ * TODO add flags to main struct while creating the token chain what it
+ * contains so the chain doesn't need to be scanned for each type,
+ * like for env vars...
  */
 int	token_chain_analyzer(t_data *data)
 {
