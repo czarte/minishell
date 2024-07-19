@@ -73,16 +73,26 @@ int	cli(t_data *data)
 {
 	char	*cmd;
 
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
+	struct sigaction sa;
+    sa.sa_handler = signal_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 	while (1)
 	{
 		create_prompt(data);
 		cmd = readline(data->prompt);
-		if (str_comp(cmd, "exit"))
+		if (str_comp(cmd, "exit") || !cmd)
 		{
 			free(cmd);
 			break ;
 		}
 		lexer(cmd, data);
+		executor(data);
+		free_token_chain(data);
 		if (cmd)
 		{
 			add_history(cmd);

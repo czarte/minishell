@@ -67,6 +67,7 @@ void	ft_exec(t_executor *pt)
 		exit(EXIT_FAILURE);
 	}
 	pt->pid = fork();
+	pid = pt->pid;
 	if (pt->pid == -1)
 	{
 		perror("fork");
