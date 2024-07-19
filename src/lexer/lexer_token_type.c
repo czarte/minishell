@@ -101,6 +101,16 @@ void	prog_arg_fix(t_data *data)
 	}
 }
 
+int	is_binary_path(char *token)
+{
+	if (ft_strlen(token) >= 2)
+	{
+		if (token[0] == '.' && token[1] == '/')
+			return (1);
+	}
+	return (0);
+}
+
 /**
  * Routine to type the token chain linked list
  */
@@ -131,6 +141,8 @@ void	type_token_chain(t_data *data)
 			type_token(current, "ev");
 		else if (is_var_decl(current->token, data))
 			type_token(current, "vd");
+		else if (is_binary_path(current->token))
+			type_token(current, "bp");
 		else
 			type_token(current, "ar");
 		current = current->next;

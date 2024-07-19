@@ -12,6 +12,8 @@
 
 #include "./incl/minishell.h"
 
+pid_t	pid;
+
 int main(int argc, char **argv, char **envp)
 {
 	t_data *data;
