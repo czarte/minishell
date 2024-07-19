@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/06/30 09:54:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:35:55 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+
+void	prompt_finish(int i, t_data *data)
+{
+	data->prompt[i] = ' ';
+	data->prompt[i+1] = '$';
+	data->prompt[i+2] = ':';
+	data->prompt[i+3] = ' ';
+	data->prompt[i+4] = '\0';
+}
 
 /**
  * Simple function to make a string to display as a prompt for command
@@ -42,11 +51,7 @@ void	create_prompt(t_data *data)
 			data->prompt[i] = data->work_dir[i];
 			i++;
 		}
-		data->prompt[i] = ' ';
-		data->prompt[i+1] = '$';
-		data->prompt[i+2] = ':';
-		data->prompt[i+3] = ' ';
-		data->prompt[i+4] = '\0';
+		prompt_finish(i, data);
 	}
 	else
 	{
@@ -57,12 +62,21 @@ void	create_prompt(t_data *data)
 			i++;
 			j++;
 		}
-		data->prompt[i] = ' ';
-		data->prompt[i+1] = '$';
-		data->prompt[i+2] = ':';
-		data->prompt[i+3] = ' ';
-		data->prompt[i+4] = '\0';
+		prompt_finish(i, data);
 	}
+}
+
+bool	contains_printables(char *str)
+{
+	if (!str)
+		return false;
+	while (*str)
+	{
+		if (*str >= 33 && *str != 127)
+			return true;
+		str++;
+	}
+	return false;
 }
 
 /**
@@ -73,14 +87,6 @@ int	cli(t_data *data)
 {
 	char	*cmd;
 
-	rl_catch_signals = 0;
-	rl_change_environment = 0;
-	struct sigaction sa;
-    sa.sa_handler = signal_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
 	while (1)
 	{
 		create_prompt(data);
@@ -93,7 +99,7 @@ int	cli(t_data *data)
 		lexer(cmd, data);
 		executor(data);
 		free_token_chain(data);
-		if (cmd)
+		if (contains_printables(cmd))
 		{
 			add_history(cmd);
 			free(cmd);

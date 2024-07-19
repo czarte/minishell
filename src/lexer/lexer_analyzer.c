@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_analyzer.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/07 14:36:21 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:29:57 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	analyze_redirections(t_data *data)
 	t_token_chain	*current;
 
 	current = data->token_chain->next;
-	printf("Hello from redirections analyzer!\n");
 	while (current)
 	{
 		if (str_comp(current->type, "ri") && current->next)
@@ -83,21 +82,16 @@ int	expand_env_var(t_token_chain *current, t_data *data)
 	char	*env_var;
 	char	*new_token;
 
-	// var_name = current->token + 1;
 	env_var = NULL;
 	new_token = NULL;
-	// printf("env var name: %s\n", var_name);
 	env_var = b_getenv((current->token + 1), data);
-	// printf("env var value: %s\n", env_var);
 	new_token = ft_memcpy(env_var);
 	if (!new_token && env_var)
 	{
 		perror("Allocation of expanded env var");
 		return (-1);
 	}
-	// str_fill(new_token, env_var);
 	free(current->token);
-	// printf("new_token: %s\n", new_token);
 	current->token = new_token;
 	str_fill(current->type, "ar");
 	return (0);
@@ -162,10 +156,7 @@ bool	binary_is_in_list(char *name, char *path, t_data *data)
 		if (str_comp(name, cmd_list->cmd))
 		{
 			if (str_comp(path, cmd_list->full_path))
-			{
-				printf("Binary is already in the list!\n");
 				return true;
-			}
 			else if (prev)
 			{
 				prev->next = cmd_list->next;
@@ -179,6 +170,22 @@ bool	binary_is_in_list(char *name, char *path, t_data *data)
 		cmd_list = cmd_list->next;
 	}
 	return false;
+}
+
+int	add_binary_finish(char *name, char *path, t_token_chain *current)
+{
+	free(current->token);
+	current->token = ft_memcpy(name);
+	if (!current->token)
+	{
+		perror("Allocating token for local binary");
+		return (-1);
+	}
+	free(name);
+	name = NULL;
+	free(path);
+	path = NULL;
+	return (0);
 }
 
 /**
@@ -208,7 +215,6 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 	}
 	if (!access(path, X_OK))
 	{
-		printf("\nExecutable OK!!!!!!!!\n\n");
 		if (!binary_is_in_list(name, path, data))
 			add_cmd_list_node(name, data->work_dir, data);
 		type_token(current, "pr");
@@ -216,16 +222,15 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 	else
 	{
 		type_token(current, "ar");
-		printf("\nExecutable NOT OK!!!\n\n");
+		printf("\n%s: Nonexistent or not executable!\n\n", name);
 	}
-	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
-
-	free(current->token);
-	current->token = ft_memcpy(name);
-	free(name);
-	name = NULL;
-	free(path);
-	path = NULL;
+	add_binary_finish(name, path, current);
+	// free(current->token);
+	// current->token = ft_memcpy(name);
+	// free(name);
+	// name = NULL;
+	// free(path);
+	// path = NULL;
 	return (0);
 }
 
@@ -273,21 +278,19 @@ int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
 	}
 	if (!access(path, X_OK))
 	{
-		printf("\nExecutable OK!!!!!!!!\n\n");
 		if (!binary_is_in_list(name, path, data))
 			add_cmd_list_node(name, data->work_dir, data);
 	}
 	else
-		printf("\nExecutable NOT OK!!!\n\n");
-
-	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
+		printf("\n%s: Nonexistent or not executable!\n\n", name);
 	type_token(current, "pr");
-	free(current->token);
-	current->token = ft_memcpy(name);
-	free(name);
-	name = NULL;
-	free(path);
-	path = NULL;
+	add_binary_finish(name, path, current);
+	// free(current->token);
+	// current->token = ft_memcpy(name);
+	// free(name);
+	// name = NULL;
+	// free(path);
+	// path = NULL;
 	return (0);
 }
 

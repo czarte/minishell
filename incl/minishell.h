@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 20:04:38 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:12:06 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ char	*b_getenv(char *name, t_data *data);
 int		cli(t_data *data);
 
 /*----    Signal handling    ----*/
-void signal_handler(int signum);
+void 	signal_handler(int signum);
+void    signals_init(void);
 
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
