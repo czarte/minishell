@@ -6,19 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 10:10:00 by voparkan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/07 14:35:44 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:51:58 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +18,8 @@
 # include<stdio.h>
 # include<stdlib.h>
 # include<stdbool.h>
-# include<readline/readline.h>
-# include<readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include<unistd.h>
 # include<sys/wait.h>
 # include<sys/stat.h>

@@ -6,19 +6,7 @@
 /*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/06/30 09:54:44 by voparkan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cli.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/06 18:17:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 23:00:14 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:48:28 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +61,8 @@ int	cli(t_data *data)
 {
 	char	*cmd;
 
-	rl_catch_signals = 0;
-	rl_change_environment = 0;
+//	rl_catch_signals = 0;
+//	rl_change_environment = 0;
 	struct sigaction sa;
     sa.sa_handler = signal_handler;
     sigemptyset(&sa.sa_mask);

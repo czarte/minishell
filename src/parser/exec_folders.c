@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec_folders.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/19 11:07:34 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/19 11:54:33 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_folders.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 11:57:48 by voparkan          #+#    #+#             */
@@ -46,7 +58,7 @@ void	print_cmd_list(t_data *data)
 	current = data->cmd_list->next;
 	while (current)
 	{
-		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
+		//printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
 		current = current->next;
 	}
 }
@@ -80,7 +92,7 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 	temp = ft_strjoin(folder, "/");
 	path_to_check = ft_strjoin(temp, dirent->d_name);
 	free (temp);
-	printf("path to check from check exec access: %s\n", path_to_check);
+	//printf("path to check from check exec access: %s\n", path_to_check);
 	if (access(path_to_check, X_OK))
 	{
 		free(path_to_check);
@@ -105,7 +117,7 @@ int		scan_folders(char **folder_strs, t_data *data)
 	dirent = NULL;
 	while (*folder_strs)
 	{
-		printf("Hello from scan folders! %s\n", *folder_strs);
+		//printf("Hello from scan folders! %s\n", *folder_strs);
 		dir = opendir(*folder_strs);
 		if (dir == NULL)
 		{
@@ -118,7 +130,7 @@ int		scan_folders(char **folder_strs, t_data *data)
 				break ;
 		}
 		dirent = readdir(dir);
-		printf("dirent %p\n", dirent);
+		//printf("dirent %p\n", dirent);
 		while (dirent != NULL)
 		{
 			if (check_exec_access(*folder_strs, dirent))
