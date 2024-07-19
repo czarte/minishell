@@ -6,7 +6,7 @@ SRC = main.c src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
 	src/builtins/builtin_export.c src/builtins/builtin_unset.c src/help.c src/executor/ft_executor.c \
 	src/utils/executor_helpers.c src/executor/ft_pipes.c src/utils/free_utils.c \
-	src/utils/libft_utils.c src/utils/list_utils.c src/utils/libft_memutils.c src/utils/token_utils.c
+	src/utils/libft_utils.c src/utils/list_utils.c src/utils/libft_memutils.c src/utils/token_utils.c src/utils/file_utils.c
 
 TSRC = src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
@@ -17,7 +17,7 @@ TSRC = src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
 # compatible with valgrind 3.18.1
-FLAGS = -Wall -Wextra -Werror -gdwarf-4 -fsanitize=address -static-libsan
+FLAGS = -Wall -Wextra -Werror -gdwarf-4 #-fsanitize=address -static-libsan
 LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)

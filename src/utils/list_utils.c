@@ -37,9 +37,15 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 void	ft_lstadd_back(t_list **lst, t_list *nlist)
 {
 	if (!*lst)
+	{
+		nlist->prev = NULL;
 		*lst = nlist;
+	}
 	else
+	{
+		nlist->prev = ft_lstlast(*lst);
 		ft_lstlast(*lst)->next = nlist;
+	}
 }
 
 t_list	*ft_lstlast(t_list *lst)

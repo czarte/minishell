@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 17:11:02 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/10 20:10:22 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:12:30 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,6 @@ void	free_builtins(t_data *data)
 
 void	free_exec(t_data *data)
 {
-	t_list	*current;
-	char 	*tmp;
-
-	current = data->exec->cmd;
-	while (current)
-	{
-		while (*current->content)
-		{
-			tmp = *current->content;
-			free(tmp);
-			current->content++;
-		}
-		// free(current->content);
-		//current = next;
-		if (current->next)
-			current = current->next;
-	}
-	free(current);
 	free(data->exec);
 	data->exec = NULL;
 }

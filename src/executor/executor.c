@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/10 20:16:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:10:48 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int	executor(t_data *data)
 	//print_exec_data(data->exec);
 	current = data->token_chain->next;
 	pt = ft_init_exec(0, NULL, data->envp);
+	pt.fd_m = STDIN_FILENO;
 	while (current)
 	{
 		if (str_comp(current->type, "bu"))

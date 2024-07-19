@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 17:16:26 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:46:25 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ typedef struct s_list
 {
 	void			**content;
 	struct s_list	*next;
+	struct s_list	*prev;
 }	t_list;
 
 typedef struct s_executor
 {
 	int		fd[2];
+	int 	fd_m;
 	int		filefd[2];
 	int		it;
 	int		end;
@@ -58,14 +60,13 @@ typedef struct s_bag_struct
 }	t_bagp;
 
 t_executor	ft_init_exec(int argc, char **argv, char **env);
-void		ft_exec_child(t_executor *pt, char **argv);
-void		ft_exec_parent(t_executor *pt);
-void		ft_exec(t_executor *pt, char **argv);
+void		ft_exec_child(t_executor *pt, t_list *com);
+//void		ft_exec_parent(t_executor *pt);
+void		ft_exec(t_executor *pt);
 char		**parse_argv(char *arg, t_executor *pt);
 int			ft_parse_command(t_executor *pt, int argc, char **argv);
 void		ft_loop(t_executor *pt);
 int			check_path_and_files(t_executor *pt);
-void		ft_exec(t_executor *pt, char **argv);
 void		print_help(void);
 void		exit_error(t_executor *pt, int exitcode);
 void		free_alloc(t_executor *pt);
@@ -79,6 +80,9 @@ void		ft_lstadd_back(t_list **lst, t_list *nlist);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
 char		*ft_strrchr(const char *s, int c);
+char		*open_infile(t_executor *pt, char *filename);
 void		check_commands(t_executor *pt);
+int			init_in_file(t_executor *pt);
+int			init_out_file(t_executor *pt);
 
 #endif // !EXECUTOR_H

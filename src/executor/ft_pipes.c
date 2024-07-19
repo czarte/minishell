@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/10 20:27:17 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:51:00 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ void	ft_loop(t_executor *pt)
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
-		ft_exec(pt, (char **) pt->comm->content);
+		ft_exec(pt);
+		close(pt->fd[1]);
+		if (pt->comm->prev)
+			close(pt->fd_m);
 		pt->comm = pt->comm->next;
 	}
 }
