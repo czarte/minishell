@@ -80,6 +80,7 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 	temp = ft_strjoin(folder, "/");
 	path_to_check = ft_strjoin(temp, dirent->d_name);
 	free (temp);
+	printf("path to check from check exec access: %s\n", path_to_check);
 	if (access(path_to_check, X_OK))
 	{
 		free(path_to_check);
