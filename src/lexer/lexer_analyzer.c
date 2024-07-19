@@ -179,11 +179,15 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 	{
 		printf("\nExecutable OK!!!!!!!!\n\n");
 		add_cmd_list_node(name, data->work_dir, data);
+		type_token(current, "pr");
 	}
 	else
+	{
+		type_token(current, "ar");
 		printf("\nExecutable NOT OK!!!\n\n");
+	}
 	printf("----Binary from abs path----\nname: %s\npath: %s\n", name, path);
-	type_token(current, "pr");
+
 	free(current->token);
 	current->token = ft_memcpy(name);
 	free(name);
