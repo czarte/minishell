@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 11:07:29 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:46:19 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_list
 
 typedef struct s_executor
 {
-	int		fd[2];
+	int		*fd;
 	int 	fd_m;
 	int		filefd[2];
 	int		it;

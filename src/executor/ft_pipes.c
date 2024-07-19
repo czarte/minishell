@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 11:57:24 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:06:54 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ t_executor	ft_init_exec(int argc, char **argv, char **env)
 	t_executor	pt;
 
 	(void)argv;
-	pt.comm = malloc(sizeof(t_list));
+	pt.fd = malloc(2*sizeof(int));
+//	pt.comm = malloc(sizeof(t_list*));
 	pt.comm = NULL;
 	pt.end = 0;
 	pt.status = 0;
@@ -100,6 +101,11 @@ t_executor	ft_init_exec(int argc, char **argv, char **env)
 
 void	ft_loop(t_executor *pt)
 {
+	if (pipe(pt->fd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
 	if (pt->file[0])
 		pt->fsucc = init_in_file(pt);
 	if (pt->file[1])
@@ -111,8 +117,8 @@ void	ft_loop(t_executor *pt)
 				pt->end = 1;
 		ft_exec(pt);
 		close(pt->fd[1]);
-//		if (pt->comm->prev)
-//			close(pt->fd_m);
+		if (pt->comm->prev)
+			close(pt->fd_m);
 		pt->comm = pt->comm->next;
 	}
 }
