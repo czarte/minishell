@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 20:12:54 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:08:14 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ typedef struct s_token_chain
 
 typedef struct s_exec_data
 {
-	t_list	*cmd;			//command structured array
-	char	*file[2];		//file paths
-	bool	limit;			//delimiter flag
-	bool	append;			//append flag
+	t_list	*cmd;
+	char	*file[2];
+	bool	limit;
+	bool	append;
 }	t_exec;
 
 /**
@@ -91,6 +91,14 @@ typedef struct s_envp_a_r_data
 	int		i;
 	int		ret;
 }	t_envp_a_r_data;
+
+typedef struct s_fill_t_c_data
+{
+	t_token_chain	*current;
+	char			*token;
+	char			*cmd;
+	char			quote;
+}	t_fill_t_c_data;
 
 /**
  * Main data struct
@@ -151,12 +159,18 @@ void	signals_init(void);
 
 /*----    Lexer    ----*/
 int		lexer(char *cmd, t_data *data);
+int		token_length(char *cmd);
+int		fill_token_chain(char *command, t_data *data);
 void	type_token_chain(t_data *data);
 int		token_chain_analyzer(t_data *data);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
 int		scan_folders(char **folder_strs, t_data *data);
 void	type_token(t_token_chain *token_node, char *type);
+int		is_builtin(char *token, t_data *data);
+int		is_env_var(char *token);
+int		is_last_pipe_exit(char *token);
+int		is_var_decl(char *token, t_data *data);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);

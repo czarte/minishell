@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:24:32 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:26:02 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,58 +84,6 @@ int	token_length(char *cmd)
 		i++;
 	}
 	return (i);
-}
-
-/**
- * Tokenizes command and saves it to the linked list of tokens for
- * further processing
- */
-int	fill_token_chain(char *cmd, t_data *data)
-{
-	t_token_chain	*current;
-	char			*token;
-	char			quote;
-
-	current = data->token_chain->next;
-	quote = '\0';
-	while (cmd && *cmd && *cmd == ' ')
-		cmd++;
-	while (current)
-	{
-		current->token = malloc(sizeof(char) * (token_length(cmd) + 1));
-		if (current->token == NULL)
-		{
-			perror("token allocation:");
-			return (-1);
-		}
-		token = current->token;
-		if (*cmd == '\"' || *cmd == '\'')
-		{
-			quote = *cmd;
-			cmd++;
-			while (*cmd && *cmd != quote)
-			{
-				*token = *cmd;
-				token++;
-				cmd++;
-			}
-			cmd++;
-		}
-		else
-		{
-			while (*cmd && *cmd != ' ' && !(*cmd == '\"' || *cmd == '\''))
-			{
-				*token = *cmd;
-				token++;
-				cmd++;
-			}
-		}
-		*token = '\0';
-		while (*cmd && *cmd == ' ')
-			cmd++;
-		current = current->next;
-	}
-	return (0);
 }
 
 /**

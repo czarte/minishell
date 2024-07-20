@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:13:17 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:35:04 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:22:28 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_free_content(char *content)
 		free(content);
 }
 
-int		check_path_and_files(t_executor *pt)
+int	check_path_and_files(t_executor *pt)
 {
 	return (pt->fsucc && pt->psucc);
 }
