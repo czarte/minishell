@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 17:08:14 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:06:17 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,11 @@ int		is_builtin(char *token, t_data *data);
 int		is_env_var(char *token);
 int		is_last_pipe_exit(char *token);
 int		is_var_decl(char *token, t_data *data);
+int		check_for_env_vars(t_data *data);
+int		check_for_binary_paths(t_data *data);
+void	count_cmds(t_data *data);
+bool	binary_is_in_list(char *name, char *path, t_data *data);
+int		count_slashes(const char *str);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
