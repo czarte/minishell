@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:32:01 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:40:27 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,8 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 int	scan_folders(char **folder_strs, t_data *data)
 {
 	DIR				*dir;
-	int				i;
 	struct dirent	*dirent;
 
-	i = 0;
-	(void)i;
 	dir = NULL;
 	dirent = NULL;
 	while (*folder_strs)
