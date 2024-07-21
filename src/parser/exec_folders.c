@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 21:40:27 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:10:06 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
  * Debug function
  */
 
-void	print_cmd_list(t_data *data)
-{
-	t_cmd_list	*current;
+// void	print_cmd_list(t_data *data)
+// {
+// 	t_cmd_list	*current;
 
-	current = data->cmd_list->next;
-	while (current)
-	{
-		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
-		current = current->next;
-	}
-}
+// 	current = data->cmd_list->next;
+// 	while (current)
+// 	{
+// 		printf("cmd: %s, path: %s\n", current->cmd, current->full_path);
+// 		current = current->next;
+// 	}
+// }
 
 /**
  * Allocates memory for a node in a linked list anf fills it with data,
@@ -48,26 +48,24 @@ int	add_cmd_list_node(char *name, char *path, t_data *data)
 	return (0);
 }
 
-int	check_exec_access(char *folder, struct dirent *dirent)
-{
-	char	*path_to_check;
-	char	*temp;
-
-	temp = ft_strjoin(folder, "/");
-	path_to_check = ft_strjoin(temp, dirent->d_name);
-	free (temp);
-	if (access(path_to_check, X_OK))
-	{
-		free(path_to_check);
-		return (0);
-	}
-	free(path_to_check);
-	return (1);
-}
-
 /**
  * Scans the folders for executables it contains
  */
+int	scan_folder(struct dirent *dirent, char **folder_strs, DIR *dir,
+	t_data *data)
+{
+	while (dirent != NULL)
+	{
+		if (check_exec_access(*folder_strs, dirent))
+		{
+			if (add_cmd_list_node(dirent->d_name, *folder_strs, data) < 0)
+				return (-1);
+		}
+		dirent = readdir(dir);
+	}
+	return (0);
+}
+
 int	scan_folders(char **folder_strs, t_data *data)
 {
 	DIR				*dir;
@@ -89,30 +87,12 @@ int	scan_folders(char **folder_strs, t_data *data)
 				break ;
 		}
 		dirent = readdir(dir);
-		while (dirent != NULL)
-		{
-			if (check_exec_access(*folder_strs, dirent))
-				add_cmd_list_node(dirent->d_name, *folder_strs, data);
-			dirent = readdir(dir);
-		}
+		if (scan_folder(dirent, folder_strs, dir, data) < 0)
+			return (-1);
 		closedir(dir);
 		folder_strs++;
 	}
 	return (0);
-}
-
-// file path length
-int	fpl(char *path)
-{
-	int	i;
-
-	i = 0;
-	while (*path != ':' && *path)
-	{
-		i++;
-		path++;
-	}
-	return (i);
 }
 
 int	get_folders(char *path, char **folder_strs)
@@ -142,35 +122,6 @@ int	get_folders(char *path, char **folder_strs)
 	return (0);
 }
 
-/**
- * Gets number of folders that should contain executables, delimited by ':'
- */
-int	get_number_of_folders(char *path)
-{
-	int	i;
-
-	i = 1;
-	while (*path)
-	{
-		if (*path == ':')
-			i++;
-		path++;
-	}
-	return (i);
-}
-
-void	init_folder_strs(char **folder_strs, int num_of_flds)
-{
-	int	i;
-
-	i = 0;
-	while (i != num_of_flds)
-	{
-		folder_strs[i] = NULL;
-		i++;
-	}
-}
-
 //char *ft_getenv(char *path, t_data *data)
 //{
 //	(void)path;
@@ -179,7 +130,8 @@ void	init_folder_strs(char **folder_strs, int num_of_flds)
 //	return (envpath[1]);
 //}
 /**
- * Main routine to get list of commands and path to their executables in current environment
+ * Main routine to get list of commands and path to their executables in
+ * current environment
  */
 int	get_cmd_list(t_data *data)
 {

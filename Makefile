@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+SRC = main.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
 	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
@@ -9,16 +9,18 @@ SRC = main.c src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/utils/libft_utils.c src/utils/list_utils.c src/utils/libft_memutils.c src/utils/token_utils.c \
 	src/signals/signals.c src/builtins/builtin_export_envp_utils.c src/utils/string_utils_1.c \
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
-	src/utils/lexer_analyzer_utils_1.c
+	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
+	src/data_init_1.c
 
-TSRC = src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+TSRC = src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
 	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
 	src/builtins/builtin_export.c src/builtins/builtin_unset.c src/help.c src/utils/token_utils.c \
 	src/signals/signals.c src/builtins/builtin_export_envp_utils.c src/utils/string_utils_1.c \
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
-	src/utils/lexer_analyzer_utils_1.c
+	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
+	src/data_init_1.c
 
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not

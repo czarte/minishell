@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 19:06:17 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:56:42 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,9 @@ void	free_token_chain(t_data *data);
 void	free_exec(t_data *data);
 void	free_folder_strs(char **folder_strs);
 int		data_perror(t_data *data, char *msg);
+void	fill_builtins(t_data *data);
+void	null_builtins(t_data *data);
+int		allocate_builtins(t_data *data);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);
@@ -190,6 +193,10 @@ void	*ft_memcpy_o(void *dst, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
 int		ft_contains_char(const char *str, char character);
 int		tokens_len(t_token_chain *tokens);
+void	init_folder_strs(char **folder_strs, int num_of_flds);
+int		get_number_of_folders(char *path);
+int		fpl(char *path);
+int		check_exec_access(char *folder, struct dirent *dirent);
 
 /*----	  Help		----*/
 void	help(void);

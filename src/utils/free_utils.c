@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:13:17 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/20 14:22:28 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:43:26 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,4 @@ void	free_alloc(t_executor *pt)
 {
 	if (pt->comm)
 		ft_lstclear(&pt->comm, (void *)(ft_free_content));
-//	if (pt->pwd)
-//		free(pt->pwd);
-//	if (*pt->path)
-//		free(pt->path);
 }
