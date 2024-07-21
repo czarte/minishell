@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   data_free_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:47:03 by smelicha         ###   ########.fr       */
+/*   Created: 2024/07/21 19:51:26 by smelicha          #+#    #+#             */
+/*   Updated: 2024/07/21 19:51:48 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./incl/minishell.h"
+#include "../incl/minishell.h"
 
-pid_t	pid;
-
-int	main(int argc, char **argv, char **envp)
+void	free_folder_strs(char **folder_strs)
 {
-	t_data	*data;
+	int	i;
 
-	if (argc != 1)
-		return (0);
-	argv++;
-	(void)argv;
-	signals_init();
-	data = malloc(sizeof(t_data));
-	if (data == NULL)
+	i = 0;
+	while (folder_strs[i] != NULL)
 	{
-		perror("Main data struct: ");
-		return (-1);
+		free(folder_strs[i]);
+		i++;
 	}
-	if (data_init(data, envp) == -1)
-		return (-1);
-	if (get_cmd_list(data) == -1)
-		return (-1);
-	cli(data);
-	free_data(data);
-	return (0);
+	free(folder_strs);
 }

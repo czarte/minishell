@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_command_parser.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 17:16:26 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:33:17 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_parse_command(t_executor *pt, int argc, char **argv)
 		if (!flag)
 		{
 			command = ft_split(ft_strjoin(ft_strjoin(argv[pt->it], " "),
-										  argv[pt->it]), ' ');
+						argv[pt->it]), ' ');
 			ft_lstadd_back(&pt->comm, ft_lstnew((void *) command));
 			pt->path = tmp;
 		}
