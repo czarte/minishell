@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 18:06:54 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:38:23 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,34 +74,58 @@ int	init_file(t_executor *pt)
 		if (pt->filefd[1] == -1)
 			exit (127);
 	}
-	dup2(pt->filefd[0], STDIN_FILENO);
+	if (dup2(pt->filefd[0], STDIN_FILENO) < 0)
+		perror("problem dupliacte file fd");
 	close(pt->filefd[0]);
 	return (1);
 }
 
-t_executor	ft_init_exec(int argc, char **argv, char **env)
+int	count_pipes(t_data *data)
+{
+	t_list	*execs;
+	int		i;
+
+	i = 0;
+	execs = data->exec->cmd;
+	while (execs)
+	{
+		i++;
+		execs = execs->next;
+	}
+	return (i);
+}
+
+t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 {
 	t_executor	pt;
 
 	(void)argv;
-	pt.fd = malloc(2*sizeof(int));
-//	pt.comm = malloc(sizeof(t_list*));
+	//pt.fd = malloc(2*sizeof(int));
+	pt.c_pi = count_pipes(data) + 1;
+	pt.pid = (int *)malloc((pt.c_pi + 1) * sizeof(int));
+	pt.comm = (t_list*) malloc(sizeof(t_list*));
 	pt.comm = NULL;
 	pt.end = 0;
 	pt.status = 0;
-	pt.env = env;
+	pt.env = data->envp;
 	pt.pwd = NULL;
 	pt.path = NULL;
 	pt.argc = argc;
 //	pt.psucc = init_path(&pt);
 	pt.file[0] = malloc(sizeof (char *));
 	pt.file[1] = malloc(sizeof (char *));
+	pt.file[0] = NULL;
+	pt.file[1] = NULL;
 	return (pt);
 }
 
 void	ft_loop(t_executor *pt)
 {
-	if (pipe(pt->fd) == -1)
+	int		pi[2];
+	int		cmi;
+
+	cmi = 0;
+	if (pipe(pi) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
@@ -115,10 +139,16 @@ void	ft_loop(t_executor *pt)
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
-		ft_exec(pt);
-		close(pt->fd[1]);
-		if (pt->comm->prev)
-			close(pt->fd_m);
-		pt->comm = pt->comm->next;
+		ft_exec(pt, pi, cmi);
+		close(pi[1]);
+		 if (pt->comm->prev)
+		 	close(pt->fd_m);
+		if (pt->comm->next)
+		{
+			pt->comm = pt->comm->next;
+			cmi++;
+		}
+		else
+			break;
 	}
 }

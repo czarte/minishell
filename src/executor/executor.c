@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 17:40:07 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:15:02 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,8 @@ int	executor(t_data *data)
 	run = false;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
-	//print_exec_data(data->exec);
 	current = data->token_chain->next;
-	pt = ft_init_exec(0, NULL, data->envp);
+	pt = ft_init_exec(0, NULL, data);
 	pt.fd_m = STDIN_FILENO;
 	while (current)
 	{
@@ -176,6 +175,7 @@ int	executor(t_data *data)
 			envp_add_reallocate(data, current->token, 1);
 		else if (str_comp(current->type, "pr")) {
 			run = true;
+			break ;
 		}
 		current = current->next;
 	}
@@ -195,6 +195,6 @@ int	executor(t_data *data)
 		ft_loop(&pt);
 		wait_subprocess(&pt);
 	}
-	free_exec(data);
+	//free_exec(data);
 	return (0);
 }

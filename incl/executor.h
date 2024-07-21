@@ -6,13 +6,14 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 17:46:19 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:38:08 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
+# include "minishell.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -34,6 +35,7 @@ typedef struct s_executor
 {
 	int		*fd;
 	int 	fd_m;
+	int		c_pi;
 	int		filefd[2];
 	int		it;
 	int		end;
@@ -41,7 +43,7 @@ typedef struct s_executor
 	int		fsucc;
 	int		psucc;
 	int		status;
-	pid_t	pid;
+	int		*pid;
 	char	*pwd;
 	char	*home;
 	t_list	*comm;
@@ -59,10 +61,12 @@ typedef struct s_bag_struct
 	char	*combined;
 }	t_bagp;
 
-t_executor	ft_init_exec(int argc, char **argv, char **env);
-void		ft_exec_child(t_executor *pt, t_list *com);
+typedef struct s_data t_data;
+
+t_executor	ft_init_exec(int argc, char **argv, t_data *data);
+void		ft_exec_child(t_executor *pt, t_list *com, int pi[2]);
 //void		ft_exec_parent(t_executor *pt);
-void		ft_exec(t_executor *pt);
+void		ft_exec(t_executor *pt, int pi[2], int n);
 char		**parse_argv(char *arg, t_executor *pt);
 int			ft_parse_command(t_executor *pt, int argc, char **argv);
 void		ft_loop(t_executor *pt);
