@@ -38,7 +38,10 @@ int	wait_subprocess(t_executor *pt)
 	{
 		pid = waitpid(-1, &status, WNOHANG);
 		if (pid == pt->pid)
+		{
 			exit_code = WEXITSTATUS(status);
+			g_last_status = exit_code;
+		}
 	}
 	free_alloc(pt);
 	return (exit_code);

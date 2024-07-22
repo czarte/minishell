@@ -92,6 +92,7 @@ int	cli(t_data *data)
 			add_history(cmd);
 			free(cmd);
 		}
+		printf("Exit status: %i\n", g_last_status);
 	}
 	clear_history();
 	return (1);

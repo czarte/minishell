@@ -36,7 +36,8 @@
 /**
  * Global variable for pid of currently running process
  */
-extern pid_t	pid;
+extern pid_t	g_pid;
+extern int		g_last_status;
 
 typedef struct s_cmd_list		t_cmd_list;
 typedef struct s_token_chain	t_token_chain;

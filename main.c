@@ -12,7 +12,8 @@
 
 #include "./incl/minishell.h"
 
-pid_t	pid;
+pid_t	g_pid;
+int		g_last_status;
 
 int	main(int argc, char **argv, char **envp)
 {
