@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/21 20:38:23 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:05:03 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	ft_loop(t_executor *pt)
 {
 	int		pi[2];
 	int		cmi;
+	int		n;
 
+	n = 0;
 	cmi = 0;
 	if (pipe(pi) == -1)
 	{
@@ -139,16 +141,23 @@ void	ft_loop(t_executor *pt)
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
+		close(pt->fd_m);
 		ft_exec(pt, pi, cmi);
-		close(pi[1]);
-		 if (pt->comm->prev)
-		 	close(pt->fd_m);
+		//close(pi[1]);
+		//printf("i: %d\ncmd: %s\n", cmi, (char *) pt->comm->content[0]);
+		// if (pt->comm->prev != NULL)
+		//  	close(pt->fd_m);
 		if (pt->comm->next)
 		{
 			pt->comm = pt->comm->next;
 			cmi++;
 		}
 		else
+		{
+			close(pt->fd_m);
 			break;
+		}
 	}
+	while (n < cmi)
+		wait_subprocess(pt, n++);
 }

@@ -193,7 +193,6 @@ int	executor(t_data *data)
 	if (run)
 	{
 		ft_loop(&pt);
-		wait_subprocess(&pt);
 	}
 	//free_exec(data);
 	return (0);

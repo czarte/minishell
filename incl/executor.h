@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/21 20:38:08 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:25:09 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void		exit_error(t_executor *pt, int exitcode);
 void		free_alloc(t_executor *pt);
 
 /* utils */
-int			wait_subprocess(t_executor *pt);
+int			wait_subprocess(t_executor *pt, int n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		ft_lstdelone(t_list *lst, void (*del)(void*));
