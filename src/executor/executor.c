@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/21 20:15:02 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:01:46 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,13 +160,16 @@ int	executor(t_data *data)
 	t_token_chain	*current;
 	t_executor 		pt;
 	bool			run;
+	int				exit_code;
+	int				fd_m;
 
 	run = false;
+	exit_code = 0;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
 	current = data->token_chain->next;
 	pt = ft_init_exec(0, NULL, data);
-	pt.fd_m = STDIN_FILENO;
+	fd_m = STDIN_FILENO;
 	while (current)
 	{
 		if (str_comp(current->type, "bu"))
@@ -191,9 +194,8 @@ int	executor(t_data *data)
 		pt.file[1] = NULL;
 	check_commands(&pt);
 	if (run)
-	{
-		ft_loop(&pt);
-	}
-	//free_exec(data);
-	return (0);
+		exit_code = ft_loop(&pt, fd_m);
+	free_alloc(&pt);
+	free_exec(data);
+	return (exit_code);
 }

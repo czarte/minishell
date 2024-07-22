@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c src/data.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+SRC = main.c src/data.c src/loop.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
 	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \

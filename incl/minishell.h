@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 11:51:58 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:33:55 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_data{
 }	t_data;
 
 
+int    loop(t_data *data);
+
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
 int		exec_data_init(t_data *data);
@@ -121,7 +123,7 @@ void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
-int		cli(t_data *data);
+char	*cli(t_data *data);
 
 /*----    Signal handling    ----*/
 void signal_handler(int signum);

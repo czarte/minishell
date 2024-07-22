@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 11:48:28 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:51:17 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,36 +57,24 @@ void	create_prompt(t_data *data)
  * Command line interface function with loop that where commands are recieved
  * and sent for further processing
  */
-int	cli(t_data *data)
+char	*cli(t_data *data)
 {
 	char	*cmd;
 
 //	rl_catch_signals = 0;
 //	rl_change_environment = 0;
-	struct sigaction sa;
-    sa.sa_handler = signal_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-	while (1)
+	create_prompt(data);
+	cmd = readline(data->prompt);
+	write(1, &"cli\n", 4);
+	printf("cli: %s\n", cmd);
+	if (str_comp(cmd, "exit") || !cmd)
 	{
-		create_prompt(data);
-		cmd = readline(data->prompt);
-		if (str_comp(cmd, "exit") || !cmd)
-		{
-			free(cmd);
-			break ;
-		}
-		lexer(cmd, data);
-		executor(data);
-		free_token_chain(data);
-		if (cmd)
-		{
-			add_history(cmd);
-			free(cmd);
-		}
+		free(cmd);
+		return (NULL);
 	}
-	clear_history();
-	return (1);
+	if (cmd)
+	{
+		add_history(cmd);
+	}
+	return (cmd);
 }

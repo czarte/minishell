@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/22 12:25:09 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:24:38 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_list
 typedef struct s_executor
 {
 	int		*fd;
-	int 	fd_m;
+	//int 	fd_m;
 	int		c_pi;
 	int		filefd[2];
 	int		it;
@@ -64,12 +64,11 @@ typedef struct s_bag_struct
 typedef struct s_data t_data;
 
 t_executor	ft_init_exec(int argc, char **argv, t_data *data);
-void		ft_exec_child(t_executor *pt, t_list *com, int pi[2]);
-//void		ft_exec_parent(t_executor *pt);
-void		ft_exec(t_executor *pt, int pi[2], int n);
+void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
+int			ft_exec(t_executor *pt, int pi[2], int fd_m);
 char		**parse_argv(char *arg, t_executor *pt);
 int			ft_parse_command(t_executor *pt, int argc, char **argv);
-void		ft_loop(t_executor *pt);
+int			ft_loop(t_executor *pt, int fd_m);
 int			check_path_and_files(t_executor *pt);
 void		print_help(void);
 void		exit_error(t_executor *pt, int exitcode);

@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/22 15:34:18 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
@@ -39,7 +51,7 @@ int main(int argc, char **argv, char **envp)
 	// printf("current working directory: %s\n", data->work_dir);
 	// cd("src", data);
 	// printf("current working directory: %s\n", data->work_dir);
-	cli(data);
+	loop(data);
 	free_data(data);
 	return (0);
 }

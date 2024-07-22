@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/22 14:05:03 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:21:23 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,45 +119,42 @@ t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 	return (pt);
 }
 
-void	ft_loop(t_executor *pt)
+int	ft_loop(t_executor *pt, int fd_m)
 {
 	int		pi[2];
 	int		cmi;
 	int		n;
+	int		exit_code;
 
 	n = 0;
 	cmi = 0;
-	if (pipe(pi) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
 	if (pt->file[0])
 		pt->fsucc = init_in_file(pt);
 	if (pt->file[1])
 		pt->fsucc = init_out_file(pt);
 	while (!pt->end)
 	{
+		if (pipe(pi) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
-		close(pt->fd_m);
-		ft_exec(pt, pi, cmi);
-		//close(pi[1]);
-		//printf("i: %d\ncmd: %s\n", cmi, (char *) pt->comm->content[0]);
-		// if (pt->comm->prev != NULL)
-		//  	close(pt->fd_m);
+		ft_exec(pt, pi, fd_m);
+		close(pi[1]);
+		if (pt->comm->prev)
+		 	close(fd_m);
 		if (pt->comm->next)
-		{
 			pt->comm = pt->comm->next;
-			cmi++;
-		}
 		else
 		{
-			close(pt->fd_m);
+			cmi++;
 			break;
 		}
 	}
 	while (n < cmi)
-		wait_subprocess(pt, n++);
+		exit_code = wait_subprocess(pt, n++);
+	return (exit_code);
 }
