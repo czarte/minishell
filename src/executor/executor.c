@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 17:21:53 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:54:02 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ int	executor(t_data *data)
 			execute_builtin(current, data);
 		else if (str_comp(current->type, "vd"))
 			envp_add_reallocate(data, current->token, 1);
-		else if (str_comp(current->type, "pr")) {
+		else if (str_comp(current->type, "pr")) 
+		{
 			run = true;
 			printf("debug: %d", tokens_len(current));
 			char **command = malloc((tokens_len(current) + 2)* sizeof (char *));

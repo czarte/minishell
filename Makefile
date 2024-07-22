@@ -10,7 +10,7 @@ SRC = main.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c
 	src/signals/signals.c src/builtins/builtin_export_envp_utils.c src/utils/string_utils_1.c \
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
 	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
-	src/data_init_1.c
+	src/data_init_1.c src/utils/ft_itoa.c src/utils/lexer_analyzer_utils_2.c
 
 TSRC = src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
@@ -20,7 +20,7 @@ TSRC = src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/signals/signals.c src/builtins/builtin_export_envp_utils.c src/utils/string_utils_1.c \
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
 	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
-	src/data_init_1.c
+	src/data_init_1.c src/utils/ft_itoa.c src/utils/lexer_analyzer_utils_2.c
 
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not

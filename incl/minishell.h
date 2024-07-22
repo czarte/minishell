@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/21 19:56:42 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:39:59 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
 bool	binary_is_in_list(char *name, char *path, t_data *data);
 int		count_slashes(const char *str);
+void	expand_last_exit_status(t_token_chain *current);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
@@ -198,6 +199,7 @@ void	init_folder_strs(char **folder_strs, int num_of_flds);
 int		get_number_of_folders(char *path);
 int		fpl(char *path);
 int		check_exec_access(char *folder, struct dirent *dirent);
+char	*ft_itoa(int n);
 
 /*----	  Help		----*/
 void	help(void);

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:20:41 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:21:37 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:45:39 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ int	b_export(t_token_chain *current, t_data *data)
 	}
 	if (!current->next)
 		no_option_export(data->envp);
+	g_last_status = 0;
 	return (0);
 }
