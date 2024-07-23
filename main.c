@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:47:03 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/04/06 18:25:07 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	if (get_cmd_list(data) == -1)
 		return (-1);
-	cli(data);
+	loop(data);
 	free_data(data);
 	return (0);
 }

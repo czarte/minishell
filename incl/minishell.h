@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/06 20:04:38 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/21 19:56:42 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:35:44 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +27,23 @@
 
 # define _POSIX_C_SOURCE 200809L
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <unistd.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <signal.h>
-# include <fcntl.h>
-# include <dirent.h>
-# include <libgen.h>
-# include <sys/ioctl.h>
-# include <termios.h>
-# include <termcap.h>
-# include "executor.h"
+# include<stdio.h>
+# include<stdlib.h>
+# include<stdbool.h>
+# include<readline/readline.h>
+# include<readline/history.h>
+# include<unistd.h>
+# include<sys/wait.h>
+# include<sys/stat.h>
+# include<sys/types.h>
+# include<signal.h>
+# include<fcntl.h>
+# include<dirent.h>
+# include<libgen.h>
+# include<sys/ioctl.h>
+# include<termios.h>
+# include<termcap.h>
+# include"executor.h"
 
 /**
  * Global variable for pid of currently running process
@@ -117,6 +129,9 @@ typedef struct s_data
 	int					n_cmd;
 }	t_data;
 
+
+int    loop(t_data *data);
+
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
 int		exec_data_init(t_data *data);
@@ -154,7 +169,7 @@ void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
-int		cli(t_data *data);
+char	*cli(t_data *data);
 
 /*----    Signal handling    ----*/
 void	signal_handler(int signum);
