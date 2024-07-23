@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/22 19:21:23 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:51:12 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,17 @@ t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 	t_executor	pt;
 
 	(void)argv;
-	//pt.fd = malloc(2*sizeof(int));
 	pt.c_pi = count_pipes(data) + 1;
 	pt.pid = (int *)malloc((pt.c_pi + 1) * sizeof(int));
 	pt.comm = (t_list*) malloc(sizeof(t_list*));
 	pt.comm = NULL;
+	pt.heredoc = false;
 	pt.end = 0;
 	pt.status = 0;
 	pt.env = data->envp;
 	pt.pwd = NULL;
 	pt.path = NULL;
 	pt.argc = argc;
-//	pt.psucc = init_path(&pt);
 	pt.file[0] = malloc(sizeof (char *));
 	pt.file[1] = malloc(sizeof (char *));
 	pt.file[0] = NULL;
@@ -146,6 +145,8 @@ int	ft_loop(t_executor *pt, int fd_m)
 		close(pi[1]);
 		if (pt->comm->prev)
 		 	close(fd_m);
+		if (!pt->heredoc)
+			fd_m = pi[0];
 		if (pt->comm->next)
 			pt->comm = pt->comm->next;
 		else
