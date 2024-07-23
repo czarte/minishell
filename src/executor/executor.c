@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/22 19:01:46 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:29:14 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,6 @@ int	executor(t_data *data)
 	if (run)
 		exit_code = ft_loop(&pt, fd_m);
 	free_alloc(&pt);
-	free_exec(data);
+	//free_exec(data);
 	return (exit_code);
 }
