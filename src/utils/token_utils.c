@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 18:24:18 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:40:33 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:21:07 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-int 	tokens_len(t_token_chain *tokens)
+int	tokens_len(t_token_chain *tokens)
 {
 	t_token_chain	*curr;
 	int				len;

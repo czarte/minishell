@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 12:14:34 by voparkan          #+#    #+#             */
-/*   Updated: 2024/06/30 12:14:34 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:23:33 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,3 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	return ((char *)res);
 }
-
