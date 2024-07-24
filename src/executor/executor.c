@@ -91,7 +91,7 @@ int	exec_data_preparation(t_data *data)
 			tc = tc->next;
 			while (tc && str_comp(tc->type, "ar"))
 			{
-				cmd[i] = ft_memcpy(tc->token);
+				cmd[i++] = ft_memcpy(tc->token);
 				if (tc->next && str_comp(tc->next->type, "ar"))
 					tc = tc->next;
 				else
