@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 17:51:09 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:51:17 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,20 @@ int	cli(t_data *data)
 {
 	char	*cmd;
 
-	while (1)
+//	rl_catch_signals = 0;
+//	rl_change_environment = 0;
+	create_prompt(data);
+	cmd = readline(data->prompt);
+	write(1, &"cli\n", 4);
+	printf("cli: %s\n", cmd);
+	if (str_comp(cmd, "exit") || !cmd)
 	{
-		create_prompt(data);
-		cmd = readline(data->prompt);
-		if (str_comp(cmd, "exit") || !cmd)
-		{
-			free(cmd);
-			break ;
-		}
-		lexer(cmd, data);
-		executor(data);
-		free_token_chain(data);
-		if (contains_printables(cmd))
-		{
-			add_history(cmd);
-			free(cmd);
-		}
-		printf("Exit status: %i\n", g_last_status);
+		free(cmd);
+		return (NULL);
 	}
-	clear_history();
-	return (1);
+	if (cmd)
+	{
+		add_history(cmd);
+	}
+	return (cmd);
 }

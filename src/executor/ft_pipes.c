@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:34:16 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:51:12 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,40 +74,88 @@ int	init_file(t_executor *pt)
 		if (pt->filefd[1] == -1)
 			exit (127);
 	}
-	dup2(pt->filefd[0], STDIN_FILENO);
+	if (dup2(pt->filefd[0], STDIN_FILENO) < 0)
+		perror("problem dupliacte file fd");
 	close(pt->filefd[0]);
 	return (1);
 }
 
-t_executor	ft_init_exec(int argc, char **argv, char **env)
+int	count_pipes(t_data *data)
+{
+	t_list	*execs;
+	int		i;
+
+	i = 0;
+	execs = data->exec->cmd;
+	while (execs)
+	{
+		i++;
+		execs = execs->next;
+	}
+	return (i);
+}
+
+t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 {
 	t_executor	pt;
 
 	(void)argv;
-	pt.comm = malloc(sizeof(t_list));
+	pt.c_pi = count_pipes(data) + 1;
+	pt.pid = (int *)malloc((pt.c_pi + 1) * sizeof(int));
+	pt.comm = (t_list*) malloc(sizeof(t_list*));
 	pt.comm = NULL;
+	pt.heredoc = false;
 	pt.end = 0;
 	pt.status = 0;
-	pt.env = env;
+	pt.env = data->envp;
 	pt.pwd = NULL;
 	pt.path = NULL;
-//	pt.argv = argv;
 	pt.argc = argc;
-//	pt.psucc = init_path(&pt);
-//	pt.fsucc = init_file(&pt);
 	pt.file[0] = malloc(sizeof (char *));
 	pt.file[1] = malloc(sizeof (char *));
+	pt.file[0] = NULL;
+	pt.file[1] = NULL;
 	return (pt);
 }
 
-void	ft_loop(t_executor *pt)
+int	ft_loop(t_executor *pt, int fd_m)
 {
+	int		pi[2];
+	int		cmi;
+	int		n;
+	int		exit_code;
+
+	n = 0;
+	cmi = 0;
+	if (pt->file[0])
+		pt->fsucc = init_in_file(pt);
+	if (pt->file[1])
+		pt->fsucc = init_out_file(pt);
 	while (!pt->end)
 	{
+		if (pipe(pi) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
-		ft_exec(pt, (char **) pt->comm->content);
-		pt->comm = pt->comm->next;
+		ft_exec(pt, pi, fd_m);
+		close(pi[1]);
+		if (pt->comm->prev)
+		 	close(fd_m);
+		if (!pt->heredoc)
+			fd_m = pi[0];
+		if (pt->comm->next)
+			pt->comm = pt->comm->next;
+		else
+		{
+			cmi++;
+			break;
+		}
 	}
+	while (n < cmi)
+		exit_code = wait_subprocess(pt, n++);
+	return (exit_code);
 }

@@ -118,6 +118,9 @@ typedef struct s_data
 	int					n_cmd;
 }	t_data;
 
+
+int    loop(t_data *data);
+
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
 int		exec_data_init(t_data *data);
@@ -155,7 +158,7 @@ void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
 
 /*----    CLI    ----*/
-int		cli(t_data *data);
+char	*cli(t_data *data);
 
 /*----    Signal handling    ----*/
 void	signal_handler(int signum);

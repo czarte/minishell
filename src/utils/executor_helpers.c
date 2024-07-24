@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:10:53 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/07 11:28:36 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:03:05 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,19 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-int	wait_subprocess(t_executor *pt)
+int	wait_subprocess(t_executor *pt, int n)
 {
 	int	pid;
 	int	exit_code;
 	int	status;
 
-	pid = 1;
 	exit_code = 0;
+	pid = 1;
 	while (pid != -1)
 	{
-		pid = waitpid(-1, &status, WNOHANG);
-		if (pid == pt->pid)
-		{
+		pid = waitpid(pt->pid[n], &status, WNOHANG);
+		if (pid == pt->pid[n])
 			exit_code = WEXITSTATUS(status);
-			g_last_status = exit_code;
-		}
 	}
-	free_alloc(pt);
 	return (exit_code);
 }
