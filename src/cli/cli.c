@@ -71,7 +71,7 @@ bool	contains_printables(char *str)
  * Command line interface function with loop that where commands are recieved
  * and sent for further processing
  */
-char	*cli(t_data *data)
+int	cli(t_data *data)
 {
 	char	*cmd;
 

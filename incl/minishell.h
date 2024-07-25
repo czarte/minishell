@@ -3,22 +3,9 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/25 11:35:29 by voparkan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/07 14:35:44 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:39:59 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +14,29 @@
 
 # define _POSIX_C_SOURCE 200809L
 
-# include<stdio.h>
-# include<stdlib.h>
-# include<stdbool.h>
-# include<readline/readline.h>
-# include<readline/history.h>
-# include<unistd.h>
-# include<sys/wait.h>
-# include<sys/stat.h>
-# include<sys/types.h>
-# include<signal.h>
-# include<fcntl.h>
-# include<dirent.h>
-# include<libgen.h>
-# include<sys/ioctl.h>
-# include<termios.h>
-# include<termcap.h>
-# include"executor.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <libgen.h>
+# include <sys/ioctl.h>
+# include <termios.h>
+# include <termcap.h>
+# include "executor.h"
 
 /**
  * Global variable for pid of currently running process
  */
-extern pid_t	pid;
+extern pid_t	g_pid;
+extern int		g_last_status;
 
 typedef struct s_cmd_list		t_cmd_list;
 typedef struct s_token_chain	t_token_chain;
@@ -195,6 +183,7 @@ int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
 bool	binary_is_in_list(char *name, char *path, t_data *data);
 int		count_slashes(const char *str);
+void	expand_last_exit_status(t_token_chain *current);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
@@ -213,6 +202,7 @@ void	init_folder_strs(char **folder_strs, int num_of_flds);
 int		get_number_of_folders(char *path);
 int		fpl(char *path);
 int		check_exec_access(char *folder, struct dirent *dirent);
+char	*ft_itoa(int n);
 
 /*----	  Help		----*/
 void	help(void);

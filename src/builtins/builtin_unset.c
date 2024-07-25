@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:19:31 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/21 17:29:06 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:46:17 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	unset(t_token_chain *current, t_data *data)
 	char	**new_envp;
 
 	new_envp = NULL;
+	g_last_status = 0;
 	if (!current->next)
 		return (0);
 	var_pos = check_envp_for_duplicate(data->envp, current->next->token);

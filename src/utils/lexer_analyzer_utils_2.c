@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   lexer_analyzer_utils_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 01:35:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 13:41:47 by smelicha         ###   ########.fr       */
+/*   Created: 2024/07/22 12:36:07 by smelicha          #+#    #+#             */
+/*   Updated: 2024/07/22 14:22:34 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-/**
- * Builtin cd command function, takes the argument as a string where the path
- * to the new working directory is specified, either absolute or relative
- */
-void	cd(const char *new_wd, t_data *data)
+void	expand_last_exit_status(t_token_chain *current)
 {
-	if (chdir(new_wd) != 0)
-	{
-		perror("");
-		return ;
-	}
-	getcwd(data->work_dir, sizeof(data->work_dir));
-	g_last_status = 0;
+	type_token(current, "ar");
+	free(current->token);
+	current->token = ft_itoa(g_last_status);
 }

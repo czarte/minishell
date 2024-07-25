@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/20 17:08:47 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:47:42 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 	else if (str_comp(current->token, ">>"))
 		type_token(current, "ra");
 	else if (is_last_pipe_exit(current->token))
-		type_token(current, "es");
+		expand_last_exit_status(current);
 	else if (is_env_var(current->token))
 		type_token(current, "ev");
 	else if (is_var_decl(current->token, data))

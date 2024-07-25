@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:19 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/06 16:31:00 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:47:11 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ void	echo(t_token_chain *echo_tok)
 	}
 	if (new_line)
 		write(1, "\n", 1);
+	g_last_status = 0;
 }
