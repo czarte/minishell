@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/25 11:54:51 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:04:34 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	exec_data_preparation(t_data *data)
 	{
 		if (str_comp(tc->type, "pr") || str_comp(tc->type, "bu"))
 		{
+			arg_count = command_arg_count(tc);
 			cmd = malloc(sizeof(char *) * (arg_count + 3));
 			cmd[arg_count + 2] = NULL;
 			cmd[0] = get_cmd_path(tc->token, data);
