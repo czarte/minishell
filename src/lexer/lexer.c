@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 16:26:02 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:25:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int	lexer(char *cmd, t_data *data)
 	printf("\n");
 	token_chain_analyzer(data);
 	print_token_chain(data);
-	executor(data);
-	free_token_chain(data);
+//	executor(data);
+//	free_token_chain(data);
 	return (0);
 }

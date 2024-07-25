@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/06 20:04:38 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:35:29 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int		data_perror(t_data *data, char *msg);
 void	fill_builtins(t_data *data);
 void	null_builtins(t_data *data);
 int		allocate_builtins(t_data *data);
+void	print_token_chain(t_data *data);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);

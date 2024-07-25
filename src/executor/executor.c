@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/23 20:29:14 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:54:51 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ int	command_arg_count(t_token_chain *tc)
 	else
 		return (0);
 	i = 0;
-	while (current && str_comp(current->type, "ar"))
+	while (current)
 	{
 		i++;
-		current = current->next;
+		if (current->next && str_comp(current->next->type, "ar"))
+			current = current->next;
+		else
+			break;
 	}
 	return (i);
 }
@@ -83,7 +86,6 @@ int	exec_data_preparation(t_data *data)
 	{
 		if (str_comp(tc->type, "pr") || str_comp(tc->type, "bu"))
 		{
-			arg_count = command_arg_count(tc);
 			cmd = malloc(sizeof(char *) * (arg_count + 3));
 			cmd[arg_count + 2] = NULL;
 			cmd[0] = get_cmd_path(tc->token, data);
@@ -91,9 +93,12 @@ int	exec_data_preparation(t_data *data)
 			tc = tc->next;
 			while (tc && str_comp(tc->type, "ar"))
 			{
-				cmd[i++] = ft_memcpy(tc->token);
+				cmd[i] = ft_memcpy(tc->token);
 				if (tc->next && str_comp(tc->next->type, "ar"))
+				{
 					tc = tc->next;
+					i++;
+				}
 				else
 					break ;
 			}
