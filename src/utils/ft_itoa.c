@@ -22,10 +22,8 @@ char	*ft_itoa(int n)
 	int		l;
 	char	*ptr;
 	int		neg;
-	size_t	i;
 
 	neg = 0;
-	i = 0;
 	if (n == -2147483648)
 		return (edge());
 	if (n < 0)
@@ -75,9 +73,6 @@ static int	getlen(int n)
 
 static int	getdigit(int n, char *ptr, int neg, int l)
 {
-	size_t	i;
-
-	i = 0;
 	if (neg)
 	{
 		ptr[0] = '-';
