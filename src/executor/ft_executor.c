@@ -40,7 +40,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 		pt->end = 0;
 	}
 	pt->pid[i] = fork();
-	pid = pt->pid[i];
+	g_pid = pt->pid[i];
 	if (pt->pid[i] == -1)
 	{
 		perror("fork error");
