@@ -11,7 +11,6 @@ SRC = main.c src/loop.c src/data_init.c src/parser/exec_folders.c src/parser/get
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
 	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
 	src/data_init_1.c src/utils/file_utils.c src/utils/ft_itoa.c src/utils/lexer_analyzer_utils_2.c \
-	src/loop.c
 
 TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
