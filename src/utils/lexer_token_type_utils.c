@@ -29,7 +29,7 @@ int	is_builtin(char *token, t_data *data)
 	int	i;
 
 	i = 0;
-	while (i != 7)
+	while (i != 8)
 	{
 		if (str_comp(token, data->builtins[i]))
 			return (1);

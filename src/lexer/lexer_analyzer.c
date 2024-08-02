@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/20 21:07:25 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:06:17 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,21 @@ int	analyze_redirections(t_data *data)
 	while (current)
 	{
 		if (str_comp(current->type, "ri") && current->next)
+		{
 			type_token(current->next, "fp");
+			printf("token: %s, next: %p, next-type: %s, next-token: %s\n", current->token, current->next, current->next->type, current->next->token);
+			if (data->exec->infile == NULL) {
+				printf("lexer - data->exec->infile: %p\n", data->exec->infile);
+			}
+			data->exec->infile = strdup(current->next->token);
+		}
 		if (str_comp(current->type, "rd") && current->next)
 			type_token(current->next, "dl");
 		if (str_comp(current->type, "ro") && current->next)
+		{
 			type_token(current->next, "fp");
+			data->exec->outfile = ft_memcpy(current->next->token);
+		}
 		if (str_comp(current->type, "ra") && current->next)
 			type_token(current->next, "fp");
 		current = current->next;

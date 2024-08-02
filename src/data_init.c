@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/21 19:54:58 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:10:07 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,20 @@ int	exec_data_init(t_data *data)
 	if (data->exec == NULL)
 		return (data_perror(data, "exec_struct"));
 	data->exec->cmd = NULL;
-	data->exec->file[0] = NULL;
-	data->exec->file[1] = NULL;
+	data->exec->infile = NULL;
+	data->exec->outfile = NULL;
+	data->exec->append = false;
+	data->exec->limit = false;
+	return (0);
+}
+
+int	exec_data_re_init(t_data *data)
+{
+	if (data->exec == NULL)
+		return (data_perror(data, "exec_struct"));
+	data->exec->cmd = NULL;
+	data->exec->infile = NULL;
+	data->exec->outfile = NULL;
 	data->exec->append = false;
 	data->exec->limit = false;
 	return (0);

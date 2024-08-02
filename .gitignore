@@ -6,3 +6,5 @@ minishell
 valgrind_log.txt
 build
 cmake-build-debug
+main
+main.dSYM

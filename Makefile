@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+SRC = main.c src/loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
 	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \
@@ -13,7 +13,7 @@ SRC = main.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c
 	src/data_init_1.c src/utils/file_utils.c src/utils/ft_itoa.c src/utils/lexer_analyzer_utils_2.c \
 	src/loop.c
 
-TSRC = src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
+TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
 	src/lexer/lexer_token_type.c src/lexer/lexer_analyzer.c src/executor/executor.c \
 	src/builtins/builtin_echo.c src/builtins/builtin_env.c src/builtins/builtin_export_utils.c \

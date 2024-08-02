@@ -6,19 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/25 12:04:34 by voparkan         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 17:51:04 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/07 16:22:06 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:51:08 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +21,15 @@ void	print_exec_data(t_exec *exec)
 	{
 		while (*current->content)
 		{
-			printf("%s\n", (char*)*(*current).content);
+			printf("%s\n", (char*) *current->content);
 			current->content++;
 		}
 		current = current->next;
 	}
-	printf("file[0]: %s\n", (char*)exec->file[0]);
-	printf("file[1]: %s\n", (char*)exec->file[1]);
+	if (exec->infile)
+		printf("infile: %s\n", (char*)exec->infile);
+	if (exec->outfile)
+		printf("file[1]: %s\n", (char*)exec->outfile);
 	if (exec->limit)
 		printf("Exec limit true\n");
 	else
@@ -60,7 +50,7 @@ int	command_arg_count(t_token_chain *tc)
 	else
 		return (0);
 	i = 0;
-	while (current)
+	while (str_comp(current->type, "ar"))
 	{
 		i++;
 		if (current->next && str_comp(current->next->type, "ar"))
@@ -68,6 +58,7 @@ int	command_arg_count(t_token_chain *tc)
 		else
 			break;
 	}
+	printf("arg count: %d\n", i);
 	return (i);
 }
 
@@ -78,12 +69,14 @@ int	exec_data_preparation(t_data *data)
 	int				arg_count;
 	int				i;
 
-	if (exec_data_init(data) < 0)
-		return (-1);
 	tc = data->token_chain->next;
 	i = 2;
 	while (tc)
 	{
+		if (tc->next && str_comp(tc->type, "ri")) {
+			tc = tc->next;
+			continue;
+		}
 		if (str_comp(tc->type, "pr") || str_comp(tc->type, "bu"))
 		{
 			arg_count = command_arg_count(tc);
@@ -133,6 +126,8 @@ int	execute_builtin(t_token_chain *current, t_data *data)
 		b_export(current, data);
 	else if (str_comp(current->token, "unset"))
 		unset(current, data);
+	else if (str_comp(current->token, "help"))
+		help();
 	return (0);
 }
 
@@ -175,6 +170,18 @@ int	executor(t_data *data)
 		return (-1);
 	current = data->token_chain->next;
 	pt = ft_init_exec(0, NULL, data);
+	if (data->exec->infile)
+	{
+		pt.infile = data->exec->infile;
+		pt.heredoc = true;
+	}
+	else
+		pt.infile = NULL;
+	if (data->exec->outfile)
+		pt.outfile = data->exec->outfile;
+	else
+		pt.outfile = NULL;
+	pt.pwd = getenv("PWD");
 	fd_m = STDIN_FILENO;
 	while (current)
 	{
@@ -190,18 +197,13 @@ int	executor(t_data *data)
 	}
 	//print_exec_data(data->exec);
 	pt.comm = data->exec->cmd;
-	if (data->exec->file[0])
-		pt.file[0] = data->exec->file[0];
-	else
-		pt.file[0] = NULL;
-	if (data->exec->file[1])
-		pt.file[1] = data->exec->file[1];
-	else
-		pt.file[1] = NULL;
-	check_commands(&pt);
+	printf("data->exec->infile %s\n", data->exec->infile);
+	//printf("heredoc %d\n", pt.heredoc);
+	//check_commands(&pt);
 	if (run)
 		exit_code = ft_loop(&pt, fd_m);
 	free_alloc(&pt);
+	data->exec->infile = NULL;
 	//free_exec(data);
 	return (exit_code);
 }

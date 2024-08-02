@@ -6,17 +6,24 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:13:17 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/21 19:43:26 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:43:59 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	ft_free_content(char *content)
+void	ft_free_content(char **content)
 {
-	if (content)
-		free(content);
+	int 	i;
+
+	i = 0;
+	while ((char *)(content)[i] != NULL)
+	{
+		printf("free: %s\n", (char *) content[i]);
+		free(content[i]);
+		i++;
+	}
 }
 
 int	check_path_and_files(t_executor *pt)
@@ -37,6 +44,12 @@ void	exit_error(t_executor *pt, int exitcode)
 
 void	free_alloc(t_executor *pt)
 {
-	if (pt->comm)
-		ft_lstclear(&pt->comm, (void *)(ft_free_content));
+	//check_commands(pt);
+	if (pt->infile)
+		free(pt->infile);
+	if (pt->outfile)
+		free(pt->outfile);
+	ft_lstclear(&pt->comm, (void *)(ft_free_content));
+	//free(pt->comm);
+	pt->comm = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:54:19 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/21 19:56:43 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:58:16 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	fill_builtins(t_data *data)
 	str_fill(data->builtins[4], "unset");
 	str_fill(data->builtins[5], "env");
 	str_fill(data->builtins[6], "exit");
+	str_fill(data->builtins[7], "help");
 }
 
 /**
@@ -53,13 +54,13 @@ int	allocate_builtins(t_data *data)
 	j = 0;
 	while (i != 8)
 	{
-		data->builtins[i] = malloc(sizeof(char) * 7);
+		data->builtins[i] = malloc(sizeof(char) * 8);
 		if (!data->builtins)
 		{
 			perror("allocating builtin string:");
 			return (-1);
 		}
-		while (j != 7)
+		while (j != 8)
 		{
 			data->builtins[i][j] = '\0';
 			j++;

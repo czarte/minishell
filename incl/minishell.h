@@ -3,9 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
+/*   Updated: 2024/07/25 11:35:29 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 13:39:59 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:35:44 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +88,8 @@ typedef struct s_token_chain
 typedef struct s_exec_data
 {
 	t_list	*cmd;
-	char	*file[2];
+	char	*infile;
+	char	*outfile;
 	bool	limit;
 	bool	append;
 }	t_exec;
@@ -136,6 +150,7 @@ void	print_token_chain(t_data *data);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);
+int		exec_data_re_init(t_data *data);
 
 /*----    Command functions    ----*/
 char	*get_cmd_path(const char *cmd, t_data *data);

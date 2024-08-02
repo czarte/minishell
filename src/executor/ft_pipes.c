@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/23 19:51:12 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:09:10 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	init_path(t_executor *pt)
 
 char	*open_infile(t_executor *pt, char *filename)
 {
+	printf("pt->pwd: %s\n", pt->pwd);
+	printf("filename: %s\n", filename);
 	if (ft_strncmp(filename, "/", 1))
 		return ft_strjoin(pt->pwd, ft_strjoin("/", filename));
 	else
@@ -97,25 +99,41 @@ int	count_pipes(t_data *data)
 
 t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 {
-	t_executor	pt;
+	t_executor	*pt;
 
 	(void)argv;
-	pt.c_pi = count_pipes(data) + 1;
-	pt.pid = (int *)malloc((pt.c_pi + 1) * sizeof(int));
-	pt.comm = (t_list*) malloc(sizeof(t_list*));
-	pt.comm = NULL;
-	pt.heredoc = false;
-	pt.end = 0;
-	pt.status = 0;
-	pt.env = data->envp;
-	pt.pwd = NULL;
-	pt.path = NULL;
-	pt.argc = argc;
-	pt.file[0] = malloc(sizeof (char *));
-	pt.file[1] = malloc(sizeof (char *));
-	pt.file[0] = NULL;
-	pt.file[1] = NULL;
-	return (pt);
+	pt = malloc(sizeof(t_executor));
+	if (pt < 0)
+		perror("unable to allocate t_exec");
+	pt->c_pi = count_pipes(data) + 1;
+	pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
+	pt->comm = NULL;
+	pt->heredoc = false;
+	pt->end = 0;
+	pt->status = 0;
+	pt->env = data->envp;
+	pt->pwd = NULL;
+	pt->path = NULL;
+	pt->argc = argc;
+	pt->infile = NULL;
+	pt->outfile = NULL;
+	pt->filefd[0] = 0;
+	pt->filefd[1] = 0;
+	return (*pt);
+}
+
+int check_heredoc(t_executor *pt, int pi[2])
+{
+	int fd_m;
+
+	if (pt->filefd[0])
+	{
+		close(pi[0]);
+		printf("pt->filefd[0]: %d\n", pt->filefd[0]);
+		fd_m = pt->filefd[0];
+	} else
+		fd_m = pi[0];
+	return (fd_m);
 }
 
 int	ft_loop(t_executor *pt, int fd_m)
@@ -127,9 +145,9 @@ int	ft_loop(t_executor *pt, int fd_m)
 
 	n = 0;
 	cmi = 0;
-	if (pt->file[0])
-		pt->fsucc = init_in_file(pt);
-	if (pt->file[1])
+	printf("infile %s\n", pt->infile);
+	printf("outfile %s\n", pt->outfile);
+	if (pt->outfile != NULL)
 		pt->fsucc = init_out_file(pt);
 	while (!pt->end)
 	{
@@ -145,8 +163,7 @@ int	ft_loop(t_executor *pt, int fd_m)
 		close(pi[1]);
 		if (pt->comm->prev)
 		 	close(fd_m);
-		if (!pt->heredoc)
-			fd_m = pi[0];
+		fd_m = check_heredoc(pt, pi);
 		if (pt->comm->next)
 			pt->comm = pt->comm->next;
 		else

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/23 19:46:11 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 13:06:19 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,23 @@
 void	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 {
 	char 	**argv;
+	int		exit_code;
 
+	if (pt->heredoc)
+		pt->fsucc = init_in_file(pt);
 	argv = (char **) com->content;
 	if (com->prev && dup2(fd_m, STDIN_FILENO) < 0)
 		perror("unable to dup fd_m\n");
-	close(pi[0]);
-	if (com->next && dup2(pi[1], STDOUT_FILENO) < 0)
+	if (!pt->heredoc)
+		close(pi[0]);
+	if (com->next && !pt->heredoc && dup2(pi[1], STDOUT_FILENO) < 0)
 		perror("unable to dup pi[1]\n");
 	close(pi[1]);
 	if (com->prev)
 		close(fd_m);
-	execve(argv[0], &argv[1], pt->env);
 
+	exit_code = execve(argv[0], &argv[1], pt->env);
+	exit(exit_code);
 }
 
 int	ft_exec(t_executor *pt, int pi[2], int fd_m)

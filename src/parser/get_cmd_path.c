@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/19 18:34:35 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:04:03 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 	while (current)
 	{
 		if (str_comp(cmd, current->cmd))
-			return (current->full_path);
+			return (ft_memcpy(current->full_path));
 		else
 			current = current->next;
 	}

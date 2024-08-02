@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/25 11:25:20 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/28 16:18:24 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int    loop(t_data *data)
     char   *cmd;
     struct sigaction sa;
 
+    if (exec_data_init(data) < 0)
+        return (-1);
     sa.sa_handler = signal_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;

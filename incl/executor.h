@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/23 19:50:02 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:17:20 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef struct s_executor
 	char	**argv;
 	char	**env;
 	char	**path;
-	char	*file[2];
+	char	*infile;
+	char	*outfile;
 }	t_executor;
 
 typedef struct s_bag_struct
@@ -77,8 +78,8 @@ void		free_alloc(t_executor *pt);
 /* utils */
 int			wait_subprocess(t_executor *pt, int n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		ft_lstclear(t_list **lst, void (*del)(void*));
-void		ft_lstdelone(t_list *lst, void (*del)(void*));
+void		ft_lstclear(t_list **lst, void (*del)(void**));
+void		ft_lstdelone(t_list *lst, void (*del)(void**));
 void		ft_lstadd_back(t_list **lst, t_list *nlist);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);

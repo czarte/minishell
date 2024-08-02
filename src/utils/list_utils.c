@@ -6,14 +6,14 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:14:41 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/02 16:19:43 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:05:11 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void**))
 {
 	t_list	*nxt;
 
@@ -28,7 +28,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	*lst = NULL;
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	ft_lstdelone(t_list *lst, void (*del)(void**))
 {
 	(*del)(lst->content);
 	free(lst);

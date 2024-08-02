@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/25 11:25:52 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:11:21 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	lexer(char *cmd, t_data *data)
 		printf("Unclosed quotes!\n");
 		return (0);
 	}
+	exec_data_re_init(data);
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	type_token_chain(data);
