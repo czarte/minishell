@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 08:17:20 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:18:47 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_executor
 {
 	int		*fd;
 	bool	heredoc;
+	bool	heredoc_rl;
+	bool	append;
 	int		c_pi;
 	int		filefd[2];
 	int		it;
@@ -52,6 +54,7 @@ typedef struct s_executor
 	char	**path;
 	char	*infile;
 	char	*outfile;
+	char	*dlmtr;
 }	t_executor;
 
 typedef struct s_bag_struct
@@ -87,6 +90,7 @@ char		*ft_strrchr(const char *s, int c);
 char		*open_infile(t_executor *pt, char *filename);
 void		check_commands(t_executor *pt);
 int			init_in_file(t_executor *pt);
-int			init_out_file(t_executor *pt);
+int			init_out_file(t_executor *pt, int pi[2]);
+int			init_hd_file(char *file, t_executor *pt);
 
 #endif // !EXECUTOR_H

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 13:09:10 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:56:25 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 	pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
 	pt->comm = NULL;
 	pt->heredoc = false;
+	pt->heredoc_rl = false;
+	pt->append = false;
 	pt->end = 0;
 	pt->status = 0;
 	pt->env = data->envp;
@@ -117,6 +119,7 @@ t_executor	ft_init_exec(int argc, char **argv, t_data *data)
 	pt->argc = argc;
 	pt->infile = NULL;
 	pt->outfile = NULL;
+	pt->dlmtr = NULL;
 	pt->filefd[0] = 0;
 	pt->filefd[1] = 0;
 	return (*pt);
@@ -148,7 +151,7 @@ int	ft_loop(t_executor *pt, int fd_m)
 	printf("infile %s\n", pt->infile);
 	printf("outfile %s\n", pt->outfile);
 	if (pt->outfile != NULL)
-		pt->fsucc = init_out_file(pt);
+		pt->fsucc = init_out_file(pt, pi);
 	while (!pt->end)
 	{
 		if (pipe(pi) == -1)
@@ -168,6 +171,8 @@ int	ft_loop(t_executor *pt, int fd_m)
 			pt->comm = pt->comm->next;
 		else
 		{
+			if (pt->outfile)
+				dup2(0, 1);
 			cmi++;
 			break;
 		}

@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 11:51:08 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:57:30 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	exec_data_preparation(t_data *data)
 					break ;
 			}
 			ft_lstadd_back(&data->exec->cmd, ft_lstnew((void*)cmd));
-			// printf("arg count: %i\n", arg_count);
 		}
 		if (tc)
 			tc = tc->next;
@@ -153,57 +152,84 @@ void	check_commands(t_executor *pt)
 	pt->comm = temp;
 }
 
+typedef struct s_exec_bag
+{
+	t_token_chain	*cur;
+	bool			run;
+	int				e_c;
+} t_exec_bag;
+
+void	assign_pt(t_data *data, t_executor *pt)
+{
+	if (data->exec->infile)
+	{
+		pt->infile = data->exec->infile;
+		pt->heredoc = true;
+	}
+	else
+		pt->infile = NULL;
+	if (data->exec->outfile)
+		pt->outfile = data->exec->outfile;
+	else
+		pt->outfile = NULL;
+	if (data->exec->dlmtr)
+	{
+		pt->heredoc_rl = true;
+		pt->dlmtr = data->exec->dlmtr;
+	}
+	pt->pwd = getenv("PWD");
+}
+
+
+void	init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt)
+{
+	eb->run = false;
+	eb->e_c = 0;
+	eb->cur = NULL;
+	eb->cur = data->token_chain->next;
+	assign_pt(data, pt);
+}
+
+void	iterate_commands(t_exec_bag *eb, t_data *data)
+{
+	while (eb->cur)
+	{
+		if (str_comp(eb->cur->type, "bu"))
+			execute_builtin(eb->cur, data);
+		else if (str_comp(eb->cur->type, "vd"))
+			envp_add_reallocate(data, eb->cur->token, 1);
+		else if (str_comp(eb->cur->type, "pr")) {
+			eb->run = true;
+			break ;
+		}
+		eb->cur = eb->cur->next;
+	}
+}
+
 /**
  * Executes commands from token chain
  */
 int	executor(t_data *data)
 {
-	t_token_chain	*current;
-	t_executor 		pt;
-	bool			run;
-	int				exit_code;
-	int				fd_m;
+	t_exec_bag	*eb;
+	t_executor	pt;
+	int			fd_m;
 
-	run = false;
-	exit_code = 0;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
-	current = data->token_chain->next;
+	eb = malloc(sizeof(t_exec_bag));
+	if (eb < 0)
+		perror("unable allocate memory");
 	pt = ft_init_exec(0, NULL, data);
-	if (data->exec->infile)
-	{
-		pt.infile = data->exec->infile;
-		pt.heredoc = true;
-	}
-	else
-		pt.infile = NULL;
-	if (data->exec->outfile)
-		pt.outfile = data->exec->outfile;
-	else
-		pt.outfile = NULL;
-	pt.pwd = getenv("PWD");
+	init_exec_bag(eb, data, &pt);
 	fd_m = STDIN_FILENO;
-	while (current)
-	{
-		if (str_comp(current->type, "bu"))
-			execute_builtin(current, data);
-		else if (str_comp(current->type, "vd"))
-			envp_add_reallocate(data, current->token, 1);
-		else if (str_comp(current->type, "pr")) {
-			run = true;
-			break ;
-		}
-		current = current->next;
-	}
-	//print_exec_data(data->exec);
+	iterate_commands(eb, data);
 	pt.comm = data->exec->cmd;
-	printf("data->exec->infile %s\n", data->exec->infile);
-	//printf("heredoc %d\n", pt.heredoc);
-	//check_commands(&pt);
-	if (run)
-		exit_code = ft_loop(&pt, fd_m);
+	if (data->exec->append)
+		pt.append = true;
+	if (eb->run)
+		eb->e_c = ft_loop(&pt, fd_m);
 	free_alloc(&pt);
 	data->exec->infile = NULL;
-	//free_exec(data);
-	return (exit_code);
+	return (eb->e_c);
 }

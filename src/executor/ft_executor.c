@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 13:06:19 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:48:20 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,44 @@ void	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 		perror("unable to dup fd_m\n");
 	if (!pt->heredoc)
 		close(pi[0]);
-	if (com->next && !pt->heredoc && dup2(pi[1], STDOUT_FILENO) < 0)
+	if (com->next && dup2(pi[1], STDOUT_FILENO) < 0)
 		perror("unable to dup pi[1]\n");
 	close(pi[1]);
 	if (com->prev)
 		close(fd_m);
-
 	exit_code = execve(argv[0], &argv[1], pt->env);
 	exit(exit_code);
+}
+
+int	create_heredoc(t_executor *pt)
+{
+	char	*name;
+	int		fd;
+
+	name = ft_strjoin(pt->pwd, ".tmp_heredoc");
+	fd = init_hd_file(name, pt);
+	return (fd);
+}
+
+int send_heredoc(t_executor *pt)
+{
+	int		file;
+	char	*line;
+
+	if (!pt->heredoc_rl)
+		return (0);
+	file = create_heredoc(pt);
+	line = readline(">");
+	while (line && ft_strncmp(pt->dlmtr, line, ft_strlen(pt->dlmtr)))
+	{
+		write(file, line, ft_strlen(line));
+		write(file, "\n", 1);
+		free(line);
+		line = readline(">");
+	}
+	free(line);
+	close(file);
+	return (1);
 }
 
 int	ft_exec(t_executor *pt, int pi[2], int fd_m)
@@ -44,6 +74,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 		i = 0;
 		pt->end = 0;
 	}
+	send_heredoc(pt);
 	pt->pid[i] = fork();
 	g_pid = pt->pid[i];
 	if (pt->pid[i] == -1)
@@ -56,24 +87,3 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 	i++;
 	return (EXIT_SUCCESS);
 }
-
-// if (com->prev && com->next == NULL && close(pi[0]) < 0)
-// 	perror("com-next unable to close fd-0\n");
-// if (com->prev && com->next == NULL && dup2(pi[1], STDIN_FILENO) < 0)
-// 	perror("com->prev unable bind file descriptor fd_m\n");
-// if (com->prev && com->next == NULL && (close(pi[1]) < 0))
-// 	perror("com-next unable to close fd-1\n");
-// if (com->prev && com->next && dup2(pi[1], STDIN_FILENO) < 0)
-// 	perror("com->prev unable bind file descriptor fd_m\n");
-// if (com->prev && com->next && close(pi[1]) < 0)
-// 	perror("com-next unable to close fd-1\n");
-// if (com->prev && com->next && dup2(pi[0], STDOUT_FILENO) < 0)
-// 	perror("com->prev unable bind file descriptor fd_m\n");
-// if (com->prev && com->next && close(pi[0]) < 0)
-// 	perror("com-next unable to close fd-1\n");
-// if (com->next && com->prev == NULL && close(pi[1]) < 0)
-// 	perror("com-next unable to close fd-1\n");
-// if (com->next && com->prev == NULL && dup2(pi[0], STDOUT_FILENO) < 0)
-// 	perror("com-next unable bind file descriptor fd[1]\n");
-// if (com->next && com->prev == NULL && close(pi[0]) < 0)
-// 	perror("com-next unable to close fd-0\n");

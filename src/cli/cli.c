@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/22 15:51:17 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:51:17 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*cli(t_data *data)
 //	rl_change_environment = 0;
 	create_prompt(data);
 	cmd = readline(data->prompt);
+	printf("STDOUT %d\n", STDIN_FILENO);
 	write(1, &"cli\n", 4);
 	printf("cli: %s\n", cmd);
 	if (str_comp(cmd, "exit") || !cmd)

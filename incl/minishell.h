@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/25 11:35:29 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 19:26:24 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_exec_data
 	t_list	*cmd;
 	char	*infile;
 	char	*outfile;
+	char	*dlmtr;
 	bool	limit;
 	bool	append;
 }	t_exec;
@@ -221,5 +222,7 @@ char	*ft_itoa(int n);
 
 /*----	  Help		----*/
 void	help(void);
+
+char	*ft_strjoin_v(char const *s1, char const *s2);
 
 #endif

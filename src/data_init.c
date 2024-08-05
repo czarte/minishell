@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 09:10:07 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:56:14 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	exec_data_re_init(t_data *data)
 	data->exec->outfile = NULL;
 	data->exec->append = false;
 	data->exec->limit = false;
+	data->exec->dlmtr = NULL;
 	return (0);
 }
 
