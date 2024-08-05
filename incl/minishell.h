@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 19:26:24 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:08:52 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # include <termcap.h>
 # include "executor.h"
 
+# define N_BUILTINS 8
 /**
  * Global variable for pid of currently running process
  */
@@ -200,6 +201,7 @@ void	count_cmds(t_data *data);
 bool	binary_is_in_list(char *name, char *path, t_data *data);
 int		count_slashes(const char *str);
 void	expand_last_exit_status(t_token_chain *current);
+void	cmd_space_trim(char *cmd);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
@@ -219,6 +221,7 @@ int		get_number_of_folders(char *path);
 int		fpl(char *path);
 int		check_exec_access(char *folder, struct dirent *dirent);
 char	*ft_itoa(int n);
+int		ft_atoi(const char *str);
 
 /*----	  Help		----*/
 void	help(void);

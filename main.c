@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:34:56 by smelicha          #+#    #+#             */
-/*   Updated: 2024/04/06 18:25:07 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:17:05 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	loop(data);
 	free_data(data);
-	return (0);
+	return (g_last_status);
 }

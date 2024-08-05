@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/04 18:05:12 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:53:15 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 
 	ermess = "minishell: output file permission denied: ";
 	printf("outfile: %s\n", pt->outfile);
+	printf("append: %d\n", pt->append);
 	if (pt->append)
 		pt->filefd[1] = open(pt->outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
 	else

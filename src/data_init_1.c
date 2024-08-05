@@ -20,7 +20,7 @@ void	null_builtins(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i != 8)
+	while (i != N_BUILTINS)
 	{
 		data->builtins[i] = NULL;
 		i++;
@@ -52,7 +52,7 @@ int	allocate_builtins(t_data *data)
 
 	i = 0;
 	j = 0;
-	while (i != 8)
+	while (i != N_BUILTINS)
 	{
 		data->builtins[i] = malloc(sizeof(char) * 8);
 		if (!data->builtins)
@@ -60,7 +60,7 @@ int	allocate_builtins(t_data *data)
 			perror("allocating builtin string:");
 			return (-1);
 		}
-		while (j != 8)
+		while (j != N_BUILTINS)
 		{
 			data->builtins[i][j] = '\0';
 			j++;

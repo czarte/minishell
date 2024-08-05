@@ -99,7 +99,7 @@ int	add_binary_abs_path_to_commands(t_token_chain *current, t_data *data)
 		perror("Binary abs path name allocation");
 		return (-1);
 	}
-	path = ft_memcpy((current->token + 1));
+	path = ft_memcpy((current->token));
 	if (!path)
 	{
 		perror("Binary abs path path allocation");

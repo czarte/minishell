@@ -52,6 +52,8 @@ int	is_binary_path(char *token)
 	{
 		if (token[0] == '.' && token[1] == '/')
 			return (1);
+		else if (token[0] == '/')
+			return (1);
 	}
 	return (0);
 }

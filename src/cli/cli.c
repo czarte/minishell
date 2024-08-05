@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/04 17:51:17 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:12:43 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,12 @@ char	*cli(t_data *data)
 	printf("STDOUT %d\n", STDIN_FILENO);
 	write(1, &"cli\n", 4);
 	printf("cli: %s\n", cmd);
-	if (str_comp(cmd, "exit") || !cmd)
-	{
-		free(cmd);
-		return (NULL);
-	}
+	// if (str_comp(cmd, "exit") || !cmd)
+	// {
+	// 	free(cmd);
+	// 	return (NULL);
+	// }
 	if (cmd)
-	{
 		add_history(cmd);
-	}
 	return (cmd);
 }
