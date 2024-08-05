@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/02 18:56:14 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:33:39 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	exec_data_init(t_data *data)
 	data->exec->outfile = NULL;
 	data->exec->append = false;
 	data->exec->limit = false;
+	data->exec->dlmtr = NULL;
 	return (0);
 }
 
@@ -67,6 +68,7 @@ int	exec_data_re_init(t_data *data)
  */
 int	data_init(t_data *data, char **envp)
 {
+	data->debug = false;
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;

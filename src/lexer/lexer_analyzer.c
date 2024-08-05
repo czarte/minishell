@@ -6,11 +6,35 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/04 17:59:42 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:52:32 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+
+void	set_redirections(t_data *data, t_token_chain *current)
+{
+	if (str_comp(current->type, "ri") && current->next)
+	{
+		type_token(current->next, "fp");
+		data->exec->infile = strdup(current->next->token);
+	}
+	if (str_comp(current->type, "rd") && current->next)
+	{
+		type_token(current->next, "dl");
+		data->exec->dlmtr = strdup(current->next->token);
+	}
+	if (str_comp(current->type, "ro") && current->next)
+	{
+		type_token(current->next, "fp");
+		data->exec->outfile = ft_memcpy(current->next->token);
+	}
+	if (str_comp(current->type, "ra") && current->next)
+	{
+		type_token(current->next, "fp");
+		data->exec->outfile = ft_memcpy(current->next->token);
+	}
+}
 
 /**
  * Work in progress, will analyze pipes between programs
@@ -22,90 +46,10 @@ int	analyze_redirections(t_data *data)
 	current = data->token_chain->next;
 	while (current)
 	{
-		if (str_comp(current->type, "ri") && current->next)
-		{
-			type_token(current->next, "fp");
-			data->exec->infile = strdup(current->next->token);
-		}
-		if (str_comp(current->type, "rd") && current->next)
-		{
-			type_token(current->next, "dl");
-			data->exec->dlmtr = strdup(current->next->token);
-		}
-		if (str_comp(current->type, "ro") && current->next)
-		{
-			type_token(current->next, "fp");
-			data->exec->outfile = ft_memcpy(current->next->token);
-		}
-		if (str_comp(current->type, "ra") && current->next)
-		{
-			type_token(current->next, "fp");
-			data->exec->outfile = ft_memcpy(current->next->token);
-		}
+		set_redirections(data, current);
 		current = current->next;
 	}
 	return (0);
-}
-
-char	*get_env_check_temp(char *name, t_data *data)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (data->local_temp_envp && data->local_temp_envp[i])
-	{
-		while (data->local_temp_envp[i][j] == name[k])
-		{
-			j++;
-			k++;
-		}
-		if (data->local_temp_envp[i][j] == '=')
-			return (data->local_temp_envp[i] + j + 1);
-		j = 0;
-		k = 0;
-		i++;
-	}
-	return (NULL);
-}
-
-char	*get_env_check_envp(char *name, t_data *data)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	j = 0;
-	k = 0;
-	while (data->envp && data->envp[i])
-	{
-		while (data->envp[i][j] == name[k])
-		{
-			j++;
-			k++;
-		}
-		if (data->envp[i][j] == '=')
-			return (data->envp[i] + j + 1);
-		j = 0;
-		k = 0;
-		i++;
-	}
-	return (NULL);
-}
-
-char	*b_getenv(char *name, t_data *data)
-{
-	char	*res;
-
-	res = NULL;
-	res = get_env_check_envp(name, data);
-	if (!res)
-		res = get_env_check_temp(name, data);
-	return (res);
 }
 
 /**

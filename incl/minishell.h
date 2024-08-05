@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 17:08:52 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:03:09 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <termcap.h>
-# include "executor.h"
 
 # define N_BUILTINS 8
 /**
@@ -61,6 +60,13 @@ typedef struct s_cmd_list
 	char		*full_path;
 	t_cmd_list	*next;
 }	t_cmd_list;
+
+typedef struct s_list
+{
+	void			**content;
+	struct s_list	*next;
+	struct s_list	*prev;
+}	t_list;
 
 /*
  type:
@@ -121,6 +127,7 @@ typedef struct s_fill_t_c_data
  */
 typedef struct s_data
 {
+	bool				debug;
 	t_cmd_list			*cmd_list;
 	t_token_chain		*token_chain;
 	t_cmd_list			*last_c_l_node;
@@ -133,6 +140,11 @@ typedef struct s_data
 	int					n_cmd;
 }	t_data;
 
+typedef struct s_token_bag
+{
+	char	quote;
+	bool	first_run;
+} t_token_bag;
 
 int    loop(t_data *data);
 
@@ -173,6 +185,8 @@ int		num_of_vars(char **envp);
 int		copy_add_envp(char **new_envp, char **envp, char *new_var);
 void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
+char	*get_env_check_temp(char *name, t_data *data);
+char	*get_env_check_envp(char *name, t_data *data);
 
 /*----    CLI    ----*/
 char	*cli(t_data *data);
@@ -202,6 +216,13 @@ bool	binary_is_in_list(char *name, char *path, t_data *data);
 int		count_slashes(const char *str);
 void	expand_last_exit_status(t_token_chain *current);
 void	cmd_space_trim(char *cmd);
+int		no_space_tokens(char *cmd);
+int		check_for_no_space_token(char *cmd);
+int		number_of_tokens(char *cmd, t_data *data);
+void	count_number_of_tokens(char **cmd, int *n, char *quote);
+void	do_lesser(t_fill_t_c_data *ftcdata);
+void	do_greater(t_fill_t_c_data *ftcdata);
+void	pipe_less_gt(t_fill_t_c_data *ftcdata);
 
 /*----    Executor    ----*/
 int		executor(t_data *data);
@@ -222,6 +243,9 @@ int		fpl(char *path);
 int		check_exec_access(char *folder, struct dirent *dirent);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *str);
+
+/*---- Debug utils ----*/
+void	print_exec_data(t_exec *exec);
 
 /*----	  Help		----*/
 void	help(void);

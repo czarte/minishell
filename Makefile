@@ -11,7 +11,8 @@ SRC = main.c src/loop.c src/data_init.c src/parser/exec_folders.c src/parser/get
 	src/lexer/lexer_fill_token_chain.c src/utils/lexer_token_type_utils.c src/utils/lexer_analyzer_utils.c \
 	src/utils/lexer_analyzer_utils_1.c src/utils/exec_folders_utils.c src/data_free.c src/data_free_1.c \
 	src/data_init_1.c src/utils/file_utils.c src/utils/ft_itoa.c src/utils/lexer_analyzer_utils_2.c \
-	src/utils/ft_atoi.c
+	src/utils/ft_atoi.c src/utils/debug_utils.c src/lexer/token_space.c src/lexer/token_counter.c \
+	src/lexer/fill_helpers.c src/executor/execute_helpers.c
 
 TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
 	src/builtins/builtin_cd.c src/cli/cli.c src/lexer/lexer.c src/utils/string_utils.c \
@@ -27,7 +28,7 @@ TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
 # compatible with valgrind 3.18.1
-FLAGS = -Wall -Wextra -Werror -gdwarf-4 #-fsanitize=address -static-libsan
+FLAGS = -Wall -Wextra -Werror -gdwarf-4 -fsanitize=address -static-libsan
 LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)

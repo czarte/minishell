@@ -116,8 +116,6 @@ int	free_data(t_data *data)
 		free_old_envp(data->envp);
 	if (data->local_temp_envp)
 		free_old_envp(data->local_temp_envp);
-//	if (data->exec)
-//		free_exec(data);
 	free(data->token_chain);
 	free(data);
 	return (0);

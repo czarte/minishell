@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
 /*   Updated: 2024/08/05 14:12:43 by smelicha         ###   ########.fr       */
@@ -75,18 +75,21 @@ char	*cli(t_data *data)
 {
 	char	*cmd;
 
-//	rl_catch_signals = 0;
-//	rl_change_environment = 0;
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
 	create_prompt(data);
 	cmd = readline(data->prompt);
-	printf("STDOUT %d\n", STDIN_FILENO);
-	write(1, &"cli\n", 4);
-	printf("cli: %s\n", cmd);
-	// if (str_comp(cmd, "exit") || !cmd)
-	// {
-	// 	free(cmd);
-	// 	return (NULL);
-	// }
+	if (data->debug)
+	{
+		printf("STDOUT %d\n", STDIN_FILENO);
+		write(1, &"cli\n", 4);
+		printf("cli: %s\n", cmd);
+	}
+	if (str_comp(cmd, "exit") || !cmd)
+	{
+		free(cmd);
+		return (NULL);
+	}
 	if (cmd)
 		add_history(cmd);
 	return (cmd);

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 16:53:15 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:40:34 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../incl/minishell.h"
-# include "../../incl/executor.h"
+#include "../../incl/minishell.h"
+#include "../../incl/executor.h"
 
 int	init_in_file(t_executor *pt)
 {
@@ -22,9 +22,11 @@ int	init_in_file(t_executor *pt)
 	pt->heredoc = false;
 	ermess = "minishell: input file permission denied: ";
 	file1 = open_infile(pt, pt->infile);
-	printf("file1: %s\n", file1);
+	if (pt->deubg)
+		printf("file1: %s\n", file1);
 	pt->filefd[0] = open(file1, O_RDONLY);
-	printf("infile fd: %d\n", pt->filefd[0]);
+	if (pt->deubg)
+		printf("infile fd: %d\n", pt->filefd[0]);
 	if (pt->filefd[0] == -1)
 	{
 		mes = ft_strjoin(ermess, pt->infile);
@@ -32,7 +34,6 @@ int	init_in_file(t_executor *pt)
 		free(mes);
 	}
 	dup2(pt->filefd[0], STDIN_FILENO);
-	// close(pt->filefd[0]);
 	return (1);
 }
 
@@ -42,8 +43,11 @@ int	init_out_file(t_executor *pt, int pi[2])
 	char	*ermess;
 
 	ermess = "minishell: output file permission denied: ";
-	printf("outfile: %s\n", pt->outfile);
-	printf("append: %d\n", pt->append);
+	if (pt->deubg)
+	{
+		printf("outfile: %s\n", pt->outfile);
+		printf("append: %d\n", pt->append);
+	}
 	if (pt->append)
 		pt->filefd[1] = open(pt->outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
 	else
@@ -78,4 +82,19 @@ int	init_hd_file(char *file, t_executor *pt)
 		exit(127);
 	}
 	return (fd);
+}
+
+int	check_heredoc(t_executor *pt, int pi[2])
+{
+	int	fd_m;
+
+	if (pt->filefd[0])
+	{
+		close(pi[0]);
+		printf("pt->filefd[0]: %d\n", pt->filefd[0]);
+		fd_m = pt->filefd[0];
+	}
+	else
+		fd_m = pi[0];
+	return (fd_m);
 }

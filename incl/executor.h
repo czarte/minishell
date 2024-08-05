@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/04 16:18:47 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:13:35 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,17 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef struct s_list
-{
-	void			**content;
-	struct s_list	*next;
-	struct s_list	*prev;
-}	t_list;
-
 typedef struct s_executor
 {
-	int		*fd;
+	bool	deubg;
 	bool	heredoc;
 	bool	heredoc_rl;
 	bool	append;
+	int		*fd;
 	int		c_pi;
 	int		filefd[2];
 	int		it;
 	int		end;
-	int		argc;
 	int		fsucc;
 	int		psucc;
 	int		status;
@@ -67,7 +60,14 @@ typedef struct s_bag_struct
 
 typedef struct s_data t_data;
 
-t_executor	ft_init_exec(int argc, char **argv, t_data *data);
+typedef struct s_exec_bag
+{
+	t_token_chain	*cur;
+	bool			run;
+	int				e_c;
+} t_exec_bag;
+
+t_executor	ft_init_exec(t_data *data);
 void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
 int			ft_exec(t_executor *pt, int pi[2], int fd_m);
 char		**parse_argv(char *arg, t_executor *pt);
@@ -77,12 +77,16 @@ int			check_path_and_files(t_executor *pt);
 void		print_help(void);
 void		exit_error(t_executor *pt, int exitcode);
 void		free_alloc(t_executor *pt);
+int			execute_builtin(t_token_chain *current, t_data *data);
+int			command_arg_count(t_token_chain *tc, t_data *data);
+void		init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt);
+void		assign_pt(t_data *data, t_executor *pt);
 
 /* utils */
 int			wait_subprocess(t_executor *pt, int n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		ft_lstclear(t_list **lst, void (*del)(void**));
-void		ft_lstdelone(t_list *lst, void (*del)(void**));
+void		ft_lstclear(t_list **lst, void (*del)(void**, t_executor*), t_executor *pt);
+void		ft_lstdelone(t_list *lst, void (*del)(void**, t_executor*), t_executor *pt);
 void		ft_lstadd_back(t_list **lst, t_list *nlist);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
@@ -92,5 +96,6 @@ void		check_commands(t_executor *pt);
 int			init_in_file(t_executor *pt);
 int			init_out_file(t_executor *pt, int pi[2]);
 int			init_hd_file(char *file, t_executor *pt);
+int			check_heredoc(t_executor *pt, int pi[2]);
 
 #endif // !EXECUTOR_H

@@ -6,15 +6,16 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 16:25:06 by smelicha          #+#    #+#             */
-/*   Updated: 2024/08/05 16:13:43 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:04:13 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-void	fill_token_chain_if_quote(t_fill_t_c_data *ftcdata)
+void	fill_token_chain_if_quote(t_fill_t_c_data *ftcdata, t_data *data)
 {
-	printf("fill_token_chain_if_quote\n");
+	if (data->debug)
+		printf("fill_token_chain_if_quote\n");
 	ftcdata->quote = *ftcdata->cmd;
 	ftcdata->cmd++;
 	while (*ftcdata->cmd && *ftcdata->cmd != ftcdata->quote)
@@ -25,14 +26,18 @@ void	fill_token_chain_if_quote(t_fill_t_c_data *ftcdata)
 	}
 	ftcdata->cmd++;
 }
+
 /**
  * TODO add other delimiting chars like < > |
  */
-void	fill_token_chain_no_quote(t_fill_t_c_data *ftcdata)
+void	fill_token_chain_no_quote(t_fill_t_c_data *ftcdata, t_data *data)
 {
-	printf("fill_token_chain_no_quote\n");
-	while (*ftcdata->cmd && *ftcdata->cmd != ' '
-		&& !(*ftcdata->cmd == '\"' || *ftcdata->cmd == '\'' || *ftcdata->cmd == '|' || *ftcdata->cmd == '>' || *ftcdata->cmd == '<'))
+	if (data->debug)
+		printf("fill_token_chain_no_quote\n");
+	while (*ftcdata->cmd && *ftcdata->cmd != ' ' && \
+		!(*ftcdata->cmd == '\"' || *ftcdata->cmd == '\'' || \
+			*ftcdata->cmd == '|' || *ftcdata->cmd == '>' || \
+			*ftcdata->cmd == '<'))
 	{
 		*ftcdata->token = *ftcdata->cmd;
 		ftcdata->token++;
@@ -40,31 +45,17 @@ void	fill_token_chain_no_quote(t_fill_t_c_data *ftcdata)
 	}
 }
 
-// void	fill_pipe_redirect_token(t_fill_t_c_data *ftcdata)
-// {
-
-// }
-
-void	fill_token_chain_no_space(t_fill_t_c_data *ftcdata)
+void	fill_token_chain_no_space(t_fill_t_c_data *ftcdata, t_data *data)
 {
-	printf("fill_token_chain_no_space\n");
+	if (data->debug)
+		printf("fill_token_chain_no_space\n");
 	if (*ftcdata->cmd == '<')
 	{
-		while (*ftcdata->cmd == '<')
-		{
-			*ftcdata->token = *ftcdata->cmd;
-			ftcdata->cmd++;
-			ftcdata->token++;
-		}
+		do_lesser(ftcdata);
 	}
 	else if (*ftcdata->cmd == '>')
 	{
-		while (*ftcdata->cmd == '>')
-		{
-			*ftcdata->token = *ftcdata->cmd;
-			ftcdata->cmd++;
-			ftcdata->token++;
-		}
+		do_greater(ftcdata);
 	}
 	else if (*ftcdata->cmd == '|')
 	{
@@ -74,24 +65,21 @@ void	fill_token_chain_no_space(t_fill_t_c_data *ftcdata)
 	}
 	else
 	{
-		while (*ftcdata->cmd != '|' && *ftcdata->cmd != '<' && *ftcdata->cmd != '>')
-		{
-			*ftcdata->token = *ftcdata->cmd;
-			ftcdata->token++;
-			ftcdata->cmd++;
-		}
+		pipe_less_gt(ftcdata);
 	}
 }
 
-void	fill_token_chain_data_manipulation(t_fill_t_c_data *ftcdata)
+void	fill_token_chain_data_manipulation(t_fill_t_c_data *ftcdata, \
+	t_data *data)
 {
 	ftcdata->token = ftcdata->current->token;
 	if (*ftcdata->cmd == '\"' || *ftcdata->cmd == '\'')
-		fill_token_chain_if_quote(ftcdata);
-	else if (*ftcdata->cmd == '|' || *ftcdata->cmd == '>' || *ftcdata->cmd == '<')
-		fill_token_chain_no_space(ftcdata);
+		fill_token_chain_if_quote(ftcdata, data);
+	else if (*ftcdata->cmd == '|' || *ftcdata->cmd == '>' || \
+		*ftcdata->cmd == '<')
+		fill_token_chain_no_space(ftcdata, data);
 	else if (*ftcdata->cmd != '\"' || *ftcdata->cmd != '\'')
-		fill_token_chain_no_quote(ftcdata);
+		fill_token_chain_no_quote(ftcdata, data);
 	*ftcdata->token = '\0';
 	while (*ftcdata->cmd && *ftcdata->cmd == ' ')
 		ftcdata->cmd++;
@@ -120,7 +108,7 @@ int	fill_token_chain(char *command, t_data *data)
 			perror("token allocation:");
 			return (-1);
 		}
-		fill_token_chain_data_manipulation(&ftcdata);
+		fill_token_chain_data_manipulation(&ftcdata, data);
 	}
 	return (0);
 }

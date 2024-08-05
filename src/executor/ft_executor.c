@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/04 17:48:20 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/05 20:18:04 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 {
-	char 	**argv;
+	char	**argv;
 	int		exit_code;
 
 	if (pt->heredoc)
@@ -44,7 +44,7 @@ int	create_heredoc(t_executor *pt)
 	return (fd);
 }
 
-int send_heredoc(t_executor *pt)
+int	send_heredoc(t_executor *pt)
 {
 	int		file;
 	char	*line;
