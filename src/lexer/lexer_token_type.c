@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 13:20:57 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:42:38 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	type_token_chain(t_data *data)
 		type_token_logic(current, data);
 		current = current->next;
 	}
-	print_token_chain(data);
+    if (data->debug)
+	    print_token_chain(data);
 	return (prog_arg_fix(data));
 }
