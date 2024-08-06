@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 13:42:38 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:08:21 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 t_token_chain	*prog_arg_fix_logic(t_token_chain *current, char *pr_ar)
 {
-	if ((str_comp(current->type, "pr") || str_comp(current->type, "bu"))
-		&& !*pr_ar)
+	if ((str_comp(current->type, "pr") || str_comp(current->type, "bu")
+			|| str_comp(current->type, "bp")) && !*pr_ar)
 	{
 		*pr_ar = 1;
 		current = current->next;
 	}
 	while (current && *pr_ar && (str_comp(current->type, "pr")
-			|| str_comp(current->type, "bu")))
+			|| str_comp(current->type, "bu") || str_comp(current->type, "bp")))
 	{
 		type_token(current, "ar");
 		current = current->next;
 	}
 	if (current && *pr_ar && !(str_comp(current->type, "pr")
-			|| str_comp(current->type, "bu")))
+			|| str_comp(current->type, "bu") || str_comp(current->type, "bp")))
 		*pr_ar = 0;
 	if (current)
 		current = current->next;

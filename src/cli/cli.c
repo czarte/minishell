@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cli.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42heilbronn.d>  +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 14:12:43 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:11:35 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*cli(t_data *data)
 		free(cmd);
 		return (NULL);
 	}
-	if (cmd)
+	if (*cmd)
 		add_history(cmd);
 	return (cmd);
 }

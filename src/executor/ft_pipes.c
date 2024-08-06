@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 20:20:23 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:15:53 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int	ft_loop(t_executor *pt, int fd_m)
 		pt->fsucc = init_out_file(pt, pi);
 	exec_loop(pt, fd_m, pi, &cmi);
 	while (n < cmi)
+	{
 		exit_code = wait_subprocess(pt, n++);
+		g_pid = 0;
+	}
 	return (exit_code);
 }
