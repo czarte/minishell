@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/08/05 22:02:49 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:27:15 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	cmd_space_trim(char *cmd)
 
 	i = 0;
 	last_space_pos = 0;
-	if (!cmd)
+	if (!cmd || !*cmd)
 		return ;
 	while (cmd[i])
 	{
@@ -136,7 +136,8 @@ int	lexer(char *cmd, t_data *data)
 	exec_data_re_init(data);
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
-	type_token_chain(data);
+	if (type_token_chain(data) < 0)
+		return (-1);
 	if (data->debug)
 		print_token_chain(data);
 	token_chain_analyzer(data);

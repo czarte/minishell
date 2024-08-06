@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 19:07:23 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:30:09 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void	ft_exit(char *cmd)
 {
+	if (!cmd)
+		return ;
 	cmd_space_trim(cmd);
 	while (*cmd)
 	{
@@ -75,8 +77,8 @@ int	loop(t_data *data)
 			free(cmd);
 			return (clear_history(), g_last_status);
 		}
-		lexer(cmd, data);
-		g_last_status = executor(data);
+		if (lexer(cmd, data) == 0)
+			g_last_status = executor(data);
 		free_token_chain(data);
 	}
 }

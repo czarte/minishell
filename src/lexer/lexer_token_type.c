@@ -6,18 +6,40 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/22 13:47:42 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:20:57 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+
+t_token_chain	*prog_arg_fix_logic(t_token_chain *current, char *pr_ar)
+{
+	if ((str_comp(current->type, "pr") || str_comp(current->type, "bu"))
+		&& !*pr_ar)
+	{
+		*pr_ar = 1;
+		current = current->next;
+	}
+	while (current && *pr_ar && (str_comp(current->type, "pr")
+			|| str_comp(current->type, "bu")))
+	{
+		type_token(current, "ar");
+		current = current->next;
+	}
+	if (current && *pr_ar && !(str_comp(current->type, "pr")
+			|| str_comp(current->type, "bu")))
+		*pr_ar = 0;
+	if (current)
+		current = current->next;
+	return (current);
+}
 
 /**
  * Takes care of case when the argument of program is the name of another
  * program, all tokens between program/builtin and pipe/redirections that
  * are also name of program or builtin are retyped to argument
  */
-void	prog_arg_fix(t_data *data)
+int	prog_arg_fix(t_data *data)
 {
 	t_token_chain	*current;
 	char			pr_ar;
@@ -26,24 +48,14 @@ void	prog_arg_fix(t_data *data)
 	pr_ar = 0;
 	while (current)
 	{
-		if ((str_comp(current->type, "pr") || str_comp(current->type, "bu"))
-			&& !pr_ar)
+		if (!pr_ar && str_comp(current->type, "ar"))
 		{
-			pr_ar = 1;
-			current = current->next;
+			printf("%s: command not found!\n", current->token);
+			return (-1);
 		}
-		while (current && pr_ar && (str_comp(current->type, "pr")
-				|| str_comp(current->type, "bu")))
-		{
-			type_token(current, "ar");
-			current = current->next;
-		}
-		if (current && pr_ar && !(str_comp(current->type, "pr")
-				|| str_comp(current->type, "bu")))
-			pr_ar = 0;
-		if (current)
-			current = current->next;
+		current = prog_arg_fix_logic(current, &pr_ar);
 	}
+	return (0);
 }
 
 int	is_binary_path(char *token)
@@ -89,7 +101,7 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 /**
  * Routine to type the token chain linked list
  */
-void	type_token_chain(t_data *data)
+int	type_token_chain(t_data *data)
 {
 	t_token_chain	*current;
 
@@ -99,5 +111,6 @@ void	type_token_chain(t_data *data)
 		type_token_logic(current, data);
 		current = current->next;
 	}
-	prog_arg_fix(data);
+	print_token_chain(data);
+	return (prog_arg_fix(data));
 }

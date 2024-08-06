@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 22:03:09 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 13:21:31 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void	signals_init(void);
 int		lexer(char *cmd, t_data *data);
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
-void	type_token_chain(t_data *data);
+int		type_token_chain(t_data *data);
 int		token_chain_analyzer(t_data *data);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
