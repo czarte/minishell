@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:05:30 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 17:06:07 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:07:52 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	is_builtin(char *token, t_data *data)
 
 int	is_env_var(char *token)
 {
-	if (token[0] == '$' && token[1] != '?')
+	if ((token[0] == '$' && token[1] != '?') && !ft_contains_char(token, ' '))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 14:42:18 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:28:20 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ int	token_chain_analyzer(t_data *data)
 {
 	if (check_for_env_vars(data))
 		return (-1);
-	check_for_binary_paths(data);
+	if (check_for_binary_paths(data) < 0)
+	{
+		printf("Error from checking binary paths\n");
+		return (-1);
+	}
 	count_cmds(data);
 	return (0);
 }

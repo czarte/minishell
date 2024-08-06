@@ -6,26 +6,36 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:59:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/20 20:36:23 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:41:31 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 
-int	add_binary_finish(char *name, char *path, t_token_chain *current,
-		t_data *data)
+bool	add_binary_executabilty(char *name, char *path, t_token_chain *current,
+			t_data *data)
 {
 	if (!access(path, X_OK))
 	{
 		if (!binary_is_in_list(name, path, data))
 			add_cmd_list_node(name, data->work_dir, data);
 		type_token(current, "pr");
+		return (false);
 	}
 	else
 	{
 		type_token(current, "ar");
-		printf("\n%s: Nonexistent or not executable!\n\n", name);
+		printf("%s: Nonexistent or not executable!\n", name);
+		return (true);
 	}
+}
+
+int	add_binary_finish(char *name, char *path, t_token_chain *current,
+		t_data *data)
+{
+	bool	invalid;
+
+	invalid = add_binary_executabilty(name, path, current, data);
 	free(current->token);
 	current->token = ft_memcpy(name);
 	if (!current->token)
@@ -37,7 +47,10 @@ int	add_binary_finish(char *name, char *path, t_token_chain *current,
 	name = NULL;
 	free(path);
 	path = NULL;
-	return (0);
+	if (invalid)
+		return (-1);
+	else
+		return (0);
 }
 
 /**
@@ -61,28 +74,6 @@ int	add_binary_cwd_path_to_commands(t_token_chain *current, t_data *data)
 		return (-1);
 	}
 	return (add_binary_finish(name, path, current, data));
-}
-
-/**
- * Gives back position of the last slah in the given string
- */
-int	last_slash(const char *str)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		if (*str == '/')
-			j = i;
-		str++;
-		i++;
-	}
-	return (j);
 }
 
 /**
@@ -117,13 +108,13 @@ int	check_for_binary_paths(t_data *data)
 	{
 		if (str_comp(current->type, "bp") && count_slashes(current->token) == 1)
 		{
-			if (add_binary_cwd_path_to_commands(current, data))
+			if (add_binary_cwd_path_to_commands(current, data) < 0)
 				return (-1);
 		}
 		else if (str_comp(current->type, "bp")
 			&& count_slashes(current->token) > 1)
 		{
-			if (add_binary_abs_path_to_commands(current, data))
+			if (add_binary_abs_path_to_commands(current, data) < 0)
 				return (-1);
 		}
 		current = current->next;

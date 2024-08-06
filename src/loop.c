@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 13:30:09 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:34:21 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,28 @@ void	init_signals(void)
 
 int	loop(t_data *data)
 {
-	char				*cmd;
+	char			*cmd;
 
 	if (exec_data_init(data) < 0)
 		return (-1);
 	init_signals();
-	if (data->debug)
-		write(1, &"cliup\n", 6);
 	while (true)
 	{
 		cmd = cli(data);
-		if (data->debug)
-			printf("loop: %s\n", cmd);
 		if (is_exit_cmd(cmd))
 		{
 			ft_exit(cmd);
 			free(cmd);
 			return (clear_history(), g_last_status);
 		}
+		if (!*cmd)
+		{
+			free(cmd);
+			continue ;
+		}
 		if (lexer(cmd, data) == 0)
 			g_last_status = executor(data);
+		free(cmd);
 		free_token_chain(data);
 	}
 }

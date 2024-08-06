@@ -6,11 +6,33 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:14:58 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 14:22:18 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:37:35 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+
+/**
+ * Gives back position of the last slah in the given string
+ */
+int	last_slash(const char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!str)
+		return (0);
+	while (*str)
+	{
+		if (*str == '/')
+			j = i;
+		str++;
+		i++;
+	}
+	return (j);
+}
 
 /**
  * Modified version of strjoin for joining string with path, automatically

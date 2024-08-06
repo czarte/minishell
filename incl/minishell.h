@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:17:39 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:37:13 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,7 @@ int		fpl(char *path);
 int		check_exec_access(char *folder, struct dirent *dirent);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *str);
+int		last_slash(const char *str);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
