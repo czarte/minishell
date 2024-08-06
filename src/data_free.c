@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:11 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/25 12:03:31 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:19:54 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	free_data(t_data *data)
 		free_old_envp(data->envp);
 	if (data->local_temp_envp)
 		free_old_envp(data->local_temp_envp);
+	if (data->exec)
+		free(data->exec);
 	free(data->token_chain);
 	free(data);
 	return (0);

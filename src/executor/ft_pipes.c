@@ -49,7 +49,7 @@ t_executor	ft_init_exec(t_data *data)
 	if (pt < 0)
 		perror("unable to allocate t_exec");
 	pt->c_pi = count_pipes(data) + 1;
-	pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
+	pt->pid = (int *)malloc((pt->c_pi) * sizeof(int));
 	pt->deubg = false;
 	pt->deubg = false;
 	pt->comm = NULL;
