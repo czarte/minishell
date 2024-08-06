@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/05 21:52:32 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:42:18 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	token_chain_analyzer(t_data *data)
 {
 	if (check_for_env_vars(data))
 		return (-1);
-	analyze_redirections(data);
 	check_for_binary_paths(data);
 	count_cmds(data);
 	return (0);

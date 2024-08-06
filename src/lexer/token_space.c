@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 21:08:34 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:33:49 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	no_space_tokens(char *cmd)
 		if (*cmd && not_sp_pi_lsgt_after(cmd))
 			n++;
 		if (not_sp_pi_lsgt(cmd))
-			cmd += 2;
+			n -= 2;
 		cmd++;
 		tb.first_run = false;
 	}
