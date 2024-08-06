@@ -48,8 +48,8 @@
 /**
  * Global variable for pid of currently running process
  */
-extern pid_t	g_pid;
-extern int		g_last_status;
+extern pid_t					g_pid;
+extern int						g_last_status;
 
 typedef struct s_cmd_list		t_cmd_list;
 typedef struct s_token_chain	t_token_chain;
@@ -144,9 +144,9 @@ typedef struct s_token_bag
 {
 	char	quote;
 	bool	first_run;
-} t_token_bag;
+}	t_token_bag;
 
-int    loop(t_data *data);
+int		loop(t_data *data);
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);

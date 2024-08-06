@@ -58,14 +58,14 @@ typedef struct s_bag_struct
 	char	*combined;
 }	t_bagp;
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_exec_bag
 {
 	t_token_chain	*cur;
 	bool			run;
 	int				e_c;
-} t_exec_bag;
+}	t_exec_bag;
 
 t_executor	ft_init_exec(t_data *data);
 void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
@@ -85,8 +85,10 @@ void		assign_pt(t_data *data, t_executor *pt);
 /* utils */
 int			wait_subprocess(t_executor *pt, int n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		ft_lstclear(t_list **lst, void (*del)(void**, t_executor*), t_executor *pt);
-void		ft_lstdelone(t_list *lst, void (*del)(void**, t_executor*), t_executor *pt);
+void		ft_lstclear(t_list **lst, void (*del)(void**, t_executor*), \
+	t_executor *pt);
+void		ft_lstdelone(t_list *lst, void (*del)(void**, t_executor*), \
+	t_executor *pt);
 void		ft_lstadd_back(t_list **lst, t_list *nlist);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
