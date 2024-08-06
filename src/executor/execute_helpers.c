@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_builtins.c                                 :+:      :+:    :+:   */
+/*   execute_helpers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 20:14:24 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:33:29 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void	init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt)
 {
 	eb->run = false;
-	eb->e_c = 0;
 	eb->cur = NULL;
 	eb->cur = data->token_chain->next;
 	assign_pt(data, pt);

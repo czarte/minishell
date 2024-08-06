@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 19:58:05 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:40:50 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,23 +109,28 @@ void	iterate_commands(t_exec_bag *eb, t_data *data)
 int	executor(t_data *data)
 {
 	t_exec_bag	*eb;
-	t_executor	pt;
+	t_executor	*pt;
 	int			fd_m;
+	int			e_c;
 
+	e_c = 0;
 	if (exec_data_preparation(data) < 0)
 		return (-1);
 	eb = malloc(sizeof(t_exec_bag));
 	if (eb == NULL)
 		perror("unable allocate memory");
 	pt = ft_init_exec(data);
-	init_exec_bag(eb, data, &pt);
+	init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
 	iterate_commands(eb, data);
-	pt.comm = data->exec->cmd;
-	pt.append = data->exec->append;
+	pt->comm = data->exec->cmd;
+	pt->append = data->exec->append;
 	if (eb->run)
-		eb->e_c = ft_loop(&pt, fd_m);
-	free_alloc(&pt);
+		e_c = ft_loop(pt, fd_m);
+	free_alloc(pt);
+	data->exec->cmd = NULL;
 	data->exec->infile = NULL;
-	return (eb->e_c);
+	free(eb);
+	free(pt);
+	return (e_c);
 }

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 14:15:53 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:40:20 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	count_pipes(t_data *data)
 	return (i);
 }
 
-t_executor	ft_init_exec(t_data *data)
+t_executor	*ft_init_exec(t_data *data)
 {
 	t_executor	*pt;
 
@@ -66,7 +66,7 @@ t_executor	ft_init_exec(t_data *data)
 	pt->dlmtr = NULL;
 	pt->filefd[0] = 0;
 	pt->filefd[1] = 0;
-	return (*pt);
+	return (pt);
 }
 
 bool	exec_loop(t_executor *pt, int fd_m, int pi[2], int *cmi)

@@ -961,3 +961,26 @@
    fun:loop
    fun:main
 }
+{
+   add_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   readline_initialization
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 14:43:23 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:18:26 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 {
 	if (is_builtin(current->token, data))
 		type_token(current, "bu");
-	else if (get_cmd_path(current->token, data))
+	else if (check_cmd_path_exists(current->token, data))
 		type_token(current, "pr");
 	else if (str_comp(current->token, "|"))
 		type_token(current, "pi");

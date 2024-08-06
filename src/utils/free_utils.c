@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:13:17 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 19:42:16 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:36:46 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_free_content(char **content, t_executor *pt)
 		free(content[i]);
 		i++;
 	}
+	free(content);
 }
 
 int	check_path_and_files(t_executor *pt)
@@ -45,6 +46,8 @@ void	exit_error(t_executor *pt, int exitcode)
 
 void	free_alloc(t_executor *pt)
 {
+	while (pt->comm->prev)
+		pt->comm = pt->comm->prev;
 	if (pt->deubg)
 		check_commands(pt);
 	if (pt->infile)
@@ -52,5 +55,6 @@ void	free_alloc(t_executor *pt)
 	if (pt->outfile)
 		free(pt->outfile);
 	ft_lstclear(&pt->comm, (void *)(ft_free_content), pt);
+	free(pt->comm);
 	pt->comm = NULL;
 }

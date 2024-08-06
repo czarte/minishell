@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 14:43:04 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:17:39 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int		exec_data_re_init(t_data *data);
 
 /*----    Command functions    ----*/
 char	*get_cmd_path(const char *cmd, t_data *data);
+bool	check_cmd_path_exists(const char *cmd, t_data *data);
 int		add_cmd_list_node(char *name, char *path, t_data *data);
 
 /*----    Builtin commands functions    ----*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 13:40:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:43:14 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	print_token_chain(t_data *data)
 	current = data->token_chain->next;
 	while (current)
 	{
-	    if (data->debug)
-		    printf("token: %s\ttype: %s\n", current->token, current->type);
+		if (data->debug)
+			printf("token: %s\ttype: %s\n", current->token, current->type);
 		current = current->next;
 	}
 	printf("\n");
