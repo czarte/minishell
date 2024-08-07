@@ -68,8 +68,6 @@ char	*b_getenv(char *name, t_data *data)
 
 	res = NULL;
 	res = get_env_check_envp(name, data);
-	if (!res)
-		res = get_env_check_temp(name, data);
 	return (res);
 }
 

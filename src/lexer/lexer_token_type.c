@@ -16,19 +16,13 @@ t_token_chain	*prog_arg_fix_logic(t_token_chain *current, char *pr_ar)
 {
 	if ((str_comp(current->type, "pr") || str_comp(current->type, "bu")
 			|| str_comp(current->type, "bp")) && !*pr_ar)
-	{
 		*pr_ar = 1;
-		current = current->next;
-	}
-	while (current && *pr_ar && (str_comp(current->type, "pr")
-			|| str_comp(current->type, "bu") || str_comp(current->type, "bp")))
-	{
-		type_token(current, "ar");
-		current = current->next;
-	}
-	if (current && *pr_ar && !(str_comp(current->type, "pr")
-			|| str_comp(current->type, "bu") || str_comp(current->type, "bp")))
+	else if (current && *pr_ar && (str_comp(current->type, "pi")))
 		*pr_ar = 0;
+	else if (current && *pr_ar && (str_comp(current->type, "pr")
+			|| str_comp(current->type, "bu") || str_comp(current->type, "bp")
+			|| str_comp(current->type, "vd")))
+		type_token(current, "ar");
 	if (current)
 		current = current->next;
 	return (current);
@@ -51,6 +45,7 @@ int	prog_arg_fix(t_data *data)
 		if (!pr_ar && str_comp(current->type, "ar"))
 		{
 			printf("%s: command not found!\n", current->token);
+			g_last_status = 127;
 			return (-1);
 		}
 		current = prog_arg_fix_logic(current, &pr_ar);
@@ -104,15 +99,18 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 int	type_token_chain(t_data *data)
 {
 	t_token_chain	*current;
+	int				paf_ret;
 
+	paf_ret = 0;
 	current = data->token_chain->next;
 	while (current)
 	{
 		type_token_logic(current, data);
 		current = current->next;
 	}
-	if (data->debug)
-		print_token_chain(data);
 	analyze_redirections(data);
-	return (prog_arg_fix(data));
+	print_token_chain(data);
+	paf_ret = prog_arg_fix(data);
+	print_token_chain(data);
+	return (paf_ret);
 }

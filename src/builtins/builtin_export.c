@@ -34,26 +34,6 @@ int	export_from_token(t_token_chain *current, t_data *data)
 	return (0);
 }
 
-/**
- * Debug function
- */
-void	print_envp(char **envp)
-{
-	int	i;
-
-	i = 0;
-	if (!envp)
-	{
-		printf("NULL\n");
-		return ;
-	}
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-}
-
 void	no_option_export(char **envp)
 {
 	int		i;
@@ -82,6 +62,19 @@ void	no_option_export(char **envp)
 	}
 }
 
+bool	is_path(char *str)
+{
+	if (*str == 'P')
+		str++;
+	if (*str == 'A')
+		str++;
+	if (*str == 'T')
+		str++;
+	if (*str == 'H')
+		return (true);
+	return (false);
+}
+
 /**
  * note: export() is reserved
  */
@@ -106,6 +99,8 @@ int	b_export(t_token_chain *current, t_data *data)
 	}
 	if (!current->next)
 		no_option_export(data->envp);
+	else if (current->next && is_path(current->next->token))
+		get_cmd_list(data);
 	g_last_status = 0;
 	return (0);
 }

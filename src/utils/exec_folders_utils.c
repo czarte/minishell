@@ -71,3 +71,15 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 	free(path_to_check);
 	return (1);
 }
+
+int	allocate_for_binary(t_data *data)
+{
+	data->cmd_list = malloc(sizeof(t_cmd_list));
+	if (!data->cmd_list)
+		return (-1);
+	data->cmd_list->cmd = NULL;
+	data->cmd_list->full_path = NULL;
+	data->cmd_list->next = NULL;
+	data->last_c_l_node = data->cmd_list;
+	return (0);
+}

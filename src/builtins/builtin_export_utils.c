@@ -12,6 +12,26 @@
 
 #include "../../incl/minishell.h"
 
+/**
+ * Debug function
+ */
+void	print_envp(char **envp)
+{
+	int	i;
+
+	i = 0;
+	if (!envp)
+	{
+		printf("NULL\n");
+		return ;
+	}
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+}
+
 int	num_of_vars(char **envp)
 {
 	int	i;

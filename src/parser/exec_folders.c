@@ -45,6 +45,8 @@
  */
 int	add_cmd_list_node(char *name, char *path, t_data *data)
 {
+	if (!data->cmd_list)
+		allocate_for_binary(data);
 	if (name[0] == '.')
 		return (0);
 	data->last_c_l_node->next = malloc(sizeof(t_cmd_list));
@@ -134,13 +136,6 @@ int	get_folders(char *path, char **folder_strs)
 	return (0);
 }
 
-//char *ft_getenv(char *path, t_data *data)
-//{
-//	(void)path;
-//	char **envpath = ft_split((const char *) data->envp, '=');
-//	free(envpath[0]);
-//	return (envpath[1]);
-//}
 /**
  * Main routine to get list of commands and path to their executables in
  * current environment
@@ -152,7 +147,7 @@ int	get_cmd_list(t_data *data)
 
 	folder_strs = NULL;
 	path = NULL;
-	path = getenv("PATH");
+	path = b_getenv("PATH", data);
 	if (path == NULL)
 	{
 		perror("Path: ");

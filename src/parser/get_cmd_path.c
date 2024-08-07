@@ -22,6 +22,8 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
 
+	if (!data->cmd_list)
+		return (ft_memcpy(cmd));
 	current = data->cmd_list->next;
 	while (current)
 	{
@@ -30,6 +32,8 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
+	if (is_builtin((char *)cmd, data))
+		return (ft_memcpy("builtin"));
 	return (NULL);
 }
 
@@ -37,6 +41,8 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
 
+	if (!data->cmd_list)
+		return (false);
 	current = data->cmd_list->next;
 	while (current)
 	{

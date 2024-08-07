@@ -206,6 +206,7 @@ int		analyze_redirections(t_data *data);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
 int		scan_folders(char **folder_strs, t_data *data);
+int		allocate_for_binary(t_data *data);
 void	type_token(t_token_chain *token_node, char *type);
 int		is_builtin(char *token, t_data *data);
 int		is_env_var(char *token);

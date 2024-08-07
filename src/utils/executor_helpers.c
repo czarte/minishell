@@ -40,6 +40,5 @@ int	wait_subprocess(t_executor *pt, int n)
 		if (pid == pt->pid[n])
 			exit_code = WEXITSTATUS(status);
 	}
-	free(pt->pid);
 	return (exit_code);
 }

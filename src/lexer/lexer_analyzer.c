@@ -63,10 +63,7 @@ int	token_chain_analyzer(t_data *data)
 	if (check_for_env_vars(data))
 		return (-1);
 	if (check_for_binary_paths(data) < 0)
-	{
-		printf("Error from checking binary paths\n");
 		return (-1);
-	}
 	count_cmds(data);
 	return (0);
 }

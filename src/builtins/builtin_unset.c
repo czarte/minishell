@@ -54,7 +54,6 @@ char	**allocate_new_envp(int n)
 {
 	char	**new_envp;
 
-	printf("Number from allocate new envp: %i\n", n);
 	new_envp = NULL;
 	if (n > 1)
 	{
@@ -110,5 +109,7 @@ int	unset(t_token_chain *current, t_data *data)
 	}
 	if (var_pos < 0)
 		return (0);
+	if (str_comp(current->next->token, "PATH"))
+		free_cmd_list(data);
 	return (finish_unset(var_pos, new_envp, temp_flag, data));
 }

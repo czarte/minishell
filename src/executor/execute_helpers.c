@@ -13,6 +13,28 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
+void	assign_pt(t_data *data, t_executor *pt)
+{
+	if (data->exec->infile)
+	{
+		pt->infile = data->exec->infile;
+		pt->heredoc = true;
+	}
+	else
+		pt->infile = NULL;
+	if (data->exec->outfile)
+		pt->outfile = data->exec->outfile;
+	else
+		pt->outfile = NULL;
+	if (data->exec->dlmtr)
+	{
+		pt->heredoc_rl = true;
+		pt->dlmtr = data->exec->dlmtr;
+	}
+	pt->pwd = getenv("PWD");
+	pt->deubg = data->debug;
+}
+
 void	init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt)
 {
 	eb->run = false;

@@ -20,6 +20,8 @@ void	free_cmd_list(t_data *data)
 	t_cmd_list	*tmp;
 	t_cmd_list	*current;
 
+	if (!data->cmd_list)
+		return ;
 	current = data->cmd_list->next;
 	if (data->cmd_list->cmd)
 		free(data->cmd_list->cmd);
@@ -36,6 +38,8 @@ void	free_cmd_list(t_data *data)
 		free(current);
 		current = tmp;
 	}
+	data->cmd_list = NULL;
+	data->last_c_l_node = NULL;
 }
 
 /**

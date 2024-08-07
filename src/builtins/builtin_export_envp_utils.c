@@ -17,8 +17,6 @@ int	update_envp_var(char **envp, char *new_var, int v_pos)
 	int	i;
 
 	i = 0;
-	if (v_pos >= 0)
-		printf("envp [%i] update original: %s\n", v_pos, envp[v_pos]);
 	if (v_pos == -1)
 		return (1);
 	free(envp[v_pos]);

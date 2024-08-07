@@ -31,17 +31,15 @@ void	ft_exit(char *cmd)
 
 bool	is_exit_cmd(char *cmd)
 {
+	int	i;
+
+	i = 0;
 	if (!cmd)
 		return (true);
-	while (*cmd == ' ')
-		cmd++;
-	if (*cmd == 'e')
-		cmd++;
-	if (*cmd == 'x')
-		cmd++;
-	if (*cmd == 'i')
-		cmd++;
-	if (*cmd == 't')
+	while (cmd[i] == ' ')
+		i++;
+	if (cmd[i] == 'e' && cmd[i + 1] == 'x' && cmd[i + 2] == 'i'
+		&& cmd[i + 3] == 't')
 		return (true);
 	return (false);
 }
