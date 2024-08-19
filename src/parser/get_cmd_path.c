@@ -23,17 +23,17 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 	t_cmd_list	*current;
 
 	if (!data->cmd_list)
-		return (ft_memcpy(cmd));
+		return (ft_memdup(cmd));
 	current = data->cmd_list->next;
 	while (current)
 	{
 		if (str_comp(cmd, current->cmd))
-			return (ft_memcpy(current->full_path));
+			return (ft_memdup(current->full_path));
 		else
 			current = current->next;
 	}
 	if (is_builtin((char *)cmd, data))
-		return (ft_memcpy("builtin"));
+		return (ft_memdup("builtin"));
 	return (NULL);
 }
 

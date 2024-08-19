@@ -54,7 +54,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 		pt->filefd[1] = open(pt->outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pt->filefd[1] == -1)
 	{
-		mes = ft_strjoin(ermess, pt->outfile);
+		mes = ft_join_path(ermess, pt->outfile);
 		printf("%s\n", mes);
 		exit (127);
 	}
@@ -77,7 +77,7 @@ int	init_hd_file(char *file, t_executor *pt)
 	if (fd == -1)
 	{
 		ermess = strerror(errno);
-		mes = ft_strjoin_v(ermess, file);
+		mes = ft_strjoin(ermess, file);
 		printf("%s\n", mes);
 		exit(127);
 	}

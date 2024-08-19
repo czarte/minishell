@@ -55,6 +55,14 @@ void	init_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
+int	refresh_path(t_data *data)
+{
+	free_cmd_list(data);
+	if (get_cmd_list(data) < 0)
+		return (-1);
+	return (0);
+}
+
 int	loop(t_data *data)
 {
 	char			*cmd;
@@ -65,7 +73,7 @@ int	loop(t_data *data)
 	while (true)
 	{
 		cmd = cli(data);
-		if (is_exit_cmd(cmd))
+		if (is_exit_cmd(cmd) || (refresh_path(data) < 0))
 		{
 			ft_exit(cmd);
 			free(cmd);

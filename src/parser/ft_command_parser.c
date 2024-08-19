@@ -31,17 +31,17 @@ char	**parse_argv(char *arg, t_executor *pt)
 		psr.splitcmd = ft_split(arg, ' ');
 		if (psr.splitcmd[0])
 		{
-			psr.pathcmd = ft_strjoin(*pt->path, ft_strjoin("/", \
+			psr.pathcmd = ft_join_path(*pt->path, ft_join_path("/", \
 			psr.splitcmd[0]));
-			psr.combined = ft_strjoin(ft_strjoin(psr.pathcmd, " "), \
+			psr.combined = ft_join_path(ft_join_path(psr.pathcmd, " "), \
 			arg);
 			psr.array = ft_split(psr.combined, ' ');
 		}
 	}
 	else
 	{
-		psr.pathcmd = ft_strjoin(*pt->path, ft_strjoin("/", arg));
-		psr.combined = ft_strjoin(psr.pathcmd, ft_strjoin(" ", arg));
+		psr.pathcmd = ft_join_path(*pt->path, ft_join_path("/", arg));
+		psr.combined = ft_join_path(psr.pathcmd, ft_join_path(" ", arg));
 		psr.array = ft_split(psr.combined, ' ');
 	}
 	ft_check_access(psr.pathcmd, &psr.array);
@@ -98,7 +98,7 @@ int	ft_parse_command(t_executor *pt, int argc, char **argv)
 		parse_path(pt, &flag, argv, tmp);
 		if (!flag)
 		{
-			command = ft_split(ft_strjoin(ft_strjoin(argv[pt->it], " "),
+			command = ft_split(ft_join_path(ft_join_path(argv[pt->it], " "),
 						argv[pt->it]), ' ');
 			ft_lstadd_back(&pt->comm, ft_lstnew((void *) command));
 			pt->path = tmp;

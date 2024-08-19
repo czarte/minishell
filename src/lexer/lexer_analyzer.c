@@ -17,22 +17,22 @@ void	set_redirections(t_data *data, t_token_chain *current)
 	if (str_comp(current->type, "ri") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->infile = strdup(current->next->token);
+		data->exec->infile = ft_memdup(current->next->token);
 	}
 	if (str_comp(current->type, "rd") && current->next)
 	{
 		type_token(current->next, "dl");
-		data->exec->dlmtr = strdup(current->next->token);
+		data->exec->dlmtr = ft_memdup(current->next->token);
 	}
 	if (str_comp(current->type, "ro") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->outfile = ft_memcpy(current->next->token);
+		data->exec->outfile = ft_memdup(current->next->token);
 	}
 	if (str_comp(current->type, "ra") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->outfile = ft_memcpy(current->next->token);
+		data->exec->outfile = ft_memdup(current->next->token);
 	}
 }
 

@@ -38,7 +38,7 @@ int	last_slash(const char *str)
  * Modified version of strjoin for joining string with path, automatically
  * adds a slash
  */
-char	*ft_strjoin(const char *str1, const char *str2)
+char	*ft_join_path(const char *str1, const char *str2)
 {
 	int		i;
 	int		j;
@@ -60,7 +60,7 @@ char	*ft_strjoin(const char *str1, const char *str2)
 	return (ret);
 }
 
-char	*ft_strjoin_v(char const *s1, char const *s2)
+char	*ft_join_path_v(char const *s1, char const *s2)
 {
 	int		len;
 	char	*s1_2;

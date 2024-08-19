@@ -24,3 +24,17 @@ void	free_folder_strs(char **folder_strs)
 	}
 	free(folder_strs);
 }
+
+void	free_exec_files(t_data *data)
+{
+	if (data->exec->infile)
+	{
+		free(data->exec->infile);
+		data->exec->infile = NULL;
+	}
+	if (data->exec->outfile)
+	{
+		free(data->exec->outfile);
+		data->exec->outfile = NULL;
+	}
+}

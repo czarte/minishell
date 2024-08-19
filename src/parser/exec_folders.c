@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_folders.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:07:34 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 11:54:33 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/07 23:50:53 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	add_cmd_list_node(char *name, char *path, t_data *data)
 	}
 	data->last_c_l_node = data->last_c_l_node->next;
 	data->last_c_l_node->next = NULL;
-	data->last_c_l_node->cmd = ft_memcpy(name);
-	data->last_c_l_node->full_path = ft_strjoin(path, name);
+	data->last_c_l_node->cmd = ft_memdup(name);
+	data->last_c_l_node->full_path = ft_join_path(path, name);
 	return (0);
 }
 
@@ -149,10 +149,7 @@ int	get_cmd_list(t_data *data)
 	path = NULL;
 	path = b_getenv("PATH", data);
 	if (path == NULL)
-	{
-		perror("Path: ");
-		return (-1);
-	}
+		return (0);
 	folder_strs = malloc(sizeof(char *) * (get_number_of_folders(path) + 1));
 	if (folder_strs == NULL)
 	{

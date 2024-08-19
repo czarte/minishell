@@ -100,6 +100,7 @@ void	free_exec(t_data *data)
 		if (current)
 			next = current->next;
 	}
+	free_exec_files(data);
 	free(current);
 	free(data->exec);
 	data->exec = NULL;

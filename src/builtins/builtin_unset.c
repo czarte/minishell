@@ -26,12 +26,9 @@ int	copy_remove_envp(char **new_envp, char **envp, int var_pos, int n)
 	{
 		if (j == var_pos)
 			j++;
-		new_envp[i] = ft_memcpy(envp[j]);
+		new_envp[i] = ft_memdup(envp[j]);
 		if (new_envp[i] == NULL)
-		{
-			perror("Copying envp");
 			return (-1);
-		}
 		i++;
 		j++;
 	}

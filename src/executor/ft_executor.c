@@ -39,7 +39,7 @@ int	create_heredoc(t_executor *pt)
 	char	*name;
 	int		fd;
 
-	name = ft_strjoin(pt->pwd, ".tmp_heredoc");
+	name = ft_join_path(pt->pwd, ".tmp_heredoc");
 	fd = init_hd_file(name, pt);
 	return (fd);
 }

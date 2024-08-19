@@ -75,7 +75,7 @@ void	print_token_chain(t_data *data)
 	{
 		if (data->debug)
 		{
-			printf("token: %s\ttype: %s\n", current->token, current->type);
+			printf("token: %s\ttype: %s", current->token, current->type);
 			printf("\n");
 		}
 		current = current->next;

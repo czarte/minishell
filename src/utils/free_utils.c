@@ -57,5 +57,6 @@ void	free_alloc(t_executor *pt)
 		free(pt->outfile);
 	ft_lstclear(&pt->comm, (void *)(ft_free_content), pt);
 	free(pt->comm);
+	free(pt->pid);
 	pt->comm = NULL;
 }

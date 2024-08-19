@@ -18,12 +18,16 @@ void	assign_pt(t_data *data, t_executor *pt)
 	if (data->exec->infile)
 	{
 		pt->infile = data->exec->infile;
+		data->exec->infile = NULL;
 		pt->heredoc = true;
 	}
 	else
 		pt->infile = NULL;
 	if (data->exec->outfile)
+	{
 		pt->outfile = data->exec->outfile;
+		data->exec->outfile = NULL;
+	}
 	else
 		pt->outfile = NULL;
 	if (data->exec->dlmtr)

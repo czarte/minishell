@@ -68,7 +68,7 @@ int	is_binary_path(char *token)
 void	type_token_logic(t_token_chain *current, t_data *data)
 {
 	if (is_builtin(current->token, data))
-		type_token(current, "bu");
+		analyze_builtin(current, data);
 	else if (check_cmd_path_exists(current->token, data))
 		type_token(current, "pr");
 	else if (str_comp(current->token, "|"))

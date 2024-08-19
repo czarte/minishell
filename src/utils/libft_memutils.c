@@ -12,7 +12,7 @@
 
 #include "../../incl/minishell.h"
 
-void	*ft_memcpy_o(void *dst, const void *src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	char			*dest;
 	const char		*source;

@@ -20,6 +20,8 @@ void	fill_token_chain_if_quote(t_fill_t_c_data *ftcdata, t_data *data)
 	ftcdata->cmd++;
 	while (*ftcdata->cmd && *ftcdata->cmd != ftcdata->quote)
 	{
+		if (*ftcdata->cmd == '$' && ftcdata->quote == '\"')
+			ftcdata->current->expand = true;
 		*ftcdata->token = *ftcdata->cmd;
 		ftcdata->token++;
 		ftcdata->cmd++;
@@ -39,6 +41,8 @@ void	fill_token_chain_no_quote(t_fill_t_c_data *ftcdata, t_data *data)
 			*ftcdata->cmd == '|' || *ftcdata->cmd == '>' || \
 			*ftcdata->cmd == '<'))
 	{
+		if (*ftcdata->cmd == '$')
+			ftcdata->current->expand = true;
 		*ftcdata->token = *ftcdata->cmd;
 		ftcdata->token++;
 		ftcdata->cmd++;
@@ -108,6 +112,7 @@ int	fill_token_chain(char *command, t_data *data)
 			perror("token allocation:");
 			return (-1);
 		}
+		ftcdata.current->expand = false;
 		fill_token_chain_data_manipulation(&ftcdata, data);
 	}
 	return (0);

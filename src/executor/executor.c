@@ -13,58 +13,6 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	exec_data_prep_fill(t_data *data, t_token_chain **tc, int *i)
-{
-	char			**cmd;
-	int				arg_count;
-
-	*i = 2;
-	arg_count = command_arg_count(*tc, data);
-	cmd = malloc(sizeof(char *) * (arg_count + 3));
-	cmd[arg_count + 2] = NULL;
-	cmd[0] = get_cmd_path((*tc)->token, data);
-	cmd[1] = ft_memcpy((*tc)->token);
-	*tc = (*tc)->next;
-	while (*tc && str_comp((*tc)->type, "ar"))
-	{
-		cmd[(*i)] = ft_memcpy((*tc)->token);
-		if ((*tc)->next && str_comp((*tc)->next->type, "ar"))
-		{
-			*tc = (*tc)->next;
-			(*i)++;
-		}
-		else
-			break ;
-	}
-	ft_lstadd_back(&data->exec->cmd, ft_lstnew((void *)cmd));
-}
-
-int	exec_data_preparation(t_data *data)
-{
-	t_token_chain	*tc;
-	int				i;
-
-	tc = data->token_chain->next;
-	i = 2;
-	while (tc)
-	{
-		if (tc->next && str_comp(tc->type, "ri"))
-		{
-			tc = tc->next;
-			continue ;
-		}
-		if (str_comp(tc->type, "pr") || str_comp(tc->type, "bu"))
-			exec_data_prep_fill(data, &tc, &i);
-		else if (tc && str_comp(tc->type, "ra"))
-			data->exec->append = true;
-		else if (tc && str_comp(tc->type, "rd"))
-			data->exec->limit = true;
-		if (tc)
-			tc = tc->next;
-	}
-	return (0);
-}
-
 void	iterate_commands(t_exec_bag *eb, t_data *data)
 {
 	while (eb->cur)
@@ -73,13 +21,32 @@ void	iterate_commands(t_exec_bag *eb, t_data *data)
 			execute_builtin(eb->cur, data);
 		else if (str_comp(eb->cur->type, "vd"))
 			envp_add_reallocate(data, eb->cur->token, 1);
-		else if (str_comp(eb->cur->type, "pr"))
+		else if (str_comp(eb->cur->type, "pr") || str_comp(eb->cur->type, "bp"))
 		{
 			eb->run = true;
 			break ;
 		}
 		eb->cur = eb->cur->next;
 	}
+}
+
+void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
+{
+	free_alloc(pt);
+	data->exec->cmd = NULL;
+	if (data->exec->infile)
+	{
+		free(data->exec->infile);
+		data->exec->infile = NULL;
+	}
+	if (data->exec->outfile)
+	{
+		free(data->exec->outfile);
+		data->exec->outfile = NULL;
+	}
+	data->n_cmd = 0;
+	free(eb);
+	free(pt);
 }
 
 void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
