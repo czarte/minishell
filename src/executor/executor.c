@@ -49,17 +49,6 @@ void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
 	free(pt);
 }
 
-void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
-{
-	free_alloc(pt);
-	data->exec->cmd = NULL;
-	data->exec->infile = NULL;
-	data->n_cmd = 0;
-	free(pt->pid);
-	free(eb);
-	free(pt);
-}
-
 /**
  * Executes commands from token chain
  */
