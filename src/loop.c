@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 18:34:21 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:29:15 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,27 @@ void	init_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
+int	refresh_path(t_data *data)
+{
+	free_cmd_list(data);
+	if (get_cmd_list(data) < 0)
+		return (-1);
+	return (0);
+}
+
 int	loop(t_data *data)
 {
 	char			*cmd;
+	t_executor		*pt;
 
 	if (exec_data_init(data) < 0)
 		return (-1);
+	pt = ft_init_exec(data);
 	init_signals();
 	while (true)
 	{
 		cmd = cli(data);
-		if (is_exit_cmd(cmd))
+		if (is_exit_cmd(cmd) || (refresh_path(data) < 0))
 		{
 			ft_exit(cmd);
 			free(cmd);
@@ -76,8 +86,11 @@ int	loop(t_data *data)
 			free(cmd);
 			continue ;
 		}
-		if (lexer(cmd, data) == 0)
-			g_last_status = executor(data);
+
+		if (ft_parse_command(pt, cmd, data))
+			if (lexer(cmd, data) == 0)
+				check_commands(pt);
+				//g_last_status = executor(data);
 		free(cmd);
 		free_token_chain(data);
 	}

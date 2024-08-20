@@ -86,7 +86,7 @@ static int	ft_create_tokens(char **result, char const *s, char c)
 					free(result[i]);
 				return (free(result), 3);
 			}
-			ft_memcpy_o(result[i], s, len);
+			ft_memcpy(result[i], s, len);
 			result[i][len] = '\0';
 			s += len;
 			i++;
@@ -116,4 +116,38 @@ char	*ft_strrchr(const char *s, int c)
 		i--;
 	}
 	return ((char *)res);
+}
+
+size_t	ft_strlcat(char *dest, char *src, size_t size)
+{
+	size_t	i;
+	size_t	slen;
+	size_t	dlen;
+
+	i = 0;
+	dlen = (size_t)ft_strlen(dest);
+	slen = (size_t)ft_strlen(src);
+	if (dlen >= size)
+		return (size + slen);
+	while (((size - 1) > (i + dlen)) && src[i] != '\0')
+	{
+		dest[i + dlen] = src[i];
+		i++;
+	}
+	dest[i + dlen] = '\0';
+	return (dlen + slen);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	len;
+	char	*ptr;
+
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	ptr = (char *)malloc(sizeof(char) * len);
+	if (!ptr)
+		return (NULL);
+	ptr = ft_memcpy(ptr, (char *)s1, len);
+	ft_strlcat(ptr, (char *)s2, len);
+	return (ptr);
 }

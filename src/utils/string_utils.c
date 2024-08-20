@@ -62,7 +62,7 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_memcpy(const char *str)
+char	*ft_memdup(const char *str)
 {
 	char	*cpy;
 	int		i;

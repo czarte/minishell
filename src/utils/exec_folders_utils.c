@@ -60,8 +60,8 @@ int	check_exec_access(char *folder, struct dirent *dirent)
 	char	*path_to_check;
 	char	*temp;
 
-	temp = ft_strjoin(folder, "/");
-	path_to_check = ft_strjoin(temp, dirent->d_name);
+	temp = ft_join_path(folder, "/");
+	path_to_check = ft_join_path(temp, dirent->d_name);
 	free (temp);
 	if (access(path_to_check, X_OK))
 	{

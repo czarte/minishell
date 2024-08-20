@@ -21,7 +21,7 @@ char	*open_infile(t_executor *pt, char *filename)
 		printf("filename: %s\n", filename);
 	}
 	if (ft_strncmp(filename, "/", 1))
-		return (ft_strjoin(pt->pwd, ft_strjoin("/", filename)));
+		return (ft_join_path(pt->pwd, ft_join_path("/", filename)));
 	else
 		return (filename);
 }

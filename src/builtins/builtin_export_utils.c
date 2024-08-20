@@ -49,7 +49,7 @@ int	copy_add_envp(char **new_envp, char **envp, char *new_var)
 	i = 0;
 	while (envp && envp[i])
 	{
-		new_envp[i] = ft_memcpy(envp[i]);
+		new_envp[i] = ft_memdup(envp[i]);
 		if (new_envp[i] == NULL)
 		{
 			perror("Copying envp");
@@ -59,7 +59,7 @@ int	copy_add_envp(char **new_envp, char **envp, char *new_var)
 	}
 	if (new_var)
 	{
-		new_envp[i] = ft_memcpy(new_var);
+		new_envp[i] = ft_memdup(new_var);
 		if (new_envp[i] == NULL)
 		{
 			perror("Copying envp");

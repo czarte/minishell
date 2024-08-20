@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 18:37:13 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:19:46 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_list
 /*
  type:
 	pr	program
-	bp	binary path			./binary or ./home/user/folder/binary
+	bp	binary path			./binary or /home/user/folder/binary
 	bu	builtin
 	ar	argument
 	fp	file path
@@ -89,6 +89,7 @@ typedef struct s_token_chain
 {
 	char			*token;
 	char			type[3];
+	bool			expand;
 	t_token_chain	*next;
 }	t_token_chain;
 
@@ -146,7 +147,34 @@ typedef struct s_token_bag
 	bool	first_run;
 }	t_token_bag;
 
+typedef struct s_executor
+{
+	bool	deubg;
+	bool	heredoc;
+	bool	heredoc_rl;
+	bool	append;
+	int		*fd;
+	int		c_pi;
+	int		filefd[2];
+	int		it;
+	int		end;
+	int		fsucc;
+	int		psucc;
+	int		status;
+	int		*pid;
+	char	*pwd;
+	char	*home;
+	t_list	*comm;
+	char	**argv;
+	char	**env;
+	char	**path;
+	char	*infile;
+	char	*outfile;
+	char	*dlmtr;
+}	t_executor;
+
 int		loop(t_data *data);
+int		ft_parser(char *cmd, t_data *data);
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
@@ -161,6 +189,7 @@ void	fill_builtins(t_data *data);
 void	null_builtins(t_data *data);
 int		allocate_builtins(t_data *data);
 void	print_token_chain(t_data *data);
+void	free_exec_files(t_data *data);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);
@@ -215,7 +244,6 @@ int		is_var_decl(char *token, t_data *data);
 int		check_for_env_vars(t_data *data);
 int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
-bool	binary_is_in_list(char *name, char *path, t_data *data);
 int		count_slashes(const char *str);
 void	expand_last_exit_status(t_token_chain *current);
 void	cmd_space_trim(char *cmd);
@@ -226,17 +254,20 @@ void	count_number_of_tokens(char **cmd, int *n, char *quote);
 void	do_lesser(t_fill_t_c_data *ftcdata);
 void	do_greater(t_fill_t_c_data *ftcdata);
 void	pipe_less_gt(t_fill_t_c_data *ftcdata);
+int		exec_data_preparation(t_data *data);
+void	analyze_builtin(t_token_chain *current, t_data *data);
 
 /*----    Executor    ----*/
-int		executor(t_data *data);
+int		executor(t_data *data, t_executor *pt);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);
 int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
-char	*ft_memcpy(const char *str);
-char	*ft_strjoin(const char *str1, const char *str2);
-void	*ft_memcpy_o(void *dst, const void *src, size_t n);
+char	*ft_memdup(const char *str);
+char	*ft_join_path(const char *str1, const char *str2);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	**ft_split(char const *s, char c);
 int		ft_contains_char(const char *str, char character);
 int		tokens_len(t_token_chain *tokens);
