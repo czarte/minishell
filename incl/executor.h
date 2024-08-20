@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:40:04 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:24:40 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef struct s_executor
-{
-	bool	deubg;
-	bool	heredoc;
-	bool	heredoc_rl;
-	bool	append;
-	int		*fd;
-	int		c_pi;
-	int		filefd[2];
-	int		it;
-	int		end;
-	int		fsucc;
-	int		psucc;
-	int		status;
-	int		*pid;
-	char	*pwd;
-	char	*home;
-	t_list	*comm;
-	char	**argv;
-	char	**env;
-	char	**path;
-	char	*infile;
-	char	*outfile;
-	char	*dlmtr;
-}	t_executor;
-
 typedef struct s_bag_struct
 {
+	char	**pipes;
 	char	**splitcmd;
 	char	**array;
 	char	*pathcmd;
@@ -69,8 +44,9 @@ typedef struct s_exec_bag
 t_executor	*ft_init_exec(t_data *data);
 void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
 int			ft_exec(t_executor *pt, int pi[2], int fd_m);
-char		**parse_argv(char *arg, t_executor *pt);
-int			ft_parse_command(t_executor *pt, int argc, char **argv);
+char 		**parse_argv(char *arg, t_executor *pt, t_data *data);
+int			ft_parse_command(t_executor *pt, char *argv, t_data *data);
+void 		get_command_array(const char *arg, t_bagp *psr, t_data *data);
 int			ft_loop(t_executor *pt, int fd_m);
 int			check_path_and_files(t_executor *pt);
 void		print_help(void);
@@ -93,7 +69,7 @@ t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
 char		*ft_strrchr(const char *s, int c);
 char		*open_infile(t_executor *pt, char *filename);
-void		check_commands(t_executor *pt);
+int 		check_commands(t_executor *pt);
 int			init_in_file(t_executor *pt);
 int			init_out_file(t_executor *pt, int pi[2]);
 int			init_hd_file(char *file, t_executor *pt);

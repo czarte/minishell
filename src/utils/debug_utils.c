@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:43:14 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:15:56 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ void	print_exec_data(t_exec *exec)
 		printf("Execl append false\n");
 }
 
-void	check_commands(t_executor *pt)
+int	check_commands(t_executor *pt)
 {
 	t_list	*temp;
 	char	**con;
+	int 	n;
 
 	temp = pt->comm;
+	n = 0;
+	printf("------check commands-----\n");
 	while (pt->comm)
 	{
 		printf("-----------\n");
@@ -62,8 +65,10 @@ void	check_commands(t_executor *pt)
 			printf("minishell: command not found: %s\n", (char *)
 				pt->comm->content[0]);
 		pt->comm = pt->comm->next;
+		n++;
 	}
 	pt->comm = temp;
+	return (n);
 }
 
 void	print_token_chain(t_data *data)

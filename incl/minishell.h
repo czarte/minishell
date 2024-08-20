@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 18:37:13 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:19:46 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,34 @@ typedef struct s_token_bag
 	bool	first_run;
 }	t_token_bag;
 
+typedef struct s_executor
+{
+	bool	deubg;
+	bool	heredoc;
+	bool	heredoc_rl;
+	bool	append;
+	int		*fd;
+	int		c_pi;
+	int		filefd[2];
+	int		it;
+	int		end;
+	int		fsucc;
+	int		psucc;
+	int		status;
+	int		*pid;
+	char	*pwd;
+	char	*home;
+	t_list	*comm;
+	char	**argv;
+	char	**env;
+	char	**path;
+	char	*infile;
+	char	*outfile;
+	char	*dlmtr;
+}	t_executor;
+
 int		loop(t_data *data);
+int		ft_parser(char *cmd, t_data *data);
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);
@@ -231,7 +258,7 @@ int		exec_data_preparation(t_data *data);
 void	analyze_builtin(t_token_chain *current, t_data *data);
 
 /*----    Executor    ----*/
-int		executor(t_data *data);
+int		executor(t_data *data, t_executor *pt);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);

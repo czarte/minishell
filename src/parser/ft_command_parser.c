@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/19 18:33:17 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/17 16:08:31 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,89 +22,80 @@ void	ft_check_access(char *pathcmd, char ***array)
 	}
 }
 
-char	**parse_argv(char *arg, t_executor *pt)
+char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 {
 	t_bagp	psr;
 
+	psr.pipes = NULL;
+	printf("strrchr %s\n", ft_strrchr(arg, (int) '|'));
+	if (ft_strrchr(arg, (int) '|'))
+		psr.pipes = ft_split(arg, '|');
+	if (psr.pipes)
+	{
+		while (*psr.pipes)
+		{
+			printf("psr.pipes %s\n", *psr.pipes);
+			get_command_array(*psr.pipes, &psr, data);
+			if (psr.array[0])
+				ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr.array));
+			psr.pipes++;
+		}
+		check_commands(pt);
+		psr.array = NULL;
+	}
+	else
+	{
+		get_command_array(arg, &psr, data);
+	}
+
+	return (psr.array);
+}
+
+void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
 	if (ft_strrchr(arg, (int) ' '))
 	{
-		psr.splitcmd = ft_split(arg, ' ');
-		if (psr.splitcmd[0])
+		psr->splitcmd = ft_split(arg, ' ');
+		if ((*psr).splitcmd[0])
 		{
-			psr.pathcmd = ft_join_path(*pt->path, ft_join_path("/", \
-			psr.splitcmd[0]));
-			psr.combined = ft_join_path(ft_join_path(psr.pathcmd, " "), \
-			arg);
-			psr.array = ft_split(psr.combined, ' ');
+			psr->pathcmd = ft_strjoin(get_cmd_path(psr->splitcmd[0], data), ft_strjoin("/", \
+		psr->splitcmd[0]));
+			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
+		arg);
+			psr->array = ft_split(psr->combined, ' ');
 		}
 	}
 	else
 	{
-		psr.pathcmd = ft_join_path(*pt->path, ft_join_path("/", arg));
-		psr.combined = ft_join_path(psr.pathcmd, ft_join_path(" ", arg));
-		psr.array = ft_split(psr.combined, ' ');
+		printf("debug %s\n", arg);
+		psr->pathcmd = ft_strjoin(get_cmd_path(arg, data), ft_strjoin("/", arg));
+		psr->combined = ft_strjoin((*psr).pathcmd, ft_strjoin(" ", arg));
+		psr->array = ft_split(psr->combined, ' ');
 	}
-	ft_check_access(psr.pathcmd, &psr.array);
-	return (psr.array);
-}
 
-//void	check_commands(t_executor *pt)
-//{
-//	t_list	*temp;
-//	int		end;
-//
-//	temp = pt->comm;
-//	end = 1;
-//	while (pt->comm)
-//	{
-//		if (access(pt->comm->content[0], X_OK == -1))
-//			printf("minishell: command not found: %s\n", (char *)
-//					pt->comm->content[0]);
-//		pt->comm = pt->comm->next;
-//	}
-//	pt->comm = temp;
-//}
-
-void	parse_path(t_executor *pt, int *flag, char **argv, char **tmp)
-{
-	char	**command;
-
-	while (*pt->path)
-	{
-		command = parse_argv(argv[pt->it], pt);
-		if (command[0])
-		{
-			ft_lstadd_back(&pt->comm, ft_lstnew((void *) command));
-			pt->path = tmp;
-			*flag = 1;
-			break ;
+	ft_check_access((*psr).pathcmd, &(*psr).array);
+	printf("psr pathcmd: %s\n", psr->pathcmd);
+	printf("psr combined: %s\n", psr->combined);
+	char **tmp = psr->array;
+	if (tmp) {
+		while (*tmp) {
+			printf("psr array: %s\n", *tmp);
+			tmp++;
 		}
-		else
-			pt->path++;
 	}
 }
 
-int	ft_parse_command(t_executor *pt, int argc, char **argv)
+void	parse_path(t_executor *pt, char *argv, t_data *data)
 {
-	int		flag;
 	char	**command;
-	char	**tmp;
 
-	pt->it = 2;
-	tmp = pt->path;
-	while (pt->it < (argc - 1))
-	{
-		flag = 0;
-		parse_path(pt, &flag, argv, tmp);
-		if (!flag)
-		{
-			command = ft_split(ft_join_path(ft_join_path(argv[pt->it], " "),
-						argv[pt->it]), ' ');
-			ft_lstadd_back(&pt->comm, ft_lstnew((void *) command));
-			pt->path = tmp;
-		}
-		pt->it++;
-	}
+	command = parse_argv(argv, pt, data);
+	if (command && command[0])
+		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
+}
+
+int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
+{
+	parse_path(pt, argv, data);
 	check_commands(pt);
-	return (0);
+	return (check_commands(pt));
 }

@@ -52,10 +52,9 @@ void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
 /**
  * Executes commands from token chain
  */
-int	executor(t_data *data)
+int	executor(t_data *data, t_executor *pt)
 {
 	t_exec_bag	*eb;
-	t_executor	*pt;
 	int			fd_m;
 	int			e_c;
 
@@ -65,7 +64,6 @@ int	executor(t_data *data)
 	eb = malloc(sizeof(t_exec_bag));
 	if (eb == NULL)
 		perror("unable allocate memory");
-	pt = ft_init_exec(data);
 	init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
 	iterate_commands(eb, data);
