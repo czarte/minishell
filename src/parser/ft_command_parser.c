@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/20 09:27:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/20 09:31:24 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
 		psr->splitcmd = ft_split(arg, ' ');
 		if ((*psr).splitcmd[0])
 		{
-			psr->pathcmd = ft_strjoin(get_cmd_path(psr->splitcmd[0], data), ft_strjoin("/", \
-		psr->splitcmd[0]));
+			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
 		arg);
 			psr->array = ft_split(psr->combined, ' ');
