@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 12:14:34 by voparkan          #+#    #+#             */
-/*   Updated: 2024/07/20 14:23:33 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/20 09:25:04 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,14 +140,19 @@ size_t	ft_strlcat(char *dest, char *src, size_t size)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len;
-	char	*ptr;
+	char	*p;
+	size_t	ml;
+	size_t	s1len;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	ptr = (char *)malloc(sizeof(char) * len);
-	if (!ptr)
+	s1len = ft_strlen(s1);
+	if (!s1 || !s2)
 		return (NULL);
-	ptr = ft_memcpy(ptr, (char *)s1, len);
-	ft_strlcat(ptr, (char *)s2, len);
-	return (ptr);
+	ml = s1len + ft_strlen(s2);
+	p = malloc((ml + 1) * sizeof (char));
+	if (!p)
+		return (NULL);
+	ft_memcpy(p, (const void *) s1, s1len);
+	ft_memcpy(p + s1len, (const void *) s2, ml - s1len);
+	p[ml] = '\0';
+	return (p);
 }
