@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/17 14:29:15 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/24 14:26:49 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int	loop(t_data *data)
 
 		if (ft_parse_command(pt, cmd, data))
 			if (lexer(cmd, data) == 0)
-				check_commands(pt);
-				//g_last_status = executor(data);
+				g_last_status = executor(data, pt);
 		free(cmd);
 		free_token_chain(data);
 	}

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:40:50 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/08/24 14:28:01 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	executor(t_data *data, t_executor *pt)
 	init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
 	iterate_commands(eb, data);
-	pt->comm = data->exec->cmd;
+	//pt->comm = data->exec->cmd;
 	pt->append = data->exec->append;
 	if (eb->run)
 		e_c = ft_loop(pt, fd_m);

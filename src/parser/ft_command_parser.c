@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/20 09:31:24 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/08/24 14:24:18 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,12 @@ void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
 	if (ft_strrchr(arg, (int) ' '))
 	{
 		psr->splitcmd = ft_split(arg, ' ');
-		if ((*psr).splitcmd[0])
+		if (psr->splitcmd[0])
 		{
+			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
+				perror(psr->splitcmd[0]);
+				return ;
+			}
 			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
 		arg);
@@ -66,6 +70,10 @@ void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
 	else
 	{
 		printf("debug %s\n", arg);
+		if (!check_cmd_path_exists(arg, data)) {
+			perror(arg);
+			return ;
+		}
 		psr->pathcmd = get_cmd_path(arg, data);
 		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin(" ", arg));
 		psr->array = ft_split(psr->combined, ' ');
