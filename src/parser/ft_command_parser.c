@@ -24,9 +24,9 @@ void	ft_check_access(char *pathcmd, char ***array)
 
 void	*prepare_lexer_data(char *cmd, t_data *data)
 {
-	t_lex_list	*lex_data;
+	t_lex_cmd	*lex_data;
 
-	lex_data = malloc(sizeof(t_lex_list));
+	lex_data = malloc(sizeof(t_lex_cmd));
 	if (!lex_data)
 	{
 		perror("Lexer list allocation");
@@ -42,7 +42,7 @@ void	*prepare_lexer_data(char *cmd, t_data *data)
 char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 {
 	t_bagp		psr;
-	t_lex_list	*lex_list_tmp;
+	t_lex_cmd	*lex_cmd;
 
 	psr.pipes = NULL;
 	printf("strrchr %s\n", ft_strrchr(arg, (int) '|'));
@@ -52,12 +52,11 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	{
 		while (*psr.pipes)
 		{
-			prepare_lexer_data(*psr.pipes, data);
-			neolexer(data);
-			lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
-			*psr.pipes = lex_list_tmp->cmd;
-			printf("psr.pipes %s\n", *psr.pipes);
-			get_command_array(*psr.pipes, &psr, data);
+			lex_cmd = lexer(*psr.pipes, data);
+			if (lex_cmd == NULL)
+				return (NULL);
+			get_command_array(lex_cmd, &psr, data);
+			free(lex_cmd);
 			if (psr.array[0])
 				ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr.array));
 			psr.pipes++;
@@ -67,20 +66,19 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	}
 	else
 	{
-		prepare_lexer_data(arg, data);
-		neolexer(data);
-		lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
-		arg = lex_list_tmp->cmd;
-		get_command_array(arg, &psr, data);
+		lex_cmd = lexer(arg, data);
+		if (lex_cmd == NULL)
+				return (NULL);
+		get_command_array(lex_cmd, &psr, data);
+		free(lex_cmd);
 	}
-
 	return (psr.array);
 }
 
-void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
-	if (ft_strrchr(arg, (int) ' '))
+void	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
+	if (ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
 	{
-		psr->splitcmd = ft_split(arg, ' ');
+		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
 		if (psr->splitcmd[0])
 		{
 			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
@@ -89,19 +87,19 @@ void	get_command_array(const char *arg, t_bagp *psr, t_data *data) {
 			}
 			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
-		arg);
+		lex_cmd->cmd);
 			psr->array = ft_split(psr->combined, ' ');
 		}
 	}
 	else
 	{
-		printf("debug %s\n", arg);
-		if (!check_cmd_path_exists(arg, data)) {
-			perror(arg);
+		printf("debug %s\n", lex_cmd->cmd);
+		if (!check_cmd_path_exists(lex_cmd->cmd, data)) {
+			perror(lex_cmd->cmd);
 			return ;
 		}
-		psr->pathcmd = get_cmd_path(arg, data);
-		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin(" ", arg));
+		psr->pathcmd = get_cmd_path(lex_cmd->cmd, data);
+		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin(" ", lex_cmd->cmd));
 		psr->array = ft_split(psr->combined, ' ');
 	}
 
@@ -122,6 +120,11 @@ void	parse_path(t_executor *pt, char *argv, t_data *data)
 	char	**command;
 
 	command = parse_argv(argv, pt, data);
+	if (command == NULL)
+	{
+		perror("Something went wrong");
+		return ;
+	}
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 }

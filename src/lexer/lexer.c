@@ -126,45 +126,52 @@ void	cmd_space_trim(char *cmd)
  * Takes command and processes it resulting in linked list of typed tokens
  * ready for execution
  */
-int	lexer(char *cmd, t_data *data)
+t_lex_cmd	*lexer(char *cmd, t_data *data)
 {
+	t_lex_cmd	*lc;
+
+	lc = malloc(sizeof(t_lex_cmd));
+	if (!lc)
+		return (NULL);
+	lc->cmd = cmd;
+
 	if (!cmd_quotes_pair_check(cmd))
 	{
 		printf("Unclosed quotes!\n");
-		return (-1);
+		return (free(lc), NULL);
 	}
 	cmd_space_trim(cmd);
 	exec_data_re_init(data);
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	if (type_token_chain(data) < 0)
-		return (-1);
+		return (free(lc), NULL);
 	if (data->debug)
 		print_token_chain(data);
 	if (token_chain_analyzer(data) < 0)
-		return (-1);
+		return (free(lc), NULL);
 	if (data->debug)
 		print_token_chain(data);
-	return (0);
+	return (lc);
 }
 
 int neolexer(t_data* data)
 {
 	char	*cmd;
-	t_lex_list *lex_list_tmp;
+	t_lex_cmd *lex_cmd;
 
 	cmd = NULL;
-	lex_list_tmp = NULL;
-	lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
-	cmd = lex_list_tmp->cmd;
+	lex_cmd = NULL;
+	lex_cmd = (t_lex_cmd*)ft_lstlast(data->lexer_list)->content;
+	cmd = lex_cmd->cmd;
 	printf("cmd from neolexer: %s\n", cmd);
-	if (!cmd_quotes_pair_check(cmd))
-	{
-		printf("Unclosed quotes!\n");
-		return (-1);
-	}
+	// if (!cmd_quotes_pair_check(cmd))
+	// {
+	// 	printf("Unclosed quotes!\n");
+	// 	return (-1);
+	// }
 	cmd_space_trim(cmd);
-	exec_data_re_init(data);
+	// exec_data_re_init(data);
 	allocate_token_chain(cmd, data);
 	fill_token_chain(cmd, data);
 	if (type_token_chain(data) < 0)

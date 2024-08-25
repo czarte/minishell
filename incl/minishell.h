@@ -93,13 +93,12 @@ typedef struct s_token_chain
 	t_token_chain	*next;
 }	t_token_chain;
 
-typedef struct s_lex_list
+typedef struct s_lex_cmd
 {
     char             *cmd;
     char             dlmtr;
     bool             split;
-    struct s_list    *next;
-}	t_lex_list;
+}	t_lex_cmd;
 
 typedef struct s_exec_data
 {
@@ -179,7 +178,7 @@ typedef struct s_executor
 	char	**path;
 	char	*infile;
 	char	*outfile;
-	char	*dlmtr;
+	char	*dlmtr;	//heredoc delimiter
 }	t_executor;
 
 int		loop(t_data *data);
@@ -235,7 +234,7 @@ void	signal_handler(int signum);
 void	signals_init(void);
 
 /*----    Lexer    ----*/
-int		lexer(char *cmd, t_data *data);
+t_lex_cmd	*lexer(char *cmd, t_data *data);
 int		neolexer(t_data *data);	//new version
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
