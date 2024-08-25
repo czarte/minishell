@@ -66,7 +66,8 @@ int	executor(t_data *data, t_executor *pt)
 		perror("unable allocate memory");
 	init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
-	iterate_commands(eb, data);
+	eb->run = true;
+	// iterate_commands(eb, data);
 	//pt->comm = data->exec->cmd;
 	pt->append = data->exec->append;
 	if (eb->run)

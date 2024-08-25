@@ -88,8 +88,7 @@ int	loop(t_data *data)
 		}
 
 		if (ft_parse_command(pt, cmd, data))
-			if (lexer(cmd, data) == 0)
-				g_last_status = executor(data, pt);
+			g_last_status = executor(data, pt);
 		free(cmd);
 		free_token_chain(data);
 	}
