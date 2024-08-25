@@ -47,13 +47,14 @@ int	token_length(char *cmd)
 /**
  * Allocates linked list for all tokens present in command
  */
-int	allocate_token_chain(char *cmd, t_data *data)
+int	allocate_token_chain(t_lex_cmd *lc, t_data *data)
 {
 	int				i;
 	t_token_chain	*prev;
 	t_token_chain	*current;
 
-	i = number_of_tokens(cmd, data);
+	i = number_of_tokens(lc->cmd);
+	// if (i > )
 	current = NULL;
 	prev = data->token_chain;
 	while (i)
@@ -79,25 +80,41 @@ int	allocate_token_chain(char *cmd, t_data *data)
  * returns 1 if ok
  * returns 0 if ko
  */
-int	cmd_quotes_pair_check(char *cmd)
+int	cmd_quotes_pair_check(t_lex_cmd *lc)
 {
-	int	dq;
-	int	sq;
+	int		dq;
+	int		sq;
+	char	quote;
 
 	dq = 0;
 	sq = 0;
-	while (cmd && *cmd)
+	quote = '\0';
+	while (lc->cmd && *lc->cmd)
 	{
-		if (*cmd == '\"')
+		if (*lc->cmd == '\"')
+		{
+			if (!quote)
+				quote = *lc->cmd;
 			dq++;
-		else if (*cmd == '\'')
+		}
+		else if (*lc->cmd == '\'')
+		{
+			if (!quote)
+				quote = *lc->cmd;
 			sq++;
-		cmd++;
+		}
+		lc->cmd++;
 	}
 	if (dq % 2 || sq % 2)
 		return (0);
 	else
+	{
+		if (quote)
+			lc->dlmtr = quote;
+		else
+			lc->dlmtr = ' ';
 		return (1);
+	}
 }
 
 void	cmd_space_trim(char *cmd)
@@ -126,61 +143,33 @@ void	cmd_space_trim(char *cmd)
  * Takes command and processes it resulting in linked list of typed tokens
  * ready for execution
  */
-t_lex_cmd	*lexer(char *cmd, t_data *data)
+t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 {
 	t_lex_cmd	*lc;
 
+	pt++;
+	pt--;
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
 		return (NULL);
 	lc->cmd = cmd;
-
-	if (!cmd_quotes_pair_check(cmd))
+	printf("lc->cmd from lexer: %s\n", lc->cmd);
+	if (!cmd_quotes_pair_check(lc))
 	{
 		printf("Unclosed quotes!\n");
 		return (free(lc), NULL);
 	}
-	cmd_space_trim(cmd);
-	exec_data_re_init(data);
-	allocate_token_chain(cmd, data);
-	fill_token_chain(cmd, data);
-	if (type_token_chain(data) < 0)
-		return (free(lc), NULL);
-	if (data->debug)
-		print_token_chain(data);
-	if (token_chain_analyzer(data) < 0)
-		return (free(lc), NULL);
-	if (data->debug)
+	cmd_space_trim(lc->cmd);
+	// exec_data_re_init(data);
+	allocate_token_chain(lc, data);
+	fill_token_chain(lc->cmd, data);
+	// if (type_token_chain(data) < 0)
+	// 	return (free(lc), NULL);
+	// if (data->debug)
+	// 	print_token_chain(data);
+	// if (token_chain_analyzer(data) < 0)
+	// 	return (free(lc), NULL);
+	// if (data->debug)
 		print_token_chain(data);
 	return (lc);
-}
-
-int neolexer(t_data* data)
-{
-	char	*cmd;
-	t_lex_cmd *lex_cmd;
-
-	cmd = NULL;
-	lex_cmd = NULL;
-	lex_cmd = (t_lex_cmd*)ft_lstlast(data->lexer_list)->content;
-	cmd = lex_cmd->cmd;
-	printf("cmd from neolexer: %s\n", cmd);
-	// if (!cmd_quotes_pair_check(cmd))
-	// {
-	// 	printf("Unclosed quotes!\n");
-	// 	return (-1);
-	// }
-	cmd_space_trim(cmd);
-	// exec_data_re_init(data);
-	allocate_token_chain(cmd, data);
-	fill_token_chain(cmd, data);
-	if (type_token_chain(data) < 0)
-		return (-1);
-	if (data->debug)
-		print_token_chain(data);
-	if (token_chain_analyzer(data) < 0)
-		return (-1);
-	if (data->debug)
-		print_token_chain(data);
-	return (0);
 }

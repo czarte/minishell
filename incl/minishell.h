@@ -234,8 +234,7 @@ void	signal_handler(int signum);
 void	signals_init(void);
 
 /*----    Lexer    ----*/
-t_lex_cmd	*lexer(char *cmd, t_data *data);
-int		neolexer(t_data *data);	//new version
+t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt);
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
 int		type_token_chain(t_data *data);
@@ -258,7 +257,7 @@ void	expand_last_exit_status(t_token_chain *current);
 void	cmd_space_trim(char *cmd);
 int		no_space_tokens(char *cmd);
 int		check_for_no_space_token(char *cmd);
-int		number_of_tokens(char *cmd, t_data *data);
+int		number_of_tokens(char *cmd);
 void	count_number_of_tokens(char **cmd, int *n, char *quote);
 void	do_lesser(t_fill_t_c_data *ftcdata);
 void	do_greater(t_fill_t_c_data *ftcdata);

@@ -38,7 +38,7 @@ void	count_number_of_tokens(char **cmd, int *n, char *quote)
 /**
  * Counts how many tokens are in the command
  */
-int	number_of_tokens(char *cmd, t_data *data)
+int	number_of_tokens(char *cmd)
 {
 	int		n;
 	char	quote;
@@ -46,7 +46,7 @@ int	number_of_tokens(char *cmd, t_data *data)
 	n = no_space_tokens(cmd);
 	quote = '\0';
 	count_number_of_tokens(&cmd, &n, &quote);
-	if (data->debug)
+	// if (data->debug)
 		printf("Number of tokens: %i\n", n);
 	return (n);
 }

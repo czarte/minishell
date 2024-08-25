@@ -22,23 +22,6 @@ void	ft_check_access(char *pathcmd, char ***array)
 	}
 }
 
-void	*prepare_lexer_data(char *cmd, t_data *data)
-{
-	t_lex_cmd	*lex_data;
-
-	lex_data = malloc(sizeof(t_lex_cmd));
-	if (!lex_data)
-	{
-		perror("Lexer list allocation");
-		return (NULL);
-	}
-	lex_data->cmd = cmd;
-	lex_data->dlmtr = '\0';
-	lex_data->split = false;
-	ft_lstadd_back(&data->lexer_list, (void *)ft_lstnew(lex_data));
-	return (0);
-}
-
 char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 {
 	t_bagp		psr;
@@ -52,7 +35,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	{
 		while (*psr.pipes)
 		{
-			lex_cmd = lexer(*psr.pipes, data);
+			lex_cmd = lexer(*psr.pipes, data, pt);
 			if (lex_cmd == NULL)
 				return (NULL);
 			get_command_array(lex_cmd, &psr, data);
@@ -66,7 +49,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	}
 	else
 	{
-		lex_cmd = lexer(arg, data);
+		lex_cmd = lexer(arg, data, pt);
 		if (lex_cmd == NULL)
 				return (NULL);
 		get_command_array(lex_cmd, &psr, data);
