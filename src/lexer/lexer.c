@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
+#include "../../incl/executor.h"
 
 /**
  * Returns length of token string in command, uses spaces for delimiter
@@ -127,6 +128,36 @@ void	cmd_space_trim(char *cmd)
  */
 int	lexer(char *cmd, t_data *data)
 {
+	if (!cmd_quotes_pair_check(cmd))
+	{
+		printf("Unclosed quotes!\n");
+		return (-1);
+	}
+	cmd_space_trim(cmd);
+	exec_data_re_init(data);
+	allocate_token_chain(cmd, data);
+	fill_token_chain(cmd, data);
+	if (type_token_chain(data) < 0)
+		return (-1);
+	if (data->debug)
+		print_token_chain(data);
+	if (token_chain_analyzer(data) < 0)
+		return (-1);
+	if (data->debug)
+		print_token_chain(data);
+	return (0);
+}
+
+int neolexer(t_data* data)
+{
+	char	*cmd;
+	t_lex_list *lex_list_tmp;
+
+	cmd = NULL;
+	lex_list_tmp = NULL;
+	lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
+	cmd = lex_list_tmp->cmd;
+	printf("cmd from neolexer: %s\n", cmd);
 	if (!cmd_quotes_pair_check(cmd))
 	{
 		printf("Unclosed quotes!\n");

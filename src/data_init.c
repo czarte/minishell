@@ -54,7 +54,7 @@ int	exec_data_re_init(t_data *data)
 {
 	if (data->exec == NULL)
 		return (data_perror(data, "exec_struct"));
-	data->exec->cmd = NULL;
+	data->exec->cmd = NULL;			//TODO presunout jinam
 	data->exec->infile = NULL;
 	data->exec->outfile = NULL;
 	data->exec->append = false;
@@ -74,6 +74,7 @@ int	data_init(t_data *data, char **envp)
 	data->builtins = NULL;
 	data->exec = NULL;
 	data->envp = envp;
+	data->lexer_list = NULL;
 	data->local_temp_envp = NULL;
 	if (envp_add_reallocate(data, NULL, 0))
 		return (-1);

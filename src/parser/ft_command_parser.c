@@ -22,9 +22,27 @@ void	ft_check_access(char *pathcmd, char ***array)
 	}
 }
 
+void	*prepare_lexer_data(char *cmd, t_data *data)
+{
+	t_lex_list	*lex_data;
+
+	lex_data = malloc(sizeof(t_lex_list));
+	if (!lex_data)
+	{
+		perror("Lexer list allocation");
+		return (NULL);
+	}
+	lex_data->cmd = cmd;
+	lex_data->dlmtr = '\0';
+	lex_data->split = false;
+	ft_lstadd_back(&data->lexer_list, (void *)ft_lstnew(lex_data));
+	return (0);
+}
+
 char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 {
-	t_bagp	psr;
+	t_bagp		psr;
+	t_lex_list	*lex_list_tmp;
 
 	psr.pipes = NULL;
 	printf("strrchr %s\n", ft_strrchr(arg, (int) '|'));
@@ -34,6 +52,10 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	{
 		while (*psr.pipes)
 		{
+			prepare_lexer_data(*psr.pipes, data);
+			neolexer(data);
+			lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
+			*psr.pipes = lex_list_tmp->cmd;
 			printf("psr.pipes %s\n", *psr.pipes);
 			get_command_array(*psr.pipes, &psr, data);
 			if (psr.array[0])
@@ -45,6 +67,10 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	}
 	else
 	{
+		prepare_lexer_data(arg, data);
+		neolexer(data);
+		lex_list_tmp = (t_lex_list*)ft_lstlast(data->lexer_list)->content;
+		arg = lex_list_tmp->cmd;
 		get_command_array(arg, &psr, data);
 	}
 
