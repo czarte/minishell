@@ -42,6 +42,101 @@ void	print_exec_data(t_exec *exec)
 		printf("Execl append false\n");
 }
 
+void	print_t_executor_print_array(char **arr)
+{
+	while (*arr)
+	{
+		printf("%s\n", *arr);
+		arr++;
+	}
+}
+
+void	print_t_executor(t_executor *pt)
+{
+	t_list	*ltmp;
+	// int		*fdtmp;
+
+	ltmp = pt->comm;
+	// fdtmp = pt->fd;
+	printf("\n====    PT    ====\n");
+	printf("debug:\t%i\n", pt->deubg);
+	printf("heredoc:\t%i\n", pt->heredoc);
+	printf("heredoc_rl:\t%i\n", pt->heredoc_rl);
+	printf("append:\t%i\n", pt->append);
+	// if (fdtmp)
+	// {
+	// 	while (*fdtmp >= 0)
+	// 	{
+	// 		printf("fd:\t%i\n", *fdtmp);
+	// 		fdtmp++;
+	// 	}
+	// }
+	printf("c_pi:\t%i\n", pt->c_pi);
+	printf("file_fd[0]:\t%i\nfile_fd[1]: %i\n", pt->filefd[0], pt->filefd[1]);
+	printf("it:\t%i\n", pt->it);
+	printf("end:\t%i\n", pt->end);
+	printf("fsucc:\t%i\n", pt->fsucc);
+	printf("status:\t%i\n", pt->status);
+	printf("psucc:\t%i\n", pt->psucc);
+	if (pt->pid)
+		printf("pid:\t%i\n", *pt->pid);
+	else
+		printf("pid:\rNULL\n");
+	if (pt->pwd)
+		printf("pwd:\t%s\n", pt->pwd);
+	else
+		printf("pwd:\tNULL\n");
+	if (pt->home)
+		printf("home:\t%s\n", pt->home);
+	else
+		printf("home:\tNULL\n");
+	if (ltmp)
+	{
+		printf("comm:\n");
+		while (ltmp)
+		{
+			print_t_executor_print_array((char**)ltmp->content);
+			ltmp = ltmp->next;
+		}
+	}
+	else
+		printf("comm:\tNULL\n");
+	if (pt->argv)
+	{
+		printf("argv:\n");
+		print_t_executor_print_array(pt->argv);
+	}
+	else
+		printf("argv:\tNULL\n");
+	// if (pt->env)
+	// {
+	// 	printf("env:\n");
+	// 	print_t_executor_print_array(pt->env);
+	// }
+	// else
+	// 	printf("env:\tNULL\n");
+	if (pt->path)
+	{
+		printf("path:\n");
+		print_t_executor_print_array(pt->path);
+	}
+	else
+		printf("path:\tNULL\n");
+	if (pt->infile)
+		printf("infile:\t%s\n", pt->infile);
+	else
+		printf("infile:\tNULL\n");
+	if (pt->outfile)
+		printf("outfile:\t%s\n", pt->outfile);
+	else
+		printf("outfile:\tNULL\n");
+	if (pt->dlmtr)
+		printf("dlmtr:\t%s\n", pt->dlmtr);
+	else
+		printf("dlmtr\tNULL\n");
+	printf("========\n\n");
+}
+
 int	check_commands(t_executor *pt)
 {
 	t_list	*temp;

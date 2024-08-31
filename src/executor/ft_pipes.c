@@ -44,12 +44,24 @@ int	count_pipes(t_data *data)
 t_executor	*ft_init_exec(t_data *data)
 {
 	t_executor	*pt;
+	int			i;
 
+	i = 0;
 	pt = malloc(sizeof(t_executor));
 	if (pt < 0)
 		perror("unable to allocate t_exec");
 	pt->c_pi = count_pipes(data) + 1;
-	pt->pid = (int *)malloc((pt->c_pi) * sizeof(int));
+	if (pt->c_pi > 0)
+	{
+		pt->pid = (int *)malloc((pt->c_pi) * sizeof(int));
+		while (i < pt->c_pi)
+		{
+			pt->pid[i] = -1;
+			i++;
+		}
+	}
+	else
+		pt->pid = NULL;
 	pt->deubg = false;
 	pt->deubg = false;
 	pt->comm = NULL;
@@ -59,8 +71,10 @@ t_executor	*ft_init_exec(t_data *data)
 	pt->end = 0;
 	pt->status = 0;
 	pt->env = data->envp;
+	pt->home = NULL;
 	pt->pwd = NULL;
 	pt->path = NULL;
+	pt->argv = NULL;
 	pt->infile = NULL;
 	pt->outfile = NULL;
 	pt->dlmtr = NULL;

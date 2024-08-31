@@ -97,7 +97,7 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 /**
  * Routine to type the token chain linked list
  */
-int	type_token_chain(t_data *data)
+int	type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc)
 {
 	t_token_chain	*current;
 	// int				paf_ret;
@@ -109,7 +109,7 @@ int	type_token_chain(t_data *data)
 		type_token_logic(current, data);
 		current = current->next;
 	}
-	analyze_redirections(data);
+	analyze_redirections(data, pt, lc);
 	print_token_chain(data);
 	// paf_ret = prog_arg_fix(data);
 	print_token_chain(data);

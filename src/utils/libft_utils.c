@@ -16,6 +16,49 @@ static int		ft_create_tokens(char **result, char const *s, char c);
 static size_t	ft_count_tokens(char const *s, char c);
 static size_t	ft_token_len(char const *s, char c);
 
+static void	dsts(char *dest, const char *src, size_t l)
+{
+	size_t	i;
+
+	i = 0;
+	while (l > 0)
+	{
+		dest[i] = src[i];
+		l--;
+		i++;
+	}
+}
+
+static void	sstd(char *dest, const char *src, size_t l)
+{
+	size_t	i;
+
+	i = l - 1;
+	while (l > 0)
+	{
+		dest[i] = src[i];
+		l--;
+		i--;
+	}
+}
+
+void	*ft_memmove(void *dest, const void *src, size_t l)
+{
+	if (dest == src)
+		return (dest);
+	if (dest < src)
+	{
+		dsts((char *)dest, (const char *)src, l);
+		return (dest);
+	}
+	if (dest > src)
+	{
+		sstd((char *)dest, (const char *)src, l);
+		return (dest);
+	}
+	return (NULL);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	size_t	num_words;

@@ -119,26 +119,30 @@ int	cmd_quotes_pair_check(t_lex_cmd *lc)
 	}
 }
 
-void	cmd_space_trim(char *cmd)
+void cmd_space_trim(char *cmd)
 {
-	int	i;
-	int	last_space_pos;
+    char *dest;
+    char *src;
+    int len;
 
-	i = 0;
-	last_space_pos = 0;
-	if (!cmd || !*cmd)
-		return ;
-	while (cmd[i])
-	{
-		if (i)
-		{
-			if (cmd[i] == ' ' && cmd[i - 1] != ' ')
-				last_space_pos = i;
-		}
-		i++;
-	}
-	if (cmd[i - 1] == ' ')
-		cmd[last_space_pos] = '\0';
+    len = 0;
+    dest = cmd;
+    while (*cmd == ' ')
+        cmd++;
+    src = cmd;
+    while(*cmd !='\0')
+    {
+        cmd++;
+        len++;
+    }
+    while(*cmd == ' ')
+    {
+        cmd--;
+        len--;
+    }
+    ft_memmove(dest, src, len);
+    dest[len] = '\0';
+    cmd = dest;
 }
 
 /**
@@ -149,6 +153,8 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 {
 	t_lex_cmd	*lc;
 
+	printf("printing PT before doing lexer thing\n");
+	print_t_executor(pt);
 	pt->pwd = b_getenv("PATH", data);
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
@@ -164,11 +170,11 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 	// exec_data_re_init(data);
 	allocate_token_chain(lc, data);
 	fill_token_chain(lc->cmd, data);
-	if (type_token_chain(data) < 0)
+	if (type_token_chain(data, pt, lc) < 0)
 		return (free(lc), NULL);
 	// if (data->debug)
 	// 	print_token_chain(data);
-	if (token_chain_analyzer(data) < 0)
+	if (token_chain_analyzer(data, pt) < 0)
 		return (free(lc), NULL);
 	// if (data->debug)
 	print_token_chain(data);

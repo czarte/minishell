@@ -15,13 +15,14 @@
 /**
  * Expands the environment variable and makes an argument from it
  */
-int	expand_env_var(t_token_chain *current, t_data *data)
+int	expand_env_var(t_token_chain *current, t_data *data, t_executor *pt)
 {
 	char	*env_var;
 	char	*new_token;
 
 	env_var = NULL;
 	new_token = NULL;
+	pt->append = pt->append;	//dummy
 	if (current->expand)
 	{
 		env_var = b_getenv((current->token + 1), data);
@@ -89,7 +90,7 @@ int	expand_mid_sentence(t_token_chain *current, t_data *data)
 /**
  * Checks if the token chain contains environment variable to expand
  */
-int	check_for_env_vars(t_data *data)
+int	check_for_env_vars(t_data *data, t_executor *pt)
 {
 	t_token_chain	*current;
 
@@ -98,7 +99,7 @@ int	check_for_env_vars(t_data *data)
 	{
 		if (str_comp(current->type, "ev"))
 		{
-			if (expand_env_var(current, data))
+			if (expand_env_var(current, data, pt))
 				return (1);
 		}
 		current = current->next;

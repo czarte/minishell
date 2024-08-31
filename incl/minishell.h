@@ -237,9 +237,9 @@ void	signals_init(void);
 t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt);
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
-int		type_token_chain(t_data *data);
-int		token_chain_analyzer(t_data *data);
-int		analyze_redirections(t_data *data);
+int		type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc);
+int		token_chain_analyzer(t_data *data, t_executor *pt);
+int		analyze_redirections(t_data *data, t_executor *pt, t_lex_cmd *lc);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
 int		scan_folders(char **folder_strs, t_data *data);
@@ -249,7 +249,7 @@ int		is_builtin(char *token, t_data *data);
 int		is_env_var(char *token);
 int		is_last_pipe_exit(char *token);
 int		is_var_decl(char *token, t_data *data);
-int		check_for_env_vars(t_data *data);
+int		check_for_env_vars(t_data *data, t_executor *pt);
 int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
 int		count_slashes(const char *str);
@@ -273,6 +273,7 @@ void	str_fill(char *to, char *from);
 int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
 char	*ft_memdup(const char *str);
+void	*ft_memmove(void *dest, const void *src, size_t l);
 char	*ft_join_path(const char *str1, const char *str2);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -289,6 +290,7 @@ int		last_slash(const char *str);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
+void	print_t_executor(t_executor *pt);
 
 /*----	  Help		----*/
 void	help(void);

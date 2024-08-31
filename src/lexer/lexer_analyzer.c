@@ -12,41 +12,48 @@
 
 #include "../../incl/minishell.h"
 
-void	set_redirections(t_data *data, t_token_chain *current)
+void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 {
 	if (str_comp(current->type, "ri") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->infile = ft_memdup(current->next->token);
+		pt->infile = ft_memdup(current->next->token);
+		lc->dlmtr = '<';
 	}
 	if (str_comp(current->type, "rd") && current->next)
 	{
 		type_token(current->next, "dl");
-		data->exec->dlmtr = ft_memdup(current->next->token);
+		pt->dlmtr = ft_memdup(current->next->token);
+		pt->heredoc = true;
+		lc->dlmtr = '>';
 	}
 	if (str_comp(current->type, "ro") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->outfile = ft_memdup(current->next->token);
+		pt->outfile = ft_memdup(current->next->token);
+		lc->dlmtr = '>';
 	}
 	if (str_comp(current->type, "ra") && current->next)
 	{
 		type_token(current->next, "fp");
-		data->exec->outfile = ft_memdup(current->next->token);
+		pt->outfile = ft_memdup(current->next->token);
+		pt->append = true;
+		lc->dlmtr = '>';
 	}
 }
 
 /**
  * Work in progress, will analyze pipes between programs
  */
-int	analyze_redirections(t_data *data)
+int	analyze_redirections(t_data *data, t_executor *pt, t_lex_cmd *lc)
 {
 	t_token_chain	*current;
 
+	lc->cmd = lc->cmd;
 	current = data->token_chain->next;
 	while (current)
 	{
-		set_redirections(data, current);
+		set_redirections(current, pt, lc);
 		current = current->next;
 	}
 	return (0);
@@ -58,9 +65,9 @@ int	analyze_redirections(t_data *data)
  * contains so the chain doesn't need to be scanned for each type,
  * like for env vars...
  */
-int	token_chain_analyzer(t_data *data)
+int	token_chain_analyzer(t_data *data, t_executor *pt)
 {
-	if (check_for_env_vars(data))
+	if (check_for_env_vars(data, pt))
 		return (-1);
 	if (check_for_binary_paths(data) < 0)
 		return (-1);
