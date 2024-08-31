@@ -85,25 +85,27 @@ int	cmd_quotes_pair_check(t_lex_cmd *lc)
 	int		dq;
 	int		sq;
 	char	quote;
+	char	*cmd;
 
 	dq = 0;
 	sq = 0;
+	cmd = lc->cmd;
 	quote = '\0';
-	while (lc->cmd && *lc->cmd)
+	while (cmd && *cmd)
 	{
-		if (*lc->cmd == '\"')
+		if (*cmd == '\"')
 		{
 			if (!quote)
-				quote = *lc->cmd;
+				quote = *cmd;
 			dq++;
 		}
-		else if (*lc->cmd == '\'')
+		else if (*cmd == '\'')
 		{
 			if (!quote)
-				quote = *lc->cmd;
+				quote = *cmd;
 			sq++;
 		}
-		lc->cmd++;
+		cmd++;
 	}
 	if (dq % 2 || sq % 2)
 		return (0);
@@ -147,8 +149,7 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 {
 	t_lex_cmd	*lc;
 
-	pt++;
-	pt--;
+	pt->pwd = b_getenv("PATH", data);
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
 		return (NULL);
@@ -163,13 +164,14 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 	// exec_data_re_init(data);
 	allocate_token_chain(lc, data);
 	fill_token_chain(lc->cmd, data);
-	// if (type_token_chain(data) < 0)
-	// 	return (free(lc), NULL);
+	if (type_token_chain(data) < 0)
+		return (free(lc), NULL);
 	// if (data->debug)
 	// 	print_token_chain(data);
-	// if (token_chain_analyzer(data) < 0)
-	// 	return (free(lc), NULL);
+	if (token_chain_analyzer(data) < 0)
+		return (free(lc), NULL);
 	// if (data->debug)
-		print_token_chain(data);
+	print_token_chain(data);
+	printf("lc->cmd from lexer: %s\n", lc->cmd);
 	return (lc);
 }

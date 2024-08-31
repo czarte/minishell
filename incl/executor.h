@@ -46,7 +46,7 @@ void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
 int			ft_exec(t_executor *pt, int pi[2], int fd_m);
 char 		**parse_argv(char *arg, t_executor *pt, t_data *data);
 int			ft_parse_command(t_executor *pt, char *argv, t_data *data);
-void		get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
+int		get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
 int			ft_loop(t_executor *pt, int fd_m);
 int			check_path_and_files(t_executor *pt);
 void		print_help(void);

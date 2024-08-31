@@ -70,11 +70,11 @@ int	loop(t_data *data)
 
 	if (exec_data_init(data) < 0)
 		return (-1);
-	pt = ft_init_exec(data);
 	init_signals();
 	while (true)
 	{
 		cmd = cli(data);
+		pt = ft_init_exec(data);
 		if (is_exit_cmd(cmd) || (refresh_path(data) < 0))
 		{
 			ft_exit(cmd);
@@ -90,6 +90,7 @@ int	loop(t_data *data)
 		if (ft_parse_command(pt, cmd, data))
 			g_last_status = executor(data, pt);
 		free(cmd);
+		pt = NULL;
 		free_token_chain(data);
 	}
 }

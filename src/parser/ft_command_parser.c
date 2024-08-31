@@ -36,9 +36,11 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 		while (*psr.pipes)
 		{
 			lex_cmd = lexer(*psr.pipes, data, pt);
+			printf("returned pointer %p\n", lex_cmd);
 			if (lex_cmd == NULL)
 				return (NULL);
-			get_command_array(lex_cmd, &psr, data);
+			if (get_command_array(lex_cmd, &psr, data) < 0)
+				return (NULL);
 			free(lex_cmd);
 			if (psr.array[0])
 				ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr.array));
@@ -50,15 +52,17 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	else
 	{
 		lex_cmd = lexer(arg, data, pt);
+		printf("returned pointer %p\n", lex_cmd);
 		if (lex_cmd == NULL)
 				return (NULL);
-		get_command_array(lex_cmd, &psr, data);
+		if (get_command_array(lex_cmd, &psr, data) < 0)
+			return (NULL);
 		free(lex_cmd);
 	}
 	return (psr.array);
 }
 
-void	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
+int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 	if (ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
 	{
 		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
@@ -66,7 +70,7 @@ void	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 		{
 			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
 				perror(psr->splitcmd[0]);
-				return ;
+				return (-1);
 			}
 			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
@@ -79,7 +83,7 @@ void	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 		printf("debug %s\n", lex_cmd->cmd);
 		if (!check_cmd_path_exists(lex_cmd->cmd, data)) {
 			perror(lex_cmd->cmd);
-			return ;
+			return (-1);
 		}
 		psr->pathcmd = get_cmd_path(lex_cmd->cmd, data);
 		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin(" ", lex_cmd->cmd));
@@ -96,9 +100,10 @@ void	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 			tmp++;
 		}
 	}
+	return (0);
 }
 
-void	parse_path(t_executor *pt, char *argv, t_data *data)
+int	parse_path(t_executor *pt, char *argv, t_data *data)
 {
 	char	**command;
 
@@ -106,15 +111,17 @@ void	parse_path(t_executor *pt, char *argv, t_data *data)
 	if (command == NULL)
 	{
 		perror("Something went wrong");
-		return ;
+		return (-1);
 	}
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
+	return (0);
 }
 
 int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 {
-	parse_path(pt, argv, data);
+	if (parse_path(pt, argv, data) < 0)
+		return (0);
 	check_commands(pt);
 	return (check_commands(pt));
 }

@@ -44,6 +44,7 @@ int	prog_arg_fix(t_data *data)
 	{
 		if (!pr_ar && str_comp(current->type, "ar"))
 		{
+			printf("from prog arg fix:\n");
 			printf("%s: command not found!\n", current->token);
 			g_last_status = 127;
 			return (-1);
@@ -69,8 +70,8 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 {
 	if (is_builtin(current->token, data))
 		analyze_builtin(current, data);
-	else if (check_cmd_path_exists(current->token, data))
-		type_token(current, "pr");
+	// else if (check_cmd_path_exists(current->token, data))
+	// 	type_token(current, "pr");
 	else if (str_comp(current->token, "|"))
 		type_token(current, "pi");
 	else if (str_comp(current->token, "<"))
@@ -99,9 +100,9 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 int	type_token_chain(t_data *data)
 {
 	t_token_chain	*current;
-	int				paf_ret;
+	// int				paf_ret;
 
-	paf_ret = 0;
+	// paf_ret = 0;
 	current = data->token_chain->next;
 	while (current)
 	{
@@ -110,7 +111,7 @@ int	type_token_chain(t_data *data)
 	}
 	analyze_redirections(data);
 	print_token_chain(data);
-	paf_ret = prog_arg_fix(data);
+	// paf_ret = prog_arg_fix(data);
 	print_token_chain(data);
-	return (paf_ret);
+	return (0);
 }
