@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/24 14:24:18 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:12:26 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,58 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	return (psr.array);
 }
 
-int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
+void trim_all(char **splitcmd)
+{
 	int	i;
 
+	i = 0;
+	while (splitcmd[i])
+	{
+		printf("before trim: |%s|\n", splitcmd[i]);
+		cmd_space_trim(splitcmd[i]);
+		printf("after trim: |%s|\n", splitcmd[i]);
+		i++;
+	}
+}
+
+int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
+	int i;
+	char **prepare;
 
 	i = 0;
-	printf("start of get command array\n");
+	prepare = NULL;
+	printf("start of get command array, dlmtr: %c\n", lex_cmd->dlmtr);
 	if (ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
 	{
 		printf("get command array if\n");
+		if (lex_cmd->dlmtr == '>' || lex_cmd->dlmtr == '<') {
+			prepare = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
+			lex_cmd->cmd = prepare[0];
+			lex_cmd->dlmtr = ' ';
+		}
 		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
 		if (psr->splitcmd[0])
 		{
-			while (psr->splitcmd[i])
-			{
-				printf("before trim: |%s|\n", psr->splitcmd[i]);
+			if (lex_cmd->dlmtr != '"' && lex_cmd->dlmtr != '\'')
+				trim_all(psr->splitcmd);
+			else
 				cmd_space_trim(psr->splitcmd[i]);
-				printf("after trim: |%s|\n", psr->splitcmd[i]);
-				i++;
-			}
-			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
+			printf("splitcmd[1] %s\n", psr->splitcmd[1]);
+			if (!check_cmd_path_exists(psr->splitcmd[i], data)) {
 				perror(psr->splitcmd[0]);
 				return (-1);
 			}
-			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
-			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, " "), \
-		lex_cmd->cmd);
-			psr->array = ft_split(psr->combined, ' ');
+			psr->pathcmd = get_cmd_path(psr->splitcmd[i], data);
+			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, "\x15"), \
+			psr->splitcmd[i]);
+			i += 1;
+			while (psr->splitcmd[i]) // i + 1 solves outfile
+ 			{
+				psr->combined = ft_strjoin(ft_strjoin(psr->combined, "\x15"), \
+				psr->splitcmd[i]);
+				i++;
+			}
+			psr->array = ft_split(psr->combined, '\x15');
 		}
 	}
 	else
@@ -104,8 +129,8 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 			return (-1);
 		}
 		psr->pathcmd = get_cmd_path(lex_cmd->cmd, data);
-		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin(" ", lex_cmd->cmd));
-		psr->array = ft_split(psr->combined, ' ');
+		psr->combined = ft_strjoin(psr->pathcmd, ft_strjoin("\x15", lex_cmd->cmd));
+		psr->array = ft_split(psr->combined, '\x15');
 	}
 	ft_check_access((*psr).pathcmd, &(*psr).array);
 	printf("psr pathcmd: %s\n", psr->pathcmd);

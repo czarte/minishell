@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/17 14:24:40 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/01 21:59:03 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ typedef struct s_exec_bag
 
 t_executor	*ft_init_exec(t_data *data);
 void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
-int			ft_exec(t_executor *pt, int pi[2], int fd_m);
+int			ft_exec(t_executor *pt, int pi[2], int fd_m, t_data *data);
 char 		**parse_argv(char *arg, t_executor *pt, t_data *data);
 int			ft_parse_command(t_executor *pt, char *argv, t_data *data);
 int		get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
-int			ft_loop(t_executor *pt, int fd_m);
+int			ft_loop(t_executor *pt, int fd_m, t_data *data);
 int			check_path_and_files(t_executor *pt);
 void		print_help(void);
 void		exit_error(t_executor *pt, int exitcode);

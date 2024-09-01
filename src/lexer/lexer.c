@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/08/06 17:37:58 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:55:59 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 
 	printf("printing PT before doing lexer thing\n");
 	print_t_executor(pt);
-	pt->pwd = b_getenv("PATH", data);
+	pt->pwd = b_getenv("PWD", data);
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
 		return (NULL);

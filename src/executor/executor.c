@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/24 14:28:01 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:58:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ int	executor(t_data *data, t_executor *pt)
 	eb = malloc(sizeof(t_exec_bag));
 	if (eb == NULL)
 		perror("unable allocate memory");
-	init_exec_bag(eb, data, pt);
+	//init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
 	eb->run = true;
 	// iterate_commands(eb, data);
 	//pt->comm = data->exec->cmd;
 	pt->append = data->exec->append;
 	if (eb->run)
-		e_c = ft_loop(pt, fd_m);
+		e_c = ft_loop(pt, fd_m, data);
 	executor_finished_clean(pt, eb, data);
 	return (e_c);
 }

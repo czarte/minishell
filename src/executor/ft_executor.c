@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 20:18:04 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/01 22:00:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,15 @@ int	send_heredoc(t_executor *pt)
 	return (1);
 }
 
-int	ft_exec(t_executor *pt, int pi[2], int fd_m)
+//void	run_builtin()
+//{
+//	if (str_comp(eb->cur->type, "bu") && data->n_cmd == 0)
+//
+//	else if (str_comp(eb->cur->type, "vd"))
+//		envp_add_reallocate(data, eb->cur->token, 1);
+//}
+
+int	ft_exec(t_executor *pt, int pi[2], int fd_m, t_data *data)
 {
 	static int	i;
 
@@ -74,16 +82,22 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 		i = 0;
 		pt->end = 0;
 	}
-	send_heredoc(pt);
-	pt->pid[i] = fork();
-	g_pid = pt->pid[i];
-	if (pt->pid[i] == -1)
-	{
-		perror("fork error");
-		exit(EXIT_FAILURE);
+	printf("executor: %s\n", (char *) pt->comm->content[0]);
+	if (is_builtin((char *) pt->comm->content[0], data)) {
+		//execute_builtin(pt->comm->content[0], pt);
 	}
-	if (pt->pid[i] == 0)
-		ft_exec_child(pt, pt->comm, pi, fd_m);
-	i++;
+	else
+	{
+		send_heredoc(pt);
+		pt->pid[i] = fork();
+		g_pid = pt->pid[i];
+		if (pt->pid[i] == -1) {
+			perror("fork error");
+			exit(EXIT_FAILURE);
+		}
+		if (pt->pid[i] == 0)
+			ft_exec_child(pt, pt->comm, pi, fd_m);
+		i++;
+	}
 	return (EXIT_SUCCESS);
 }

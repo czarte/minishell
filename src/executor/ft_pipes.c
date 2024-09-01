@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:40:20 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/01 22:00:56 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_executor	*ft_init_exec(t_data *data)
 	return (pt);
 }
 
-bool	exec_loop(t_executor *pt, int fd_m, int pi[2], int *cmi)
+bool	exec_loop(t_executor *pt, int fd_m, int pi[2], int *cmi, t_data *data)
 {
 	while (!pt->end)
 	{
@@ -84,7 +84,7 @@ bool	exec_loop(t_executor *pt, int fd_m, int pi[2], int *cmi)
 		if (!pt->end)
 			if (pt->comm->next == NULL)
 				pt->end = 1;
-		ft_exec(pt, pi, fd_m);
+		ft_exec(pt, pi, fd_m, data);
 		close(pi[1]);
 		if (pt->comm->prev)
 			close(fd_m);
@@ -102,7 +102,7 @@ bool	exec_loop(t_executor *pt, int fd_m, int pi[2], int *cmi)
 	return (false);
 }
 
-int	ft_loop(t_executor *pt, int fd_m)
+int	ft_loop(t_executor *pt, int fd_m, t_data *data)
 {
 	int		pi[2];
 	int		cmi;
@@ -118,7 +118,7 @@ int	ft_loop(t_executor *pt, int fd_m)
 	}
 	if (pt->outfile != NULL)
 		pt->fsucc = init_out_file(pt, pi);
-	exec_loop(pt, fd_m, pi, &cmi);
+	exec_loop(pt, fd_m, pi, &cmi, data);
 	while (n < cmi)
 	{
 		exit_code = wait_subprocess(pt, n++);
