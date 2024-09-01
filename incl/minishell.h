@@ -161,6 +161,7 @@ typedef struct s_executor
 	bool	heredoc;
 	bool	heredoc_rl;
 	bool	append;
+	bool	parsing_ok;
 	int		*fd;
 	int		c_pi;
 	int		filefd[2];

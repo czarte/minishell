@@ -109,8 +109,8 @@ void	cmd_space_trim(char *cmd)
 		cmd[last_space_pos] = '\0';
 }
 
-
-void cmd_space_trim(char *cmd)
+/*
+void cmd_space_trim1(char *cmd)
 {
     char *dest;
     char *src;
@@ -134,7 +134,7 @@ void cmd_space_trim(char *cmd)
     ft_memmove(dest, src, len);
     dest[len] = '\0';
     cmd = dest;
-}
+}*/
 
 int main(void)
 {
@@ -158,7 +158,7 @@ int main(void)
     printf("|%s|\n", test4);
 */
 
-
+	printf("sizof char *: %li\n", sizeof(int *));
     printf("|%s|\n", test1);
     cmd_space_trim1(test1);
     printf("|%s|\n", test1);

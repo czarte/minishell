@@ -152,12 +152,12 @@ int	check_commands(t_executor *pt)
 		con = (char **) pt->comm->content;
 		while (*con)
 		{
-			printf("command: %s\n",*con);
+			printf("command: |%s|\n",*con);
 			con++;
 		}
 		printf("-----------\n");
 		if (access(pt->comm->content[0], X_OK == -1))
-			printf("minishell: command not found: %s\n", (char *)
+			printf("minishell: command not found: |%s|\n", (char *)
 				pt->comm->content[0]);
 		pt->comm = pt->comm->next;
 		n++;

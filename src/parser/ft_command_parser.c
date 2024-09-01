@@ -46,7 +46,9 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 				ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr.array));
 			psr.pipes++;
 		}
+		printf("from parse argv\n");
 		check_commands(pt);
+		pt->parsing_ok = false;
 		psr.array = NULL;
 	}
 	else
@@ -59,6 +61,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 			return (NULL);
 		free(lex_cmd);
 	}
+	pt->parsing_ok = true;
 	return (psr.array);
 }
 
@@ -69,6 +72,7 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
 		if (psr->splitcmd[0])
 		{
+			cmd_space_trim(psr->splitcmd[0]);
 			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
 				perror(psr->splitcmd[0]);
 				return (-1);
@@ -81,6 +85,7 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 	}
 	else
 	{
+		cmd_space_trim(lex_cmd->cmd);
 		printf("debug %s\n", lex_cmd->cmd);
 		if (!check_cmd_path_exists(lex_cmd->cmd, data)) {
 			perror(lex_cmd->cmd);
@@ -109,7 +114,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	char	**command;
 
 	command = parse_argv(argv, pt, data);
-	if (command == NULL)
+	if (!pt->parsing_ok)
 	{
 		perror("Something went wrong");
 		return (-1);

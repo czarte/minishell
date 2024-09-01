@@ -64,6 +64,7 @@ t_executor	*ft_init_exec(t_data *data)
 		pt->pid = NULL;
 	pt->deubg = false;
 	pt->deubg = false;
+	pt->parsing_ok = false;
 	pt->comm = NULL;
 	pt->heredoc = false;
 	pt->heredoc_rl = false;
