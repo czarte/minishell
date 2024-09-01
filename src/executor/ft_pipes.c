@@ -53,7 +53,7 @@ t_executor	*ft_init_exec(t_data *data)
 	pt->c_pi = count_pipes(data) + 1;
 	if (pt->c_pi > 0)
 	{
-		pt->pid = (int *)malloc((pt->c_pi) * sizeof(int));
+		pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
 		while (i < pt->c_pi)
 		{
 			pt->pid[i] = -1;
