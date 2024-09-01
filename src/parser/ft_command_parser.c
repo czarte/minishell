@@ -121,10 +121,14 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 	return (0);
 }
 
+
+
 int	parse_path(t_executor *pt, char *argv, t_data *data)
 {
 	char	**command;
+	int		i;
 
+	i = 0;
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok)
 	{
@@ -133,6 +137,16 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	}
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
+	pt->c_pi = count_pipes(pt);
+	if (pt->c_pi > 0)
+	{
+		pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
+		while (i < pt->c_pi)
+		{
+			pt->pid[i] = -1;
+			i++;
+		}
+	}
 	return (0);
 }
 

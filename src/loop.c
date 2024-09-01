@@ -86,7 +86,6 @@ int	loop(t_data *data)
 			free(cmd);
 			continue ;
 		}
-
 		if (ft_parse_command(pt, cmd, data))
 			g_last_status = executor(data, pt);
 		free(cmd);

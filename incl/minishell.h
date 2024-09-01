@@ -184,6 +184,7 @@ typedef struct s_executor
 
 int		loop(t_data *data);
 int		ft_parser(char *cmd, t_data *data);
+int		count_pipes(t_executor *pt);
 
 /*----    Data functions    ----*/
 int		data_init(t_data *data, char **envp);

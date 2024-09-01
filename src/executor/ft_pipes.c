@@ -26,42 +26,31 @@ char	*open_infile(t_executor *pt, char *filename)
 		return (filename);
 }
 
-int	count_pipes(t_data *data)
+int	count_pipes(t_executor *pt)
 {
 	t_list	*execs;
 	int		i;
 
 	i = 0;
-	execs = data->exec->cmd;
+	execs = pt->comm;
 	while (execs)
 	{
 		i++;
 		execs = execs->next;
 	}
+	printf("number of pipes: %i\n", i);
 	return (i);
 }
 
 t_executor	*ft_init_exec(t_data *data)
 {
 	t_executor	*pt;
-	int			i;
 
-	i = 0;
 	pt = malloc(sizeof(t_executor));
 	if (pt < 0)
 		perror("unable to allocate t_exec");
-	pt->c_pi = count_pipes(data) + 1;
-	if (pt->c_pi > 0)
-	{
-		pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
-		while (i < pt->c_pi)
-		{
-			pt->pid[i] = -1;
-			i++;
-		}
-	}
-	else
-		pt->pid = NULL;
+	pt->c_pi = 0;
+	pt->pid = NULL;
 	pt->deubg = false;
 	pt->deubg = false;
 	pt->parsing_ok = false;
