@@ -131,10 +131,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	i = 0;
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok)
-	{
-		perror("Something went wrong");
 		return (-1);
-	}
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 	pt->c_pi = count_pipes(pt);
