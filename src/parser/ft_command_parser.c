@@ -117,7 +117,6 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 			tmp++;
 		}
 	}
-
 	return (0);
 }
 

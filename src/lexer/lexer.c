@@ -174,7 +174,7 @@ void	cmd_space_trim(char *cmd)
 //         len--;
 //     }
 //     ft_memmove(dest, src, len);
-//     dest[len] = '\0';
+// 	dest[len] = '\0';
 //     cmd = dest;
 // }
 
