@@ -119,31 +119,64 @@ int	cmd_quotes_pair_check(t_lex_cmd *lc)
 	}
 }
 
-void cmd_space_trim(char *cmd)
+void	cmd_space_trim(char *cmd)
 {
-    char *dest;
-    char *src;
-    int len;
+	int	i;
+	int	last_space_pos;
+    char    *src;
+    bool    first_letter;
 
-    len = 0;
-    dest = cmd;
-    while (*cmd == ' ')
-        cmd++;
-    src = cmd;
-    while(*cmd !='\0')
-    {
-        cmd++;
-        len++;
-    }
-    while(*cmd == ' ')
-    {
-        cmd--;
-        len--;
-    }
-    ft_memmove(dest, src, len);
-    dest[len] = '\0';
-    cmd = dest;
+	i = 0;
+	last_space_pos = 0;
+    first_letter = false;
+    src = NULL;
+	if (!cmd || !*cmd)
+		return ;
+	while (cmd[i])
+	{
+        if ((!first_letter && cmd[i] != ' '))
+        {
+            if (!first_letter)
+                src = (cmd + i);
+            first_letter = true;
+        }
+		if (i)
+		{
+			if (cmd[i] == ' ' && cmd[i - 1] != ' ')
+				last_space_pos = i;
+		}
+		i++;
+	}
+	if (cmd[i - 1] == ' ')
+		cmd[last_space_pos] = '\0';
+    cmd = ft_memmove(cmd, src, (ft_strlen(src) + 1));
 }
+
+// void cmd_space_trim(char *cmd)
+// {
+//     char *dest;
+//     char *src;
+//     int len;
+//
+//     len = 0;
+//     dest = cmd;
+//     while (*cmd == ' ')
+//         cmd++;
+//     src = cmd;
+//     while(*cmd !='\0')
+//     {
+//         cmd++;
+//         len++;
+//     }
+//     while(*cmd == ' ')
+//     {
+//         cmd--;
+//         len--;
+//     }
+//     ft_memmove(dest, src, len);
+//     dest[len] = '\0';
+//     cmd = dest;
+// }
 
 /**
  * Takes command and processes it resulting in linked list of typed tokens

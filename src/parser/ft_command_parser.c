@@ -66,13 +66,24 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 }
 
 int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
+	int	i;
+
+
+	i = 0;
 	printf("start of get command array\n");
 	if (ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
 	{
+		printf("get command array if\n");
 		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
 		if (psr->splitcmd[0])
 		{
-			cmd_space_trim(psr->splitcmd[0]);
+			while (psr->splitcmd[i])
+			{
+				printf("before trim: |%s|\n", psr->splitcmd[i]);
+				cmd_space_trim(psr->splitcmd[i]);
+				printf("after trim: |%s|\n", psr->splitcmd[i]);
+				i++;
+			}
 			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
 				perror(psr->splitcmd[0]);
 				return (-1);
@@ -85,6 +96,7 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 	}
 	else
 	{
+		printf("get command array else\n");
 		cmd_space_trim(lex_cmd->cmd);
 		printf("debug %s\n", lex_cmd->cmd);
 		if (!check_cmd_path_exists(lex_cmd->cmd, data)) {
