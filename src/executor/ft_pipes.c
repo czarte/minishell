@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/01 22:00:56 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:24:03 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	count_pipes(t_executor *pt)
 		i++;
 		execs = execs->next;
 	}
-	printf("number of pipes: %i\n", i);
+	if (pt->deubg)
+		printf("number of pipes: %i\n", i);
 	return (i);
 }
 

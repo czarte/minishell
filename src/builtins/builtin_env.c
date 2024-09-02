@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:21:54 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 13:45:02 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/02 19:10:40 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ char	*b_getenv(char *name, t_data *data)
 {
 	char	*res;
 
-	printf("name from getenv: %s\n", name);
+	if (data->debug)
+		printf("name from getenv: %s\n", name);
 	res = NULL;
 	res = get_env_check_envp(name, data);
 	return (res);

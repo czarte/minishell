@@ -46,8 +46,6 @@ int	number_of_tokens(char *cmd)
 	n = no_space_tokens(cmd);
 	quote = '\0';
 	count_number_of_tokens(&cmd, &n, &quote);
-	// if (data->debug)
-		printf("Number of tokens: %i\n", n);
 	return (n);
 }
 

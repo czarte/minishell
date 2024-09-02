@@ -190,14 +190,16 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 	int			ex_ret;
 
 	ex_ret = 1;
-	printf("printing PT before doing lexer thing\n");
+	if (data->debug)
+		printf("printing PT before doing lexer thing\n");
 	print_t_executor(pt);
 	pt->pwd = b_getenv("PWD", data);
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
 		return (NULL);
 	lc->cmd = cmd;
-	printf("lc->cmd from lexer: %s\n", lc->cmd);
+	if (data->debug)
+		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	if (!cmd_quotes_pair_check(lc))
 	{
 		printf("Unclosed quotes!\n");
@@ -212,7 +214,8 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 		return (free(lc), NULL);
 	while (ex_ret)
 		ex_ret = env_var_expander(lc, data);
-	printf("lc->cmd from lexer: %s\n", lc->cmd);
+	if (data->debug)
+		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	free_token_chain(data);
 	return (lc);
 }
