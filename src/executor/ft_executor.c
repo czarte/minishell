@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 11:46:52 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:37:56 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 	close(pi[1]);
 	if (com->prev)
 		close(fd_m);
-	exit_code = execve(argv[0], &argv[1], pt->env);
+	if (is_builtin((char *) pt->comm->content[1], pt->data))
+		exit_code = execute_builtin(pt->comm->content, pt->data);
+	else
+		exit_code = execve(argv[0], &argv[1], pt->env);
 	exit(exit_code);
 }
 
@@ -65,7 +68,7 @@ int	send_heredoc(t_executor *pt)
 	return (1);
 }
 
-int	ft_exec(t_executor *pt, int pi[2], int fd_m, t_data *data)
+int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 {
 	static int	i;
 
@@ -74,23 +77,17 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m, t_data *data)
 		i = 0;
 		pt->end = 0;
 	}
-	printf("executor: %s\n", (char *) pt->comm->content[1]);
-	if (is_builtin((char *) pt->comm->content[1], data)) {
-		printf("execute_builtin\n");
-		execute_builtin(pt->comm->content, data, (unsigned long) pt->comm->next, pi);
+	send_heredoc(pt);
+	if (pt->deubg)
+		printf("executor: %s\n", (char *) pt->comm->content[1]);
+	pt->pid[i] = fork();
+	g_pid = pt->pid[i];
+	if (pt->pid[i] == -1) {
+		perror("fork error");
+		exit(EXIT_FAILURE);
 	}
-	else
-	{
-		send_heredoc(pt);
-		pt->pid[i] = fork();
-		g_pid = pt->pid[i];
-		if (pt->pid[i] == -1) {
-			perror("fork error");
-			exit(EXIT_FAILURE);
-		}
-		if (pt->pid[i] == 0)
-			ft_exec_child(pt, pt->comm, pi, fd_m);
-		i++;
-	}
+	if (pt->pid[i] == 0)
+		ft_exec_child(pt, pt->comm, pi, fd_m);
+	i++;
 	return (EXIT_SUCCESS);
 }

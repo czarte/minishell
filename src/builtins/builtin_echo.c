@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:19 by stepan            #+#    #+#             */
-/*   Updated: 2024/09/02 11:48:49 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:03:45 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	echo(char **echo_tok)
 		return ;
 	while (*current)
 	{
-		write(1, *current, ft_strlen(*current));
+		write(STDOUT_FILENO, *current, ft_strlen(*current));
 		current++;
 		if (current)
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 	}
 	if (new_line)
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	g_last_status = 0;
 }

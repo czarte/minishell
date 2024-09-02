@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 19:40:34 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:46:41 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int	check_heredoc(t_executor *pt, int pi[2])
 	if (pt->filefd[0])
 	{
 		close(pi[0]);
-		printf("pt->filefd[0]: %d\n", pt->filefd[0]);
+		if (pt->deubg)
+			printf("pt->filefd[0]: %d\n", pt->filefd[0]);
 		fd_m = pt->filefd[0];
 	}
 	else

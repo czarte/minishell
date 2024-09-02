@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 11:46:33 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:35:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ typedef struct s_exec_bag
 
 t_executor	*ft_init_exec(t_data *data);
 void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
-int			ft_exec(t_executor *pt, int pi[2], int fd_m, t_data *data);
+int			ft_exec(t_executor *pt, int pi[2], int fd_m);
 char 		**parse_argv(char *arg, t_executor *pt, t_data *data);
 int			ft_parse_command(t_executor *pt, char *argv, t_data *data);
-int		get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
-int			ft_loop(t_executor *pt, int fd_m, t_data *data);
+int			get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
+int			ft_loop(t_executor *pt, int fd_m);
 int			check_path_and_files(t_executor *pt);
 void		print_help(void);
 void		exit_error(t_executor *pt, int exitcode);
 void		free_alloc(t_executor *pt);
-int			execute_builtin(void **current, t_data *data, unsigned long next, int pi[]);
+int			execute_builtin(void **current, t_data *data);
 int			command_arg_count(t_token_chain *tc, t_data *data);
 void		init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt);
 void		assign_pt(t_data *data, t_executor *pt);

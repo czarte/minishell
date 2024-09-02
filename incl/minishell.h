@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 11:44:52 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:04:02 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ typedef struct s_executor
 	char	*infile;
 	char	*outfile;
 	char	*dlmtr;	//heredoc delimiter
-	char	**builtins;
+	t_data 	*data;
 }	t_executor;
 
 int		loop(t_data *data);

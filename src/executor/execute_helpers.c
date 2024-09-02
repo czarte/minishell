@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 12:00:30 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:29:57 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,8 @@ int	command_arg_count(t_token_chain *tc, t_data *data)
 /**
  * Finds out which of the builtin commands to execute
  */
-int	execute_builtin(void **current, t_data *data, unsigned long next, int pi[])
+int	execute_builtin(void **current, t_data *data)
 {
-	printf("execute_builtin: next %lu\n", next);
-	close(pi[0]);
-	if (next && dup2(pi[1], STDOUT_FILENO) < 0)
-		perror("unable to dup pi[1]\n");
-	close(pi[1]);
 	if (str_comp(current[1], "cd"))
 		cd(current[2], data);
 	else if (str_comp(current[1], "pwd"))

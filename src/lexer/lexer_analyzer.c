@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:34 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 17:28:20 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:44:14 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 	{
 		type_token(current->next, "fp");
 		pt->infile = ft_memdup(current->next->token);
+		pt->heredoc = true;
 		lc->dlmtr = '<';
 	}
 	if (str_comp(current->type, "rd") && current->next)
 	{
 		type_token(current->next, "dl");
 		pt->dlmtr = ft_memdup(current->next->token);
-		pt->heredoc = true;
-		lc->dlmtr = '>';
+		pt->heredoc_rl = true;
+		lc->dlmtr = '<';
 	}
 	if (str_comp(current->type, "ro") && current->next)
 	{

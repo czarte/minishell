@@ -6,29 +6,29 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/01 18:58:27 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:32:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	iterate_commands(t_exec_bag *eb, t_data *data)
-{
-	while (eb->cur)
-	{
-		if (str_comp(eb->cur->type, "bu") && data->n_cmd == 0)
-			execute_builtin(eb->cur, data);
-		else if (str_comp(eb->cur->type, "vd"))
-			envp_add_reallocate(data, eb->cur->token, 1);
-		else if (str_comp(eb->cur->type, "pr") || str_comp(eb->cur->type, "bp"))
-		{
-			eb->run = true;
-			break ;
-		}
-		eb->cur = eb->cur->next;
-	}
-}
+//void	iterate_commands(t_exec_bag *eb, t_data *data)
+//{
+//	while (eb->cur)
+//	{
+//		if (str_comp(eb->cur->type, "bu") && data->n_cmd == 0)
+//			execute_builtin(eb->cur, data);
+//		else if (str_comp(eb->cur->type, "vd"))
+//			envp_add_reallocate(data, eb->cur->token, 1);
+//		else if (str_comp(eb->cur->type, "pr") || str_comp(eb->cur->type, "bp"))
+//		{
+//			eb->run = true;
+//			break ;
+//		}
+//		eb->cur = eb->cur->next;
+//	}
+//}
 
 void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
 {
@@ -68,10 +68,10 @@ int	executor(t_data *data, t_executor *pt)
 	fd_m = STDIN_FILENO;
 	eb->run = true;
 	// iterate_commands(eb, data);
-	//pt->comm = data->exec->cmd;
+	pt->data = data;
 	pt->append = data->exec->append;
 	if (eb->run)
-		e_c = ft_loop(pt, fd_m, data);
+		e_c = ft_loop(pt, fd_m);
 	executor_finished_clean(pt, eb, data);
 	return (e_c);
 }
