@@ -41,6 +41,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 				return (NULL);
 			if (get_command_array(lex_cmd, &psr, data) < 0)
 				return (NULL);
+			free(lex_cmd->cmd);
 			free(lex_cmd);
 			if (psr.array[0])
 				ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr.array));
@@ -59,6 +60,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 				return (NULL);
 		if (get_command_array(lex_cmd, &psr, data) < 0)
 			return (NULL);
+		free(lex_cmd->cmd);
 		free(lex_cmd);
 	}
 	pt->parsing_ok = true;

@@ -53,7 +53,7 @@ char	*get_env_check_envp(char *name, t_data *data)
 			j++;
 			k++;
 		}
-		if (data->envp[i][j] == '=')
+		if (data->envp[i][j] == '=' && name[k] == '\0')
 			return (data->envp[i] + j + 1);
 		j = 0;
 		k = 0;
@@ -66,6 +66,7 @@ char	*b_getenv(char *name, t_data *data)
 {
 	char	*res;
 
+	printf("name from getenv: %s\n", name);
 	res = NULL;
 	res = get_env_check_envp(name, data);
 	return (res);

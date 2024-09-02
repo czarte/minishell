@@ -68,13 +68,14 @@ int	is_binary_path(char *token)
 
 void	type_token_logic(t_token_chain *current, t_data *data)
 {
-	if (is_builtin(current->token, data))
-		analyze_builtin(current, data);
+	data->builtins = data->builtins;
+	// if (is_builtin(current->token, data))
+	// 	analyze_builtin(current, data);
 	// else if (check_cmd_path_exists(current->token, data))
 	// 	type_token(current, "pr");
-	else if (str_comp(current->token, "|"))
-		type_token(current, "pi");
-	else if (str_comp(current->token, "<"))
+	// if (str_comp(current->token, "|"))
+	// 	type_token(current, "pi");
+	if (str_comp(current->token, "<"))
 		type_token(current, "ri");
 	else if (str_comp(current->token, ">"))
 		type_token(current, "ro");
@@ -82,10 +83,10 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 		type_token(current, "rd");
 	else if (str_comp(current->token, ">>"))
 		type_token(current, "ra");
-	else if (is_last_pipe_exit(current->token))
-		expand_last_exit_status(current);
-	else if (is_env_var(current->token))
-		type_token(current, "ev");
+	// else if (is_last_pipe_exit(current->token))
+	// 	expand_last_exit_status(current);
+	// else if (is_env_var(current->token))
+	// 	type_token(current, "ev");
 	else if (is_var_decl(current->token, data))
 		type_token(current, "vd");
 	else if (is_binary_path(current->token))

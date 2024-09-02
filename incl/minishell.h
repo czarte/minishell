@@ -238,6 +238,7 @@ void	signals_init(void);
 
 /*----    Lexer    ----*/
 t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt);
+int		env_var_expander(t_lex_cmd *lc, t_data *data);
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
 int		type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc);
@@ -290,6 +291,12 @@ int		check_exec_access(char *folder, struct dirent *dirent);
 char	*ft_itoa(int n);
 int		ft_atoi(const char *str);
 int		last_slash(const char *str);
+bool	is_var_char(char c);
+char	*fill_res(char *res, char *str);
+void	split_main_string(char *main, char *main1, char *main2);
+char	*get_var_name(int d_p, t_lex_cmd *lc);
+int		ft_expandable(char *cmd);
+
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
