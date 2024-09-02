@@ -18,14 +18,15 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 	{
 		type_token(current->next, "fp");
 		pt->infile = ft_memdup(current->next->token);
+		pt->heredoc = true;
 		lc->dlmtr = '<';
 	}
 	if (str_comp(current->type, "rd") && current->next)
 	{
 		type_token(current->next, "dl");
 		pt->dlmtr = ft_memdup(current->next->token);
-		pt->heredoc = true;
-		lc->dlmtr = '>';
+		pt->heredoc_rl = true;
+		lc->dlmtr = '<';
 	}
 	if (str_comp(current->type, "ro") && current->next)
 	{
