@@ -13,23 +13,6 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-//void	iterate_commands(t_exec_bag *eb, t_data *data)
-//{
-//	while (eb->cur)
-//	{
-//		if (str_comp(eb->cur->type, "bu") && data->n_cmd == 0)
-//			execute_builtin(eb->cur, data);
-//		else if (str_comp(eb->cur->type, "vd"))
-//			envp_add_reallocate(data, eb->cur->token, 1);
-//		else if (str_comp(eb->cur->type, "pr") || str_comp(eb->cur->type, "bp"))
-//		{
-//			eb->run = true;
-//			break ;
-//		}
-//		eb->cur = eb->cur->next;
-//	}
-//}
-
 void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
 {
 	free_alloc(pt);
