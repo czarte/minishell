@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/01 21:56:27 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:44:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int		add_cmd_list_node(char *name, char *path, t_data *data);
 
 /*----    Builtin commands functions    ----*/
 void	cd(const char *new_wd, t_data *data);
-void	echo(t_token_chain *echo_tok);
+void	echo(char **echo_tok);
 void	env(t_data *data);
 int		b_export(t_token_chain *current, t_data *data);
 int		unset(t_token_chain *current, t_data *data);

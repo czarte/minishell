@@ -38,6 +38,7 @@ add_executable(
         src/parser/ft_command_parser.c
         src/utils/token_utils.c
         src/loop.c
+        src/executor/execute_helpers.c
 
 )
 target_link_libraries(

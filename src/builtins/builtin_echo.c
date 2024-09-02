@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:19 by stepan            #+#    #+#             */
-/*   Updated: 2024/07/22 13:47:11 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:48:49 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 /**
  * Builtin echo command function, work in progress
  */
-void	echo(t_token_chain *echo_tok)
+void	echo(char **echo_tok)
 {
-	t_token_chain	*current;
-	char			new_line;
+	char	**current;
+	char	new_line;
 
-	current = echo_tok->next;
+	current = &echo_tok[2];
 	new_line = 1;
-	if (current && str_comp(current->token, "-n"))
+	if (current && str_comp(*current, "-n"))
 	{
 		new_line = 0;
-		current = current->next;
+		current++;
 	}
-	while (current && str_comp(current->type, "ar"))
+	if (!*current)
+		return ;
+	while (*current)
 	{
-		write(1, current->token, ft_strlen(current->token));
-		current = current->next;
+		write(1, *current, ft_strlen(*current));
+		current++;
 		if (current)
 			write(1, " ", 1);
 	}

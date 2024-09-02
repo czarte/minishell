@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/06 16:33:29 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/02 12:00:30 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,26 @@ int	command_arg_count(t_token_chain *tc, t_data *data)
 /**
  * Finds out which of the builtin commands to execute
  */
-int	execute_builtin(t_token_chain *current, t_data *data)
+int	execute_builtin(void **current, t_data *data, unsigned long next, int pi[])
 {
-	if (str_comp(current->token, "cd") && current->next)
-		cd(current->next->token, data);
-	else if (str_comp(current->token, "pwd"))
+	printf("execute_builtin: next %lu\n", next);
+	close(pi[0]);
+	if (next && dup2(pi[1], STDOUT_FILENO) < 0)
+		perror("unable to dup pi[1]\n");
+	close(pi[1]);
+	if (str_comp(current[1], "cd"))
+		cd(current[2], data);
+	else if (str_comp(current[1], "pwd"))
 		printf("%s\n", data->work_dir);
-	else if (str_comp(current->token, "echo"))
-		echo(current);
-	else if (str_comp(current->token, "env"))
+	else if (str_comp(current[1], "echo"))
+		echo((char **) current);
+	else if (str_comp(current[1], "env"))
 		env(data);
-	else if (str_comp(current->token, "export"))
-		b_export(current, data);
-	else if (str_comp(current->token, "unset"))
-		unset(current, data);
-	else if (str_comp(current->token, "help"))
+	else if (str_comp(current[1], "export"))
+		write(1, "TODO fix export\n", 16); //b_export(current[1], data);
+	else if (str_comp(current[1], "unset"))
+		write(1, "TODO fix unset\n", 15); //unset(current, data);
+	else if (str_comp(current[1], "help"))
 		help();
 	return (0);
 }
