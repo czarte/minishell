@@ -204,19 +204,15 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 		return (free(lc), NULL);
 	}
 	cmd_space_trim(lc->cmd);
-	// exec_data_re_init(data);
 	allocate_token_chain(lc, data);
 	fill_token_chain(lc->cmd, data);
 	if (type_token_chain(data, pt, lc) < 0)
 		return (free(lc), NULL);
-	// if (data->debug)
-	// 	print_token_chain(data);
 	if (token_chain_analyzer(data, pt) < 0)
 		return (free(lc), NULL);
-	// if (data->debug)
-	print_token_chain(data);
 	while (ex_ret)
 		ex_ret = env_var_expander(lc, data);
 	printf("lc->cmd from lexer: %s\n", lc->cmd);
+	free_token_chain(data);
 	return (lc);
 }
