@@ -52,6 +52,7 @@ int	executor(t_data *data, t_executor *pt)
 	eb->run = true;
 	// iterate_commands(eb, data);
 	pt->data = data;
+	pt->deubg = data->debug;
 	pt->append = data->exec->append;
 	if (eb->run)
 		e_c = ft_loop(pt, fd_m);
