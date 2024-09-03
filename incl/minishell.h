@@ -293,7 +293,7 @@ int		ft_atoi(const char *str);
 int		last_slash(const char *str);
 bool	is_var_char(char c);
 char	*fill_res(char *res, char *str);
-void	split_main_string(char *main, char *main1, char *main2);
+void	split_main_string(char *main, char *main1, char *main2, int d_p);
 char	*get_var_name(int d_p, t_lex_cmd *lc);
 int		ft_expandable(char *cmd);
 
