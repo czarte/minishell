@@ -71,6 +71,7 @@ t_executor	*ft_init_exec(t_data *data)
 	pt->dlmtr = NULL;
 	pt->filefd[0] = 0;
 	pt->filefd[1] = 0;
+	pt->data = data;
 	return (pt);
 }
 

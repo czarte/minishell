@@ -124,6 +124,8 @@ int	check_commands(t_executor *pt)
 
 	temp = pt->comm;
 	n = 0;
+	if (is_builtin(pt->comm->content[0], pt->data))
+		n++;
 	while (pt->comm)
 	{
 		if (pt->deubg)
@@ -142,6 +144,7 @@ int	check_commands(t_executor *pt)
 		n++;
 	}
 	pt->comm = temp;
+	printf("return from check commands: %d\n", n);
 	return (n);
 }
 

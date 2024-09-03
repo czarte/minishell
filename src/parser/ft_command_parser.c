@@ -15,6 +15,9 @@
 
 void	ft_check_access(char *pathcmd, char ***array)
 {
+	printf("pathcmd from checkaccess %s\n", pathcmd);
+	if (str_comp(pathcmd, "builtin"))
+		return ;
 	if (access(pathcmd, F_OK) == -1)
 	{
 		*array = malloc(1 * sizeof (char *));

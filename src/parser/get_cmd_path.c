@@ -51,5 +51,7 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
+	if (is_builtin((char *) cmd, data))
+		return(true);
 	return (false);
 }

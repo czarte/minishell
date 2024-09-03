@@ -68,7 +68,7 @@ int	exec_data_re_init(t_data *data)
  */
 int	data_init(t_data *data, char **envp)
 {
-	data->debug = false;
+	data->debug = true;
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;
