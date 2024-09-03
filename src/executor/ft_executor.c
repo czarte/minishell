@@ -75,9 +75,8 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 	i = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (str_comp(pt->comm->content[1], "cd") || str_comp(pt->comm->content[1], \
-		"pwd") || str_comp(pt->comm->content[1], "env") || \
-		str_comp(pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
+	if (str_comp(pt->comm->content[1], "cd") || str_comp(\
+	pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
 		"unset"))
 		execute_builtin(pt->comm->content, pt->data);
 	else {
