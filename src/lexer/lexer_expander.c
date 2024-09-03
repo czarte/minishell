@@ -31,10 +31,11 @@ char	*insert_env_string(int pos, char *main, char *add)
 	char	*main2;
 	char	*res;
 
-	main1 = malloc(sizeof(char) * (pos + 1));
-	main2 = malloc(sizeof(char) * ft_strlen((main + pos)) + 1);
-	res = malloc(sizeof(char) * (ft_strlen(main) + ft_strlen(add) + 1));
-	split_main_string(main, main1, main2);
+	printf("main2 allocation: %ibytes\n", ft_strlen((main + pos)));
+	main1 = malloc(sizeof(char) * (pos + 2));
+	main2 = malloc(sizeof(char) * ft_strlen((main + pos)) + 4);
+	res = malloc(sizeof(char) * (ft_strlen(main) + ft_strlen(add) + 2));
+	split_main_string(main, main1, main2, pos);
 	insert_env_join_strings(res, main1, main2, add);
 	free(main1);
 	free(main2);
@@ -77,6 +78,8 @@ int	env_var_expander(t_lex_cmd *lc, t_data *data)
 	dollar_pos = ft_expandable(lc->cmd);
 	if (dollar_pos < 0)
 		return (0);
+	else
+		printf("position %i of env var: |%s|\n", dollar_pos, (lc->cmd + dollar_pos));
 	expander_of_env_var(dollar_pos, lc, data);
 	return (1);
 }

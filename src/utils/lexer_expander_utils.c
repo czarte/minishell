@@ -32,22 +32,33 @@ char	*fill_res(char *res, char *str)
 	return (res);
 }
 
-void	split_main_string(char *main, char *main1, char *main2)
+void	split_main_string(char *main, char *main1, char *main2, int d_p)
 {
 	int	i;
 
 	i = 0;
-	while (*main != '$')
+	while (i != d_p)
 	{
 		main1[i] = *main;
 		main++;
 		i++;
 	}
+	// if (*(main - 1) == '\'')
+	// {
+	// 	// main++;
+	// 	while (*(main - 1)!= '\'')
+	// 	{
+	// 		main1[i] = *main;
+	// 		main++;
+	// 		i++;
+	// 	}
+	// }
 	main1[i] = '\0';
 	main++;
 	i = 0;
 	while (is_var_char(*main))
 		main++;
+	printf("main string after iterating the env var: |%s|\n|%s|\n", main, main1);
 	while (*main)
 	{
 		main2[i] = *main;
@@ -94,6 +105,7 @@ int	ft_expandable(char *cmd)
 		if (*cmd == '\'')
 		{
 			cmd++;
+			j++;
 			while (*cmd && *cmd != '\'')
 			{
 				cmd++;
