@@ -144,7 +144,7 @@ typedef struct s_data
 	char				**envp;
 	char				**builtins;
 	char				**local_temp_envp;
-	char				work_dir[4096];
+	char				*work_dir;
 	char				prompt[66];
 	int					n_cmd;
 }	t_data;

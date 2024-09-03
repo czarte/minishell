@@ -90,7 +90,7 @@ int	data_init(t_data *data, char **envp)
 		return (data_perror(data, "token_list"));
 	data->token_chain->token = NULL;
 	data->token_chain->next = NULL;
-	getcwd(data->work_dir, sizeof(data->work_dir));
+	data->work_dir = getcwd(NULL, 0);
 	init_builtins(data);
 	return (0);
 }

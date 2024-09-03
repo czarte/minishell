@@ -72,22 +72,27 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 {
 	static int	i;
 
+	i = 0;
 	if (pt->end)
-	{
-		i = 0;
 		pt->end = 0;
+	if (str_comp(pt->comm->content[1], "cd") || str_comp(pt->comm->content[1], \
+		"pwd") || str_comp(pt->comm->content[1], "env") || \
+		str_comp(pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
+		"unset"))
+		execute_builtin(pt->comm->content, pt->data);
+	else {
+		send_heredoc(pt);
+		if (pt->deubg)
+			printf("executor: %s\n", (char *) pt->comm->content[1]);
+		pt->pid[i] = fork();
+		g_pid = pt->pid[i];
+		if (pt->pid[i] == -1) {
+			perror("fork error");
+			exit(EXIT_FAILURE);
+		}
+		if (pt->pid[i] == 0)
+			ft_exec_child(pt, pt->comm, pi, fd_m);
+		i++;
 	}
-	send_heredoc(pt);
-	if (pt->deubg)
-		printf("executor: %s\n", (char *) pt->comm->content[1]);
-	pt->pid[i] = fork();
-	g_pid = pt->pid[i];
-	if (pt->pid[i] == -1) {
-		perror("fork error");
-		exit(EXIT_FAILURE);
-	}
-	if (pt->pid[i] == 0)
-		ft_exec_child(pt, pt->comm, pi, fd_m);
-	i++;
 	return (EXIT_SUCCESS);
 }

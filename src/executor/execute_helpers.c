@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 17:29:57 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/03 09:53:45 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	command_arg_count(t_token_chain *tc, t_data *data)
 int	execute_builtin(void **current, t_data *data)
 {
 	if (str_comp(current[1], "cd"))
-		cd(current[2], data);
+		cd((char *) current[2], data);
 	else if (str_comp(current[1], "pwd"))
 		printf("%s\n", data->work_dir);
 	else if (str_comp(current[1], "echo"))

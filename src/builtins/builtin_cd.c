@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 13:41:47 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:28:41 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	cd(const char *new_wd, t_data *data)
 {
 	if (chdir(new_wd) != 0)
 	{
-		perror("");
+		perror("cd perrror");
 		return ;
 	}
-	getcwd(data->work_dir, sizeof(data->work_dir));
+	data->work_dir = getcwd(NULL, 0);
 	g_last_status = 0;
 }
