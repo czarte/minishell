@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 19:11:18 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:18:46 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	ft_check_access(char *pathcmd, char ***array)
 {
-	printf("pathcmd from checkaccess %s\n", pathcmd);
 	if (str_comp(pathcmd, "builtin"))
 		return ;
 	if (access(pathcmd, F_OK) == -1)
@@ -86,12 +85,28 @@ void trim_all(char **splitcmd)
 	}
 }
 
+int	count_splited(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	while (*cmd)
+	{
+		i++;
+		cmd++;
+	}
+	return (i);
+}
+
 int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 	int i;
 	char **prepare;
+	char **tmp;
 
-	i = 0;
+
+	i = 1;
 	prepare = NULL;
+	tmp = NULL;
 	if (data->debug)
 		printf("start of get command array, dlmtr: %c\n", lex_cmd->dlmtr);
 	if (ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
@@ -104,6 +119,43 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 			lex_cmd->dlmtr = ' ';
 		}
 		psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
+		char **tmpsc = psr->splitcmd;
+		if (data->debug && tmpsc) {
+			while (*tmpsc) {
+				printf("psr splitcmd: %s\n", *tmpsc);
+				tmpsc++;
+			}
+		}
+		if (ft_count_tokens(psr->splitcmd[0], ' ') > 1)
+		{
+			printf("count_splited: %d, i: %d\n", count_splited(psr->splitcmd), i);
+			tmp = malloc((count_splited(psr->splitcmd) + 1) * sizeof(char *));
+			while (psr->splitcmd[i]) {
+				tmp[i - 1] = psr->splitcmd[i];
+				i++;
+			}
+			tmp[i - 1] = NULL;
+			char *tempsplit = psr->splitcmd[0];
+			size_t cnt = ft_count_tokens(tempsplit, ' ');
+			psr->splitcmd = malloc((cnt + 1) * sizeof(char *));
+			ft_create_tokens(psr->splitcmd, tempsplit, ' ');
+			psr->splitcmd[cnt] = NULL;
+		}
+		char **tmpsca = psr->splitcmd;
+		if (data->debug && tmpsca) {
+			while (*tmpsca) {
+				printf("psr splitcmd after tmp: %s\n", *tmpsca);
+				tmpsca++;
+			}
+		}
+		char **tmpscat = tmp;
+		if (data->debug && tmpscat) {
+			while (*tmpscat) {
+				printf("psr tmp after tmp: %s\n", *tmpscat);
+				tmpscat++;
+			}
+		}
+		i = 0;
 		if (psr->splitcmd[0])
 		{
 			if (lex_cmd->dlmtr != '"' && lex_cmd->dlmtr != '\'')
@@ -112,19 +164,29 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 				cmd_space_trim(psr->splitcmd[i]);
 			if (data->debug)
 				printf("splitcmd[1] %s\n", psr->splitcmd[1]);
-			if (!check_cmd_path_exists(psr->splitcmd[i], data)) {
+			if (!check_cmd_path_exists(psr->splitcmd[0], data)) {
 				perror(psr->splitcmd[0]);
 				return (-1);
 			}
-			psr->pathcmd = get_cmd_path(psr->splitcmd[i], data);
+			psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 			psr->combined = ft_strjoin(ft_strjoin(psr->pathcmd, "\x15"), \
-			psr->splitcmd[i]);
-			i += 1;
+			psr->splitcmd[0]);
+			i = 1;
 			while (psr->splitcmd[i]) // i + 1 solves outfile
  			{
+				printf("splitcmd[i]: %s\n", psr->splitcmd[i]);
 				psr->combined = ft_strjoin(ft_strjoin(psr->combined, "\x15"), \
 				psr->splitcmd[i]);
 				i++;
+			}
+			i = 0;
+			if (tmp) {
+				while (tmp[i]) {
+					psr->combined = ft_strjoin(
+							ft_strjoin(psr->combined, "\x15"), \
+                tmp[i]);
+					i++;
+				}
 			}
 			psr->array = ft_split(psr->combined, '\x15');
 		}
@@ -149,11 +211,11 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 		printf("psr pathcmd: %s\n", psr->pathcmd);
 		printf("psr combined: %s\n", psr->combined);
 	}
-	char **tmp = psr->array;
-	if (data->debug && tmp) {
-		while (*tmp) {
-			printf("psr array: %s\n", *tmp);
-			tmp++;
+	char **tmpd = psr->array;
+	if (data->debug && tmpd) {
+		while (*tmpd) {
+			printf("psr array: %s\n", *tmpd);
+			tmpd++;
 		}
 	}
 	return (0);

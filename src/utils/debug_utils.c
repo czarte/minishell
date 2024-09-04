@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 19:23:14 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:15:41 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,6 @@ int	check_commands(t_executor *pt)
 
 	temp = pt->comm;
 	n = 0;
-	if (is_builtin(pt->comm->content[0], pt->data))
-		n++;
 	while (pt->comm)
 	{
 		if (pt->deubg)
@@ -144,7 +142,8 @@ int	check_commands(t_executor *pt)
 		n++;
 	}
 	pt->comm = temp;
-	printf("return from check commands: %d\n", n);
+	if (pt->deubg)
+		printf("return from check commands: %d\n", n);
 	return (n);
 }
 

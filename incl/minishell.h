@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 17:04:02 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:40:02 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,9 @@ char	*fill_res(char *res, char *str);
 void	split_main_string(char *main, char *main1, char *main2, int d_p);
 char	*get_var_name(int d_p, t_lex_cmd *lc);
 int		ft_expandable(char *cmd);
-
+int		ft_create_tokens(char **result, char const *s, char c);
+size_t	ft_count_tokens(char const *s, char c);
+size_t	ft_token_len(char const *s, char c);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);

@@ -6,15 +6,11 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 12:14:34 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/20 09:25:04 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:39:24 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
-
-static int		ft_create_tokens(char **result, char const *s, char c);
-static size_t	ft_count_tokens(char const *s, char c);
-static size_t	ft_token_len(char const *s, char c);
 
 static void	dsts(char *dest, const char *src, size_t l)
 {
@@ -75,7 +71,7 @@ char	**ft_split(char const *s, char c)
 	return (result);
 }
 
-static size_t	ft_count_tokens(char const *s, char c)
+size_t	ft_count_tokens(char const *s, char c)
 {
 	size_t	count;
 	int		in_word;
@@ -96,7 +92,7 @@ static size_t	ft_count_tokens(char const *s, char c)
 	return (count);
 }
 
-static size_t	ft_token_len(char const *s, char c)
+size_t	ft_token_len(char const *s, char c)
 {
 	size_t	len;
 
@@ -109,7 +105,7 @@ static size_t	ft_token_len(char const *s, char c)
 	return (len);
 }
 
-static int	ft_create_tokens(char **result, char const *s, char c)
+int	ft_create_tokens(char **result, char const *s, char c)
 {
 	int	i;
 	int	len;
