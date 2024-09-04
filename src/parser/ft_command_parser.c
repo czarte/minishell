@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/04 10:18:46 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:26:32 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 			i = 1;
 			while (psr->splitcmd[i]) // i + 1 solves outfile
  			{
-				printf("splitcmd[i]: %s\n", psr->splitcmd[i]);
+				if (data->debug)
+					printf("splitcmd[i]: %s\n", psr->splitcmd[i]);
 				psr->combined = ft_strjoin(ft_strjoin(psr->combined, "\x15"), \
 				psr->splitcmd[i]);
 				i++;
