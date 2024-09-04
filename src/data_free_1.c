@@ -12,17 +12,19 @@
 
 #include "../incl/minishell.h"
 
-void	free_folder_strs(char **folder_strs)
+char	**free_string_array(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (folder_strs[i] != NULL)
+	while (array[i] != NULL)
 	{
-		free(folder_strs[i]);
+		free(array[i]);
 		i++;
 	}
-	free(folder_strs);
+	free(array);
+	array = NULL;
+	return (array);
 }
 
 void	free_exec_files(t_data *data)

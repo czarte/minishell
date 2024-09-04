@@ -160,6 +160,6 @@ int	get_cmd_list(t_data *data)
 	init_folder_strs(folder_strs, get_number_of_folders(path));
 	get_folders(path, folder_strs);
 	scan_folders(folder_strs, data);
-	free_folder_strs(folder_strs);
+	free_string_array(folder_strs);
 	return (0);
 }

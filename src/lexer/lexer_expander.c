@@ -31,7 +31,6 @@ char	*insert_env_string(int pos, char *main, char *add)
 	char	*main2;
 	char	*res;
 
-	printf("main2 allocation: %ibytes\n", ft_strlen((main + pos)));
 	main1 = malloc(sizeof(char) * (pos + 2));
 	main2 = malloc(sizeof(char) * ft_strlen((main + pos)) + 4);
 	res = malloc(sizeof(char) * (ft_strlen(main) + ft_strlen(add) + 2));
@@ -78,8 +77,6 @@ int	env_var_expander(t_lex_cmd *lc, t_data *data)
 	dollar_pos = ft_expandable(lc->cmd);
 	if (dollar_pos < 0)
 		return (0);
-	else
-		printf("position %i of env var: |%s|\n", dollar_pos, (lc->cmd + dollar_pos));
 	expander_of_env_var(dollar_pos, lc, data);
 	return (1);
 }

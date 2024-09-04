@@ -194,7 +194,7 @@ int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
 void	free_token_chain(t_data *data);
 void	free_exec(t_data *data);
-void	free_folder_strs(char **folder_strs);
+char	**free_string_array(char **array);
 int		data_perror(t_data *data, char *msg);
 void	fill_builtins(t_data *data);
 void	null_builtins(t_data *data);
@@ -215,8 +215,8 @@ int		add_cmd_list_node(char *name, char *path, t_data *data);
 void	cd(const char *new_wd, t_data *data);
 void	echo(char **echo_tok);
 void	env(t_data *data);
-int		b_export(t_token_chain *current, t_data *data);
-int		unset(t_token_chain *current, t_data *data);
+int		b_export(char *var, t_data *data);
+int		unset(char *var, t_data *data);
 
 /*----    Builtin utils    ----*/
 int		envp_add_reallocate(t_data *data, char *new_var, char temp);

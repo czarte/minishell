@@ -135,7 +135,7 @@ int	check_commands(t_executor *pt)
 				printf("command: |%s|\n",*con);
 			con++;
 		}
-		if (access(pt->comm->content[0], X_OK == -1))
+		if (access(pt->comm->content[0], X_OK == -1) && !str_comp(pt->comm->content[0], "builtin"))
 			printf("minishell: command not found: |%s|\n", (char *)
 				pt->comm->content[0]);
 		pt->comm = pt->comm->next;

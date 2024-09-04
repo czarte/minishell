@@ -84,7 +84,7 @@ int	finish_unset(int var_pos, char **new_envp, char temp_flag, t_data *data)
 }
 
 //TODO Deleting the entry in envp or local temp envp from the var pos
-int	unset(t_token_chain *current, t_data *data)
+int	unset(char *var, t_data *data)
 {
 	int		var_pos;
 	char	temp_flag;
@@ -92,21 +92,18 @@ int	unset(t_token_chain *current, t_data *data)
 
 	new_envp = NULL;
 	g_last_status = 0;
-	if (!current->next)
-		return (0);
-	var_pos = check_envp_for_duplicate(data->envp, current->next->token);
+	var_pos = check_envp_for_duplicate(data->envp, var);
 	if (var_pos >= 0)
 		temp_flag = 0;
 	if (var_pos < 0)
 	{
-		var_pos = check_envp_for_duplicate(data->local_temp_envp,
-				current->next->token);
+		var_pos = check_envp_for_duplicate(data->local_temp_envp, var);
 		if (var_pos >= 0)
 			temp_flag = 1;
 	}
 	if (var_pos < 0)
 		return (0);
-	if (str_comp(current->next->token, "PATH"))
+	if (str_comp(var, "PATH"))
 		free_cmd_list(data);
 	return (finish_unset(var_pos, new_envp, temp_flag, data));
 }

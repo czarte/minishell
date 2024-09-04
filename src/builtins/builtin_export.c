@@ -16,7 +16,7 @@ int	export_from_local(t_data *data)
 {
 	if (envp_add_reallocate(data, data->local_temp_envp[0], 0))
 	{
-		perror("Export from local");
+		perror("Export");
 		return (-1);
 	}
 	free(data->local_temp_envp[0]);
@@ -24,11 +24,11 @@ int	export_from_local(t_data *data)
 	return (0);
 }
 
-int	export_from_token(t_token_chain *current, t_data *data)
+int	export_from_token(char *var, t_data *data)
 {
-	if (envp_add_reallocate(data, current->token, 0))
+	if (envp_add_reallocate(data, var, 0))
 	{
-		perror("Export from token");
+		perror("Export");
 		return (-1);
 	}
 	return (0);
@@ -64,13 +64,7 @@ void	no_option_export(char **envp)
 
 bool	is_path(char *str)
 {
-	if (*str == 'P')
-		str++;
-	if (*str == 'A')
-		str++;
-	if (*str == 'T')
-		str++;
-	if (*str == 'H')
+	if (str[0] == 'P' && str[1] == 'A' && str[2] == 'T' && str[3] == 'H')
 		return (true);
 	return (false);
 }
@@ -78,28 +72,25 @@ bool	is_path(char *str)
 /**
  * note: export() is reserved
  */
-int	b_export(t_token_chain *current, t_data *data)
+int	b_export(char *var, t_data *data)
 {
 	int	temp_var_position;
 
 	temp_var_position = 0;
-	if (current->next && !ft_contains_char(current->next->token, '='))
+	if (!var)
+		no_option_export(data->envp);
+	if (!ft_contains_char(var, '='))
 	{
 		temp_var_position = check_envp_for_duplicate(data->local_temp_envp,
-				current->next->token);
+				var);
 		if (temp_var_position >= 0)
 			envp_add_reallocate(data, data->local_temp_envp[temp_var_position],
 				0);
 		return (0);
 	}
-	if (current->next)
-	{
-		if (export_from_token(current->next, data))
-			return (-1);
-	}
-	if (!current->next)
-		no_option_export(data->envp);
-	else if (current->next && is_path(current->next->token))
+	if (export_from_token(var, data))
+		return (-1);
+	if (is_path(var))
 		get_cmd_list(data);
 	g_last_status = 0;
 	return (0);
