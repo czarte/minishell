@@ -77,7 +77,8 @@ int	b_export(char *var, t_data *data)
 	int	temp_var_position;
 
 	temp_var_position = 0;
-	printf("var from export: %s\n", var);
+	if (!var)
+		no_option_export(data->envp);
 	if (!ft_contains_char(var, '='))
 	{
 		temp_var_position = check_envp_for_duplicate(data->local_temp_envp,
@@ -89,9 +90,7 @@ int	b_export(char *var, t_data *data)
 	}
 	if (export_from_token(var, data))
 		return (-1);
-	if (!var)
-		no_option_export(data->envp);
-	else if (is_path(var))
+	if (is_path(var))
 		get_cmd_list(data);
 	g_last_status = 0;
 	return (0);
