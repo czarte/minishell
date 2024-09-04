@@ -43,22 +43,11 @@ void	split_main_string(char *main, char *main1, char *main2, int d_p)
 		main++;
 		i++;
 	}
-	// if (*(main - 1) == '\'')
-	// {
-	// 	// main++;
-	// 	while (*(main - 1)!= '\'')
-	// 	{
-	// 		main1[i] = *main;
-	// 		main++;
-	// 		i++;
-	// 	}
-	// }
 	main1[i] = '\0';
 	main++;
 	i = 0;
 	while (is_var_char(*main))
 		main++;
-	printf("main string after iterating the env var: |%s|\n|%s|\n", main, main1);
 	while (*main)
 	{
 		main2[i] = *main;
