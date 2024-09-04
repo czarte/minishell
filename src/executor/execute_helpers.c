@@ -84,9 +84,9 @@ int	execute_builtin(void **current, t_data *data)
 	else if (str_comp(current[1], "env"))
 		env(data);
 	else if (str_comp(current[1], "export"))
-		write(1, "TODO fix export\n", 16); //b_export(current[1], data);
+		b_export(current[2], data);
 	else if (str_comp(current[1], "unset"))
-		write(1, "TODO fix unset\n", 15); //unset(current, data);
+		unset(current[2], data);
 	else if (str_comp(current[1], "help"))
 		help();
 	return (0);

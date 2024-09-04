@@ -77,6 +77,7 @@ int	b_export(char *var, t_data *data)
 	int	temp_var_position;
 
 	temp_var_position = 0;
+	printf("var from export: %s\n", var);
 	if (!ft_contains_char(var, '='))
 	{
 		temp_var_position = check_envp_for_duplicate(data->local_temp_envp,
