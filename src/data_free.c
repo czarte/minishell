@@ -123,6 +123,8 @@ int	free_data(t_data *data)
 		free_old_envp(data->local_temp_envp);
 	if (data->exec)
 		free(data->exec);
+	if (data->work_dir)
+		free(data->work_dir);
 	free(data->token_chain);
 	free(data);
 	return (0);

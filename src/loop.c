@@ -79,6 +79,7 @@ int	loop(t_data *data)
 		{
 			ft_exit(cmd);
 			free(cmd);
+			free(pt);
 			return (clear_history(), g_last_status);
 		}
 		if (!*cmd)

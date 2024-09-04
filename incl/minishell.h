@@ -194,7 +194,7 @@ int		free_data(t_data *data);
 void	free_cmd_list(t_data *data);
 void	free_token_chain(t_data *data);
 void	free_exec(t_data *data);
-void	free_folder_strs(char **folder_strs);
+char	**free_string_array(char **array);
 int		data_perror(t_data *data, char *msg);
 void	fill_builtins(t_data *data);
 void	null_builtins(t_data *data);

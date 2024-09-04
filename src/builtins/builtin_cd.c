@@ -25,6 +25,7 @@ void	cd(const char *new_wd, t_data *data)
 		perror("cd perrror");
 		return ;
 	}
+	free(data->work_dir);
 	data->work_dir = getcwd(NULL, 0);
 	env_var = ft_strjoin("PWD=", data->work_dir);
 	b_export(env_var, data);
