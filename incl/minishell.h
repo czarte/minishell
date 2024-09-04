@@ -215,8 +215,8 @@ int		add_cmd_list_node(char *name, char *path, t_data *data);
 void	cd(const char *new_wd, t_data *data);
 void	echo(char **echo_tok);
 void	env(t_data *data);
-int		b_export(t_token_chain *current, t_data *data);
-int		unset(t_token_chain *current, t_data *data);
+int		b_export(char *var, t_data *data);
+int		unset(char *var, t_data *data);
 
 /*----    Builtin utils    ----*/
 int		envp_add_reallocate(t_data *data, char *new_var, char temp);

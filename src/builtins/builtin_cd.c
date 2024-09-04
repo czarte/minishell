@@ -18,11 +18,16 @@
  */
 void	cd(const char *new_wd, t_data *data)
 {
+	char	*env_var;
+
 	if (chdir(new_wd) != 0)
 	{
 		perror("cd perrror");
 		return ;
 	}
 	data->work_dir = getcwd(NULL, 0);
+	env_var = ft_strjoin("PWD=", data->work_dir);
+	b_export(env_var, data);
+	free(env_var);
 	g_last_status = 0;
 }
