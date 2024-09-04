@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/04 10:26:32 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:27:30 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data) {
 		}
 		if (ft_count_tokens(psr->splitcmd[0], ' ') > 1)
 		{
-			printf("count_splited: %d, i: %d\n", count_splited(psr->splitcmd), i);
+			if (data->debug)
+				printf("count_splited: %d, i: %d\n", count_splited(psr->splitcmd), i);
 			tmp = malloc((count_splited(psr->splitcmd) + 1) * sizeof(char *));
 			while (psr->splitcmd[i]) {
 				tmp[i - 1] = psr->splitcmd[i];
