@@ -12,14 +12,14 @@
 
 #include "../../incl/minishell.h"
 
-bool	add_binary_executabilty(char *name, char *path, t_token_chain *current)
+bool	add_binary_executabilty(char *path, t_token_chain *current)
 {
 	if (!access(path, X_OK))
 		return (false);
 	else
 	{
 		type_token(current, "ar");
-		printf("%s: Nonexistent or not executable!\n", name);
+		// printf("%s: Nonexistent or not executable!\n", name);
 		return (true);
 	}
 }
@@ -28,7 +28,7 @@ int	add_binary_finish(char *name, char *path, t_token_chain *current)
 {
 	bool	invalid;
 
-	invalid = add_binary_executabilty(name, path, current);
+	invalid = add_binary_executabilty(path, current);
 	free(name);
 	name = NULL;
 	free(path);

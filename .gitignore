@@ -8,3 +8,4 @@ build
 cmake-build-debug
 main
 main.dSYM
+minishell_tester/
