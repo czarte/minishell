@@ -74,6 +74,8 @@ int	env_var_expander(t_lex_cmd *lc, t_data *data)
 {
 	int	dollar_pos;
 
+	if (!lc->cmd)
+		return (0);
 	dollar_pos = ft_expandable(lc->cmd);
 	if (dollar_pos < 0)
 		return (0);

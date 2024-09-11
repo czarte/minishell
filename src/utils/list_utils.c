@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:14:41 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/05 19:41:30 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:47:21 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (curr);
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void **content)
 {
 	t_list	*list;
 

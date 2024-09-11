@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:00:47 by smelicha          #+#    #+#             */
-/*   Updated: 2024/07/22 14:18:51 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/08 14:54:50 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,30 +110,14 @@ int	check_for_env_vars(t_data *data, t_executor *pt)
 void	count_cmds(t_data *data)
 {
 	t_token_chain	*current;
-	int				i;
-	static char		exit_status_flag;
 
-	i = 0;
 	current = data->token_chain->next;
 	while (current)
 	{
 		if (str_comp(current->type, "pr"))
-		{
 			data->n_cmd++;
-			i++;
-		}
-		else if (str_comp(current->type, "bu"))
-			i++;
 		current = current->next;
 	}
-	if (!i)
-	{
-		if (exit_status_flag)
-			g_last_status = 127;
-		exit_status_flag = 1;
-	}
-	else
-		exit_status_flag = 0;
 }
 
 int	count_slashes(const char *str)

@@ -51,11 +51,20 @@ int	number_of_tokens(char *cmd)
 
 int	check_for_no_space_token(char *cmd)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
+	quote = '\0';
 	while (cmd[i])
 	{
+		if (cmd[i] == '\'' || cmd [i] == '\"')
+		{
+			quote = cmd[i];
+			i++;
+			while (cmd[i] && cmd[i] != quote)
+				i++;
+		}
 		if (cmd[i] == ' ')
 			return (0);
 		if (cmd[i] == '|' || cmd[i] == '<' || cmd[i] == '>')

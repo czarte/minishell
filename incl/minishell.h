@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/03 15:40:02 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:43:01 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <termcap.h>
+# include <errno.h>
 
 # define N_BUILTINS 8
 /**
@@ -130,17 +131,24 @@ typedef struct s_fill_t_c_data
 	char			quote;
 }	t_fill_t_c_data;
 
+typedef struct s_garbage
+{
+	void				*addr;
+	struct s_garbage 	*next;
+} t_garbage;
 /**
  * Main data struct
  */
 typedef struct s_data
 {
 	bool				debug;
+	bool				parse_fail;
 	t_cmd_list			*cmd_list;
 	t_token_chain		*token_chain;
 	t_cmd_list			*last_c_l_node;
 	t_list				*lexer_list;
 	t_exec				*exec;
+	t_garbage			*gc;
 	char				**envp;
 	char				**builtins;
 	char				**local_temp_envp;
@@ -157,30 +165,31 @@ typedef struct s_token_bag
 
 typedef struct s_executor
 {
-	bool	deubg;
-	bool	heredoc;
-	bool	heredoc_rl;
-	bool	append;
-	bool	parsing_ok;
-	int		*fd;
-	int		c_pi;
-	int		filefd[2];
-	int		it;
-	int		end;
-	int		fsucc;
-	int		psucc;
-	int		status;
-	int		*pid;
-	char	*pwd;
-	char	*home;
-	t_list	*comm;
-	char	**argv;
-	char	**env;
-	char	**path;
-	char	*infile;
-	char	*outfile;
-	char	*dlmtr;	//heredoc delimiter
-	t_data 	*data;
+	bool		debug;
+	bool		heredoc;
+	bool		heredoc_rl;
+	bool		append;
+	bool		parsing_ok;
+	int			*fd;
+	int			c_pi;
+	int			filefd[2];
+	int			it;
+	int			end;
+	int			fsucc;
+	int			psucc;
+	int			status;
+	int			*pid;
+	char		*pwd;
+	char		*home;
+	t_garbage	*garbage;
+	t_list		*comm;
+	char		**argv;
+	char		**env;
+	char		**path;
+	char		*infile;
+	char		*outfile;
+	char		*dlmtr;	//heredoc delimiter
+	t_data 		*data;
 }	t_executor;
 
 int		loop(t_data *data);
@@ -201,6 +210,11 @@ void	null_builtins(t_data *data);
 int		allocate_builtins(t_data *data);
 void	print_token_chain(t_data *data);
 void	free_exec_files(t_data *data);
+void	*add_to_collection(void *ptr, t_executor *pt);
+void	**add_array_to_collection(void **ptr, t_executor *pt);
+void	clean_garbage(t_executor *pt);
+void	print_garbage_list(t_executor *pt);
+void	ft_putstr_fd(char *s, int fd);
 
 /*----    Data preparation    ----*/
 int		get_cmd_list(t_data *data);
@@ -228,6 +242,7 @@ void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
 char	*get_env_check_temp(char *name, t_data *data);
 char	*get_env_check_envp(char *name, t_data *data);
+int		is_binary_path(char *token);
 
 /*----    CLI    ----*/
 char	*cli(t_data *data);
@@ -258,7 +273,7 @@ int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
 int		count_slashes(const char *str);
 void	expand_last_exit_status(t_token_chain *current);
-void	cmd_space_trim(char *cmd);
+void	cmd_trim(char *cmd, char c);
 int		no_space_tokens(char *cmd);
 int		check_for_no_space_token(char *cmd);
 int		number_of_tokens(char *cmd);
@@ -271,6 +286,7 @@ void	analyze_builtin(t_token_chain *current, t_data *data);
 
 /*----    Executor    ----*/
 int		executor(t_data *data, t_executor *pt);
+void	executor_finished_clean(t_executor *pt, t_data *data);
 
 /*----    Utils    ----*/
 void	str_fill(char *to, char *from);
@@ -299,6 +315,8 @@ int		ft_expandable(char *cmd);
 int		ft_create_tokens(char **result, char const *s, char c);
 size_t	ft_count_tokens(char const *s, char c);
 size_t	ft_token_len(char const *s, char c);
+bool	only_char(char *str, char c);
+int		ft_lstsize(t_list *lst);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);

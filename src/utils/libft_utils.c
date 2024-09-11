@@ -195,3 +195,19 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	p[ml] = '\0';
 	return (p);
 }
+
+int	ft_lstsize(t_list *lst)
+{
+	int	i;
+
+	if (!lst)
+		return (0);
+	i = 0;
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+		i++;
+	}
+	i++;
+	return (i);
+}

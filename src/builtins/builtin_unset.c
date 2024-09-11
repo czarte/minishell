@@ -91,7 +91,6 @@ int	unset(char *var, t_data *data)
 	char	**new_envp;
 
 	new_envp = NULL;
-	g_last_status = 0;
 	var_pos = check_envp_for_duplicate(data->envp, var);
 	if (var_pos >= 0)
 		temp_flag = 0;

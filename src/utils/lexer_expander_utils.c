@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/01 18:55:59 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:02:31 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void	split_main_string(char *main, char *main1, char *main2, int d_p)
 	main1[i] = '\0';
 	main++;
 	i = 0;
-	while (is_var_char(*main))
+		while (is_var_char(*main) && *main != '?')
+		main++;
+	if (*main == '?')
 		main++;
 	while (*main)
 	{
@@ -101,7 +103,7 @@ int	ft_expandable(char *cmd)
 				j++;
 			}
 		}
-		if (*cmd == '$')
+		if (*cmd == '$' && ((*(cmd + 1) != ' ') && (*(cmd + 1) != '\0') && (*(cmd + 1) != '"')))
 			return (j);
 		if (*cmd)
 		{
