@@ -15,13 +15,24 @@
 
 char	*open_infile(t_executor *pt, char *filename)
 {
-	if (pt->deubg)
+	char	*tmp;
+	char	*path;
+
+	tmp = NULL;
+	path = NULL;
+	if (pt->debug)
 	{
 		printf("pt->pwd: %s\n", pt->pwd);
 		printf("filename: %s\n", filename);
 	}
 	if (ft_strncmp(filename, "/", 1))
-		return (ft_join_path(pt->pwd, ft_join_path("/", filename)));
+	{
+		tmp = ft_join_path("/", filename);
+		add_to_collection((void *)tmp, pt);
+		path = ft_join_path(pt->pwd, tmp);
+		add_to_collection((void *)path, pt);
+		return (path);
+	}
 	else
 		return (filename);
 }
@@ -38,7 +49,7 @@ int	count_pipes(t_executor *pt)
 		i++;
 		execs = execs->next;
 	}
-	if (pt->deubg)
+	if (pt->debug)
 		printf("number of pipes: %i\n", i);
 	return (i);
 }
@@ -52,10 +63,10 @@ t_executor	*ft_init_exec(t_data *data)
 		perror("unable to allocate t_exec");
 	pt->c_pi = 0;
 	pt->pid = NULL;
-	pt->deubg = false;
-	pt->deubg = false;
+	pt->debug = false;
 	pt->parsing_ok = false;
 	pt->comm = NULL;
+	pt->garbage = NULL;
 	pt->heredoc = false;
 	pt->heredoc_rl = false;
 	pt->append = false;
@@ -113,7 +124,7 @@ int	ft_loop(t_executor *pt, int fd_m)
 
 	n = 0;
 	cmi = 0;
-	if (pt->deubg)
+	if (pt->debug)
 	{
 		printf("infile %s\n", pt->infile);
 		printf("outfile %s\n", pt->outfile);

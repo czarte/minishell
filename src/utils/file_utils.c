@@ -22,10 +22,10 @@ int	init_in_file(t_executor *pt)
 	pt->heredoc = false;
 	ermess = "minishell: input file permission denied: ";
 	file1 = open_infile(pt, pt->infile);
-	if (pt->deubg)
+	if (pt->debug)
 		printf("file1: %s\n", file1);
 	pt->filefd[0] = open(file1, O_RDONLY);
-	if (pt->deubg)
+	if (pt->debug)
 		printf("infile fd: %d\n", pt->filefd[0]);
 	if (pt->filefd[0] == -1)
 	{
@@ -43,7 +43,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 	char	*ermess;
 
 	ermess = "minishell: output file permission denied: ";
-	if (pt->deubg)
+	if (pt->debug)
 	{
 		printf("outfile: %s\n", pt->outfile);
 		printf("append: %d\n", pt->append);
@@ -56,7 +56,8 @@ int	init_out_file(t_executor *pt, int pi[2])
 	{
 		mes = ft_join_path(ermess, pt->outfile);
 		printf("%s\n", mes);
-		exit (127);
+		free(mes);
+		// exit (127);
 	}
 	pi[1] = pt->filefd[1];
 	dup2(pi[1], STDOUT_FILENO);
@@ -91,7 +92,7 @@ int	check_heredoc(t_executor *pt, int pi[2])
 	if (pt->filefd[0])
 	{
 		close(pi[0]);
-		if (pt->deubg)
+		if (pt->debug)
 			printf("pt->filefd[0]: %d\n", pt->filefd[0]);
 		fd_m = pt->filefd[0];
 	}

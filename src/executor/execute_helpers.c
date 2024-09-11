@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/03 09:53:45 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:13:04 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,7 @@ void	assign_pt(t_data *data, t_executor *pt)
 		pt->dlmtr = data->exec->dlmtr;
 	}
 	pt->pwd = getenv("PWD");
-	pt->deubg = data->debug;
-}
-
-void	init_exec_bag(t_exec_bag *eb, t_data *data, t_executor *pt)
-{
-	eb->run = false;
-	eb->cur = NULL;
-	eb->cur = data->token_chain->next;
-	assign_pt(data, pt);
+	pt->debug = data->debug;
 }
 
 int	command_arg_count(t_token_chain *tc, t_data *data)

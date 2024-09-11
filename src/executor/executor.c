@@ -13,22 +13,13 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	executor_finished_clean(t_executor *pt, t_exec_bag *eb, t_data *data)
+void	executor_finished_clean(t_executor *pt, t_data *data)
 {
+	if (pt->debug)
+		check_commands(pt);
+	clean_garbage(pt);
 	free_alloc(pt);
-	data->exec->cmd = NULL;
-	if (data->exec->infile)
-	{
-		free(data->exec->infile);
-		data->exec->infile = NULL;
-	}
-	if (data->exec->outfile)
-	{
-		free(data->exec->outfile);
-		data->exec->outfile = NULL;
-	}
 	data->n_cmd = 0;
-	free(eb);
 	free(pt);
 }
 
@@ -42,9 +33,9 @@ int	executor(t_data *data, t_executor *pt)
 	int			e_c;
 
 	e_c = 0;
-	if (exec_data_preparation(data) < 0)
-		return (-1);
+
 	eb = malloc(sizeof(t_exec_bag));
+	add_to_collection((void *)eb, pt);
 	if (eb == NULL)
 		perror("unable allocate memory");
 	//init_exec_bag(eb, data, pt);
@@ -52,10 +43,10 @@ int	executor(t_data *data, t_executor *pt)
 	eb->run = true;
 	// iterate_commands(eb, data);
 	pt->data = data;
-	pt->deubg = data->debug;
+	pt->debug = data->debug;
 	pt->append = data->exec->append;
 	if (eb->run)
 		e_c = ft_loop(pt, fd_m);
-	executor_finished_clean(pt, eb, data);
+	executor_finished_clean(pt, data);
 	return (e_c);
 }

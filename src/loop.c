@@ -15,14 +15,21 @@
 
 void	ft_exit(char *cmd)
 {
+	int	neg;
+
+	neg = 1;
 	if (!cmd)
 		return ;
-	cmd_space_trim(cmd);
+	cmd_trim(cmd, ' ');
 	while (*cmd)
 	{
-		if (*cmd >= '0' && *cmd <= '9')
+		if (*cmd == '-')
+			neg = -1;
+		if ((*cmd >= '0' && *cmd <= '9'))
 		{
-			g_last_status = ft_atoi(cmd);
+			g_last_status = ft_atoi(cmd) * neg;
+			if (g_last_status < 0)
+				g_last_status += 256;
 			return ;
 		}
 		cmd++;
@@ -82,7 +89,7 @@ int	loop(t_data *data)
 			free(pt);
 			return (clear_history(), g_last_status);
 		}
-		if (!*cmd)
+		if (!*cmd || only_char(cmd, ' '))
 		{
 			free(cmd);
 			continue ;

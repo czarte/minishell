@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:51:42 by stepan            #+#    #+#             */
-/*   Updated: 2024/08/06 16:18:26 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:55:51 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	prog_arg_fix(t_data *data)
 		{
 			printf("from prog arg fix:\n");
 			printf("%s: command not found!\n", current->token);
-			g_last_status = 127;
+			// g_last_status = 127;
 			return (-1);
 		}
 		current = prog_arg_fix_logic(current, &pr_ar);
@@ -61,7 +61,7 @@ int	is_binary_path(char *token)
 		if (token[0] == '.' && token[1] == '/')
 			return (1);
 		else if (token[0] == '/')
-			return (1);
+			return (2);
 	}
 	return (0);
 }
@@ -89,8 +89,9 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 	// 	type_token(current, "ev");
 	else if (is_var_decl(current->token, data))
 		type_token(current, "vd");
-	else if (is_binary_path(current->token))
+	else if (is_binary_path(current->token)) {
 		type_token(current, "bp");
+	}
 	else
 		type_token(current, "ar");
 }

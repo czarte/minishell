@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/03 15:15:41 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/08 18:43:44 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	print_t_executor(t_executor *pt)
 {
 	t_list	*ltmp;
 
-	if (pt->deubg) {
+	if (pt->debug) {
 		ltmp = pt->comm;
 		printf("\n====    PT    ====\n");
-		printf("debug:\t%i\n", pt->deubg);
+		printf("debug:\t%i\n", pt->debug);
 		printf("heredoc:\t%i\n", pt->heredoc);
 		printf("heredoc_rl:\t%i\n", pt->heredoc_rl);
 		printf("append:\t%i\n", pt->append);
@@ -123,28 +123,33 @@ int	check_commands(t_executor *pt)
 	int 	n;
 
 	temp = pt->comm;
-	n = 0;
-	while (pt->comm)
+	while (temp)
 	{
-		if (pt->deubg)
+		if (pt->debug)
 			printf("------check commands-----\n");
-		con = (char **) pt->comm->content;
+		con = (char **) temp->content;
+		n = 0;
 		while (*con)
 		{
-			if (pt->deubg)
+			if (n > 0 && *con)
+			{
+//				printf("con: %s, n: %d\n", *con, n);
+				//cmd_trim(*con, ' ');
+				cmd_trim(*con, '"');
+				cmd_trim(*con, '\'');
+			}
+			if (pt->debug)
 				printf("command: |%s|\n",*con);
 			con++;
+			n++;
 		}
-		if (access(pt->comm->content[0], X_OK == -1) && !str_comp(pt->comm->content[0], "builtin"))
-			printf("minishell: command not found: |%s|\n", (char *)
-				pt->comm->content[0]);
-		pt->comm = pt->comm->next;
-		n++;
+		if (access(temp->content[0], X_OK == -1) && !str_comp(temp->content[0], "builtin"))
+			ft_putstr_fd("minishell: command not found:\n", STDERR_FILENO);
+		temp = temp->next;
 	}
-	pt->comm = temp;
-	if (pt->deubg)
+	if (pt->debug)
 		printf("return from check commands: %d\n", n);
-	return (n);
+	return (ft_lstsize(pt->comm));
 }
 
 void	print_token_chain(t_data *data)

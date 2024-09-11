@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/01 18:55:59 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/07 11:50:25 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	token_length(char *cmd)
 	i = check_for_no_space_token(cmd);
 	quote = '\0';
 	if (i)
-	{
 		return (i);
-	}
 	if (cmd[i] == '\"' || cmd[i] == '\'')
 	{
 		quote = cmd[i];
@@ -54,7 +52,6 @@ int	allocate_token_chain(t_lex_cmd *lc, t_data *data)
 	t_token_chain	*current;
 
 	i = number_of_tokens(lc->cmd);
-	// if (i > )
 	current = NULL;
 	prev = data->token_chain;
 	while (i)
@@ -86,46 +83,76 @@ int	cmd_quotes_pair_check(t_lex_cmd *lc)
 	int		sq;
 	char	quote;
 	char	*cmd;
+	bool	first;
 
 	dq = 0;
 	sq = 0;
 	cmd = lc->cmd;
 	quote = '\0';
+	first = false;
 	while (cmd && *cmd)
 	{
-		if (*cmd == '\"')
+		if (quote && *cmd == quote)
 		{
-			if (!quote)
-				quote = *cmd;
-			dq++;
+			lc->dlmtr = quote;
+			if (*cmd == '"')
+				dq++;
+			if (*cmd == '\'')
+				sq++;
+			quote = '\0';
 		}
-		else if (*cmd == '\'')
+		else if (!quote && (*cmd == '\"' || *cmd == '\''))
 		{
-			if (!quote)
+			if (!first) {
+				first = true;
 				quote = *cmd;
-			sq++;
+			}
+			if (*cmd == '"')
+				dq++;
+			if (*cmd == '\'')
+				sq++;
 		}
 		cmd++;
 	}
-	if (dq % 2 || sq % 2)
+	if (dq % 2 || sq % 2) {
 		return (0);
+	}
 	else
 	{
-		if (quote)
-			lc->dlmtr = quote;
+		if (((dq == 2 && sq == 0) && (lc->cmd[0] == '"')) || ((sq == 2 && dq == 0) && (lc->cmd[0] == '\'')))
+			lc->dlmtr = '\0';
+		else if (lc->dlmtr && !((lc->dlmtr == '"') || (lc->dlmtr == '\'')))
+			lc->dlmtr = ' ';
+		else if ((lc->dlmtr == '"') || (lc->dlmtr == '\''))
+			return (1);
 		else
 			lc->dlmtr = ' ';
 		return (1);
 	}
 }
 
-void	cmd_space_trim(char *cmd)
+bool	only_char(char *str, char c)
+{
+	if (!str)
+		return(true);
+	while (*str)
+	{
+		if (*str != c)
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
+void	cmd_trim(char *cmd, char c)
 {
 	int	i;
 	int	last_space_pos;
     char    *src;
     bool    first_letter;
 
+	if (only_char(cmd, c))
+		return ;
 	i = 0;
 	last_space_pos = 0;
     first_letter = false;
@@ -134,22 +161,21 @@ void	cmd_space_trim(char *cmd)
 		return ;
 	while (cmd[i])
 	{
-        if ((!first_letter && cmd[i] != ' '))
+        if (!first_letter && (cmd[i] != c))
         {
-            if (!first_letter)
-                src = (cmd + i);
+            src = (cmd + i);
             first_letter = true;
         }
 		if (i)
 		{
-			if (cmd[i] == ' ' && cmd[i - 1] != ' ')
+			if (cmd[i] == c && cmd[i - 1] != c)
 				last_space_pos = i;
 		}
 		i++;
 	}
-	if (cmd[i - 1] == ' ')
+	if (cmd[i - 1] == c)
 		cmd[last_space_pos] = '\0';
-    cmd = ft_memmove(cmd, src, (ft_strlen(src) + 1));
+    ft_memmove(cmd, src, (ft_strlen(src) + 1));
 }
 
 // void cmd_space_trim(char *cmd)
@@ -202,10 +228,11 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	if (!cmd_quotes_pair_check(lc))
 	{
+		data->parse_fail = true;
 		printf("Unclosed quotes!\n");
-		return (free(lc), NULL);
+		return (NULL);
 	}
-	cmd_space_trim(lc->cmd);
+	cmd_trim(lc->cmd, ' ');
 	allocate_token_chain(lc, data);
 	fill_token_chain(lc->cmd, data);
 	if (type_token_chain(data, pt, lc) < 0)

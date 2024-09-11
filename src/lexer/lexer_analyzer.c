@@ -17,7 +17,13 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 	if (str_comp(current->type, "ri") && current->next)
 	{
 		type_token(current->next, "fp");
+		if (pt->heredoc)
+		{
+			type_token(current, "ar");
+			return ;
+		}
 		pt->infile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->infile, pt);
 		pt->heredoc = true;
 		lc->dlmtr = '<';
 	}
@@ -25,6 +31,7 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 	{
 		type_token(current->next, "dl");
 		pt->dlmtr = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->dlmtr, pt);
 		pt->heredoc_rl = true;
 		lc->dlmtr = '<';
 	}
@@ -32,12 +39,14 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 	{
 		type_token(current->next, "fp");
 		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
 		lc->dlmtr = '>';
 	}
 	if (str_comp(current->type, "ra") && current->next)
 	{
 		type_token(current->next, "fp");
 		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
 		pt->append = true;
 		lc->dlmtr = '>';
 	}
