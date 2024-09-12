@@ -135,7 +135,8 @@ int	ft_loop(t_executor *pt, int fd_m)
 	while (n < cmi)
 	{
 		if (pt->fork)
-			g_last_status = wait_subprocess(pt, n++);
+			g_last_status = wait_subprocess(pt, n);
+		n++;
 		g_pid = 0;
 	}
 	return (g_last_status);
