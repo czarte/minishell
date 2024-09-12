@@ -6,20 +6,24 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/08 15:55:02 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:46:50 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
+int	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 {
 	char	**argv;
 	int		exit_code;
 
-	if (pt->heredoc)
-		pt->fsucc = init_in_file(pt);
+	if (pt->heredoc) {
+		if (!init_in_file(pt)) {
+			g_last_status = 1;
+			exit(1);
+		}
+	}
 	argv = (char **) com->content;
 	if (com->prev && dup2(fd_m, STDIN_FILENO) < 0)
 		perror("unable to dup fd_m\n");
@@ -71,12 +75,12 @@ int	send_heredoc(t_executor *pt)
 int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 {
 	static int	i;
+	int 		exit_status;
 
 	i = 0;
+	exit_status = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (pt->debug)
-		printf("pt->comm->content[1]: %s\n", (char *)pt->comm->content[1]);
 	if (str_comp(pt->comm->content[1], "cd") || str_comp(\
 	pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
 		"unset"))
@@ -92,8 +96,8 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 			exit(EXIT_FAILURE);
 		}
 		if (pt->pid[i] == 0)
-			ft_exec_child(pt, pt->comm, pi, fd_m);
+			exit_status = ft_exec_child(pt, pt->comm, pi, fd_m);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:59:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/12 09:21:40 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:28:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	add_binary_executabilty(char *path, t_token_chain *current)
 {
-	if (!access(path, X_OK))
+	if (!access(path, F_OK))
 		return (false);
 	else
 	{

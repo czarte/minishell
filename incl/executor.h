@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/07 11:46:12 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:38:42 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_exec_bag
 }	t_exec_bag;
 
 t_executor	*ft_init_exec(t_data *data);
-void		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
+int 		ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m);
 int			ft_exec(t_executor *pt, int pi[2], int fd_m);
 int			ft_loop(t_executor *pt, int fd_m);
 void		free_alloc(t_executor *pt);

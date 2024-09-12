@@ -33,6 +33,7 @@ int	init_in_file(t_executor *pt)
 		mes = ft_strjoin(ermess, pt->infile);
 		perror(mes);
 		free(mes);
+		return (0);
 	}
 	dup2(pt->filefd[0], STDIN_FILENO);
 	return (1);
