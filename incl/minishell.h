@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/08 18:43:01 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:56:51 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ typedef struct s_token_bag
 
 typedef struct s_executor
 {
+	bool		fork;
 	bool		debug;
 	bool		heredoc;
 	bool		heredoc_rl;

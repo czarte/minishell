@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 18:46:50 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:57:19 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 		"unset"))
 			execute_builtin(pt->comm->content, pt->data);
 	else {
+		pt->fork = true;
 		send_heredoc(pt);
 		if (pt->debug)
 			printf("executor: %s\n", (char *) pt->comm->content[1]);
@@ -93,6 +94,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 		g_pid = pt->pid[i];
 		if (pt->pid[i] == -1) {
 			perror("fork error");
+			pt->fork = false;
 			exit(EXIT_FAILURE);
 		}
 		if (pt->pid[i] == 0)
