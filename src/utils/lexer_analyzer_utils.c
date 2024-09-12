@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:59:34 by smelicha          #+#    #+#             */
-/*   Updated: 2024/08/07 23:46:09 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:28:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 bool	add_binary_executabilty(char *path, t_token_chain *current)
 {
-	if (!access(path, X_OK))
+	if (!access(path, F_OK))
 		return (false);
 	else
 	{
+		g_last_status = 126;
 		type_token(current, "ar");
-		// printf("%s: Nonexistent or not executable!\n", name);
+		perror(path);
 		return (true);
 	}
 }

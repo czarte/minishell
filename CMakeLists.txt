@@ -39,6 +39,7 @@ add_executable(
         src/utils/token_utils.c
         src/loop.c
         src/executor/execute_helpers.c
+        src/parser/get_array_utils.c
 
 )
 target_link_libraries(
