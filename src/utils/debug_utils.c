@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/08 18:43:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:01:34 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,10 @@ int	check_commands(t_executor *pt)
 			{
 //				printf("con: %s, n: %d\n", *con, n);
 				//cmd_trim(*con, ' ');
-				cmd_trim(*con, '"');
-				cmd_trim(*con, '\'');
+				if (*con[0] == '\'' && *con[ft_strlen(*con) - 1] == '\'')
+					cmd_trim(*con, '\'');
+				if (*con[0] == '"' && *con[ft_strlen(*con) - 1] == '"')
+					cmd_trim(*con, '"');
 			}
 			if (pt->debug)
 				printf("command: |%s|\n",*con);
