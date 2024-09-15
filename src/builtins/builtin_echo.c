@@ -33,8 +33,10 @@ void	echo(char **echo_tok)
 		new_line = 0;
 		current++;
 	}
-	if (!*current)
+	if (!current)
 		return ;
+	if (ft_strlen(*current) == 0)
+		new_line = 1;
 	while (*current)
 	{
 		write(STDOUT_FILENO, *current, ft_strlen(*current));
