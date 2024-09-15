@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 18:32:52 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:43:56 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,10 @@ int	executor(t_data *data, t_executor *pt)
 	add_to_collection((void *)eb, pt);
 	if (eb == NULL)
 		perror("unable allocate memory");
-	//init_exec_bag(eb, data, pt);
 	fd_m = STDIN_FILENO;
 	eb->run = true;
-	// iterate_commands(eb, data);
 	pt->data = data;
 	pt->debug = data->debug;
-	pt->append = data->exec->append;
 	if (eb->run)
 		e_c = ft_loop(pt, fd_m);
 	executor_finished_clean(pt, data);

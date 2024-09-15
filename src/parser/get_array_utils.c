@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:35:35 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/08 19:26:19 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:41:36 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,11 @@ void	appedn_command_bits(t_bagp *psr, char **tmp, t_data *data)
 	temp = NULL;
 	while (psr->splitcmd[i])
 	{
+		if (str_comp(psr->splitcmd[i], ">") || str_comp(psr->splitcmd[i], ">>"))
+			break;
 		if (data->debug)
 			printf("splitcmd[i]: %s\n", psr->splitcmd[i]);
-		temp =ft_strjoin(psr->combined, "\x15");
+		temp = ft_strjoin(psr->combined, "\x15");
 		add_to_collection((void *)temp, psr->pt);
 		psr->combined = ft_strjoin(temp, \
 				psr->splitcmd[i]);
