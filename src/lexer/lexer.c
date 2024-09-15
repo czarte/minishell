@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/15 17:31:44 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:58:05 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int	ft_strnchr(char *str, char c)
 	s = str;
 	while (*s)
 	{
-		if ((*s == c) && (*(s + 1) != '\0') && (s != str))
+		if ((*s == c) && (s != str))
 			i++;
 		s++;
 	}
@@ -225,7 +225,7 @@ char **check_unwanted_quotes(char *cmd, char qt)
 			while (*ptr != cntr)
 				ptr++;
 		}
-		if ((*ptr == qt) && (ptr > cmd && ptr < end) && (*(ptr - 1) != ' ') && (*(ptr + 1) != ' '))
+		if ((*ptr == qt) && ((ptr > cmd) && (ptr < end)) && (*(ptr - 1) != ' ') && (*(ptr + 1) != ' '))
 		{
 			*ptrs = ptr;
 			ptrs++;
@@ -236,24 +236,33 @@ char **check_unwanted_quotes(char *cmd, char qt)
 	return (ptrs);
 }
 
-void remove_unwanted_quotes(t_lex_cmd *lc) {
+void remove_unwanted_quotes(t_lex_cmd *lc, char qt) {
 	char **qts;
 	char **tmpqts;
 	char *tmp;
 
-	qts = check_unwanted_quotes(lc->cmd, '\'');
+	qts = check_unwanted_quotes(lc->cmd, qt);
 	if (!qts)
 		return ;
 	tmp = lc->cmd;
 	tmpqts = qts;
-	while (*tmp)
+	while (*qts)
 	{
-		if (tmp == *qts) {
-			ft_memmove(tmp, (tmp + 1), ft_strlen((tmp + 1)));
-			qts++;
+		while (*lc->cmd)
+		{
+			if (*qts && (lc->cmd == *qts) && (**qts == qt)) {
+//				printf("dest: %s\n", lc->cmd);
+//				printf("src: %s\n", lc->cmd + 1);
+//				printf("len: %d\n", ft_strlen(lc->cmd + 1));
+				ft_memmovev(lc->cmd, lc->cmd + 1, ft_strlen(lc->cmd + 1) + 1);
+				qts--;
+				break;
+			}
+			lc->cmd++;
 		}
-		tmp++;
+		qts++;
 	}
+	lc->cmd = tmp;
 	free(tmpqts);
 }
 
@@ -283,7 +292,6 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 		printf("Unclosed quotes!\n");
 		return (NULL);
 	}
-	remove_unwanted_quotes(lc);
 	cmd_trim(lc->cmd, ' ');
 	allocate_token_chain(lc, data);
 	fill_token_chain(lc->cmd, data);
@@ -296,5 +304,11 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 	if (data->debug)
 		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	free_token_chain(data);
+	remove_unwanted_quotes(lc, '\'');
+//	printf("result unwanted: %s\n", lc->cmd);
+	remove_unwanted_quotes(lc, '"');
+//	printf("result unwanted: %d\n", ft_strnchr(lc->cmd, '\'') % 2);
+	if (!ft_strnchr(lc->cmd, '\'') && !ft_strnchr(lc->cmd, '"'))
+		lc->dlmtr = ' ';
 	return (lc);
 }

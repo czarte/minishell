@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 18:56:51 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:59:59 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,6 +318,7 @@ size_t	ft_count_tokens(char const *s, char c);
 size_t	ft_token_len(char const *s, char c);
 bool	only_char(char *str, char c);
 int		ft_lstsize(t_list *lst);
+void	*ft_memmovev(void *dst, const void *src, size_t len);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);

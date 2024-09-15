@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 12:14:34 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/03 15:39:24 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:51:06 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,36 @@ static void	sstd(char *dest, const char *src, size_t l)
 		l--;
 		i--;
 	}
+}
+
+static void	*ft_rcpy(char *dst, const char *src, size_t n);
+
+void	*ft_memmovev(void *dst, const void *src, size_t len)
+{
+	if (dst == src)
+		return (dst);
+	else if (dst < src)
+		ft_memcpy((char *) dst, (char *) src, len);
+	else if (dst > src)
+		ft_rcpy((char *) dst, (char *) src, len);
+	return (dst);
+}
+
+static void	*ft_rcpy(char *dst, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = n - 1;
+//	printf("len: %zu\n", i);
+	while (n > 0)
+	{
+//		printf("dest: %s\n", (dst + i));
+//		printf("src: %s\n", (src + i));
+		*(dst + i) = *(src + i);
+		i--;
+		n--;
+	}
+	return (dst);
 }
 
 void	*ft_memmove(void *dest, const void *src, size_t l)
