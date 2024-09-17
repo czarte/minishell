@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:35:35 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/15 20:41:36 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:53:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, char **tmp)
 		if (!check_cmd_path_exists(psr->splitcmd[0], data))
 		{
 			perror(psr->splitcmd[0]);
+			data->parse_fail = true;
 			return (-1);
 		}
 		psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);

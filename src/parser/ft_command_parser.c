@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/07 11:57:57 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:57:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 			printf("from parse argv\n");
 		check_commands(pt);
 		pt->parsing_ok = false;
-		psr.array = NULL;
+		return (psr.array = NULL, psr.array);
 	}
 	else
 		if (extract_simple(arg, pt, data, &psr) < 0)
-			psr.array = NULL;
+			return  (psr.array = NULL, psr.array);
 	pt->parsing_ok = true;
 //	if (psr.splitcmd)
 //		free(psr.splitcmd);
@@ -60,7 +60,10 @@ int	extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr)
 	if (data->debug)
 		printf("nopipes returned pointer %p\n", lex_cmd);
 	if (lex_cmd == NULL || get_command_array(lex_cmd, psr, data) < 0)
+	{
+		pt->parsing_ok = false;
 		return (-1);
+	}
 //	free(lex_cmd->cmd);
 //	free(lex_cmd);
 	return (0);
@@ -103,8 +106,9 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 
 	i = 0;
 	command = parse_argv(argv, pt, data);
-	if (!pt->parsing_ok)
+	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
+//	printf("parsing %d\n", pt->parsing_ok);
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 	pt->c_pi = count_pipes(pt);
@@ -124,9 +128,7 @@ int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 {
 	if (parse_path(pt, argv, data) < 0)
 	{
-		if (data->parse_fail)
-			executor_finished_clean(pt, data);
-		clean_garbage(pt);
+		executor_finished_clean(pt, data);
 		return (0);
 	}
 	if (data->debug)

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/15 19:52:15 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:02:45 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,10 @@ int	check_commands(t_executor *pt)
 			n++;
 		}
 		if (access(temp->content[0], X_OK == -1) && !str_comp(temp->content[0], "builtin"))
+		{
+			pt->parsing_ok = false;
 			ft_putstr_fd("minishell: command not found:\n", STDERR_FILENO);
+		}
 		temp = temp->next;
 	}
 	if (pt->debug)
