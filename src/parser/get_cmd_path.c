@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/08 22:24:58 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:26:47 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,16 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 	else if ((access(pathcmd, X_OK) == -1))
 	{
 		if (!stat(pathcmd, &st) && st.st_mode & S_IXUSR)
+		{
+			g_last_status = 126;
 			ft_putstr_fd("Command not found\n", STDERR_FILENO);
-		perror("Command not found");
+		}
+		else
+		{
+			g_last_status = 127;
+			perror("Command not found");
+		}
 		set_empty_array(array);
-		g_last_status = 127;
+
 	}
 }

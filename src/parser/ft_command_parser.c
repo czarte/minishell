@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/17 18:57:52 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 20:41:34 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr)
 	t_lex_cmd	*lex_cmd;
 
 	lex_cmd = lexer(arg, data, pt);
+	if (!ft_strlen(lex_cmd->cmd))
+		return (-1);
 	if (lex_cmd)
 	{
 		add_to_collection((void *)lex_cmd->cmd, pt);
@@ -108,6 +110,8 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
+	if (command == NULL)
+		return (0);
 //	printf("parsing %d\n", pt->parsing_ok);
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
