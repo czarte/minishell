@@ -81,6 +81,7 @@ int	create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, char **tmp)
 		{
 			perror(psr->splitcmd[0]);
 			data->parse_fail = true;
+			g_last_status = 1;
 			return (-1);
 		}
 		psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
