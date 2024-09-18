@@ -87,9 +87,10 @@ int	iterate_splited(t_executor *pt, t_data *data, t_bagp *psr)
 		lex_cmd = lexer(*psr->pipes, data, pt);
 		if (data->debug)
 			printf("pipes returned pointer %p\n", lex_cmd);
-		if (lex_cmd == NULL || get_command_array(lex_cmd, psr, data) < 0)
+		if (lex_cmd == NULL)
 			return (-1);
-		// free(lex_cmd->cmd);
+		if (get_command_array(lex_cmd, psr, data) < 0)
+			return (free(lex_cmd), -1);
 		free(lex_cmd);
 		if (psr->array[0])
 			ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr->array));
