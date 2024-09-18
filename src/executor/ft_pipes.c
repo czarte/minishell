@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 19:24:03 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:58:49 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_executor	*ft_init_exec(t_data *data)
 	pt = malloc(sizeof(t_executor));
 	if (pt < 0)
 		perror("unable to allocate t_exec");
+	pt->fork = false;
 	pt->c_pi = 0;
 	pt->pid = NULL;
 	pt->debug = false;
@@ -120,7 +121,6 @@ int	ft_loop(t_executor *pt, int fd_m)
 	int		pi[2];
 	int		cmi;
 	int		n;
-	int		exit_code;
 
 	n = 0;
 	cmi = 0;
@@ -134,8 +134,10 @@ int	ft_loop(t_executor *pt, int fd_m)
 	exec_loop(pt, fd_m, pi, &cmi);
 	while (n < cmi)
 	{
-		exit_code = wait_subprocess(pt, n++);
+		if (pt->fork)
+			g_last_status = wait_subprocess(pt, n);
+		n++;
 		g_pid = 0;
 	}
-	return (exit_code);
+	return (g_last_status);
 }

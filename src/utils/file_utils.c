@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/02 18:46:41 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:21:21 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	init_in_file(t_executor *pt)
 	char	*ermess;
 
 	pt->heredoc = false;
-	ermess = "minishell: input file permission denied: ";
+	ermess = "minishell: ";
 	file1 = open_infile(pt, pt->infile);
 	if (pt->debug)
 		printf("file1: %s\n", file1);
@@ -29,9 +29,11 @@ int	init_in_file(t_executor *pt)
 		printf("infile fd: %d\n", pt->filefd[0]);
 	if (pt->filefd[0] == -1)
 	{
+		g_last_status = 1;
 		mes = ft_strjoin(ermess, pt->infile);
-		printf("%s\n", mes);
+		perror(mes);
 		free(mes);
+		return (0);
 	}
 	dup2(pt->filefd[0], STDIN_FILENO);
 	return (1);
@@ -55,7 +57,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 	if (pt->filefd[1] == -1)
 	{
 		mes = ft_join_path(ermess, pt->outfile);
-		printf("%s\n", mes);
+		perror(mes);
 		free(mes);
 		// exit (127);
 	}
