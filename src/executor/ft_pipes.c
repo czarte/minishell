@@ -61,10 +61,10 @@ t_executor	*ft_init_exec(t_data *data)
 	pt = malloc(sizeof(t_executor));
 	if (pt < 0)
 		perror("unable to allocate t_exec");
+	pt->debug = data->debug;
 	pt->fork = false;
 	pt->c_pi = 0;
 	pt->pid = NULL;
-	pt->debug = false;
 	pt->parsing_ok = false;
 	pt->comm = NULL;
 	pt->garbage = NULL;
@@ -84,6 +84,7 @@ t_executor	*ft_init_exec(t_data *data)
 	pt->filefd[0] = 0;
 	pt->filefd[1] = 0;
 	pt->data = data;
+	data->parse_fail = false;
 	return (pt);
 }
 

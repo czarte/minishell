@@ -91,6 +91,7 @@ int	loop(t_data *data)
 		}
 		if (!*cmd || only_char(cmd, ' '))
 		{
+			free(pt);
 			free(cmd);
 			continue ;
 		}

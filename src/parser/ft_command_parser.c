@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/17 20:41:34 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:40:30 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 		if (data->debug)
 			printf("from parse argv\n");
 		check_commands(pt);
-		pt->parsing_ok = false;
+		pt->parsing_ok = true;
 		return (psr.array = NULL, psr.array);
 	}
 	else
@@ -52,7 +52,7 @@ int	extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr)
 	t_lex_cmd	*lex_cmd;
 
 	lex_cmd = lexer(arg, data, pt);
-	if (!ft_strlen(lex_cmd->cmd))
+	if (lex_cmd == NULL || !ft_strlen(lex_cmd->cmd))
 		return (-1);
 	if (lex_cmd)
 	{
@@ -110,9 +110,6 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
-	if (command == NULL)
-		return (0);
-//	printf("parsing %d\n", pt->parsing_ok);
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 	pt->c_pi = count_pipes(pt);
@@ -135,7 +132,6 @@ int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 		executor_finished_clean(pt, data);
 		return (0);
 	}
-	if (data->debug)
-		print_t_executor(pt);
+	//print_t_executor(pt);
 	return (check_commands(pt));
 }

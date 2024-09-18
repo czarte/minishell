@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/01 18:55:59 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:17:14 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ size_t	ft_skip_quote_count_tokens(char const *s, char c)
 	size_t	count;
 	int		in_word;
 	char	quote;
+	char	*last_char;
 
 	count = 0;
+	last_char = (char *)s + ft_strlen(s);
 	quote = '\0';
 	in_word = 0;
-	while (*s)
+	while (*s && s < last_char)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
@@ -59,7 +61,8 @@ size_t	ft_skip_quote_count_tokens(char const *s, char c)
 			in_word = 1;
 			count++;
 		}
-		s++;
+		if (s < last_char)
+			s++;
 	}
 	return (count);
 }
@@ -137,7 +140,7 @@ char	*ft_skip_quote_strrchr(const char *s, int c)
 	res = NULL;
 	if ((char) c == '\0')
 		return ((char *)(s + sl));
-	while (i >= 0)
+	while (i > 0)
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 		{
@@ -148,11 +151,12 @@ char	*ft_skip_quote_strrchr(const char *s, int c)
 			quote = '\0';
 		}
 		if (s[i] == (char) c)
-		{
-			res = ((char *) s + i);
 			break ;
-		}
 		i--;
 	}
+	if (i < 0)
+		return (NULL);
+	if (s[i] == (char) c)
+		res = ((char *) s + i);
 	return ((char *)res);
 }
