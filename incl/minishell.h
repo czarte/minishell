@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/18 12:51:24 by voparkan          #+#    #+#             */
+/*   Updated: 2024/09/18 13:09:13 by voparkan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: smelicha <smelicha@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:17 by smelicha          #+#    #+#             */
@@ -307,6 +319,7 @@ size_t	ft_token_len(char const *s, char c);
 bool	only_char(char *str, char c);
 int		ft_lstsize(t_list *lst);
 void	*ft_memmovev(void *dst, const void *src, size_t len);
+void	status_and_error(const char *pathcmd, char ***array, struct stat *st);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);

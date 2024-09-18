@@ -6,12 +6,14 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/18 13:03:01 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:10:42 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include <stdbool.h>
+
+void status_and_error(const char *pathcmd, char ***array, struct stat *st);
 
 /**
  * Function to retrive executables path for particular command,
@@ -107,19 +109,21 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 		g_last_status = 126;
 	}
 	else if ((access(pathcmd, X_OK) == -1))
-	{
-		if (!stat(pathcmd, &st) && st.st_mode != S_IXUSR)
-		{
-			g_last_status = 126;
-			errno = 13;
-			perror(pathcmd);
-		}
-		else
-		{
-			g_last_status = 127;
-			perror("Command not found");
-		}
-		set_empty_array(array);
+		status_and_error(pathcmd, array, &st);
+}
 
+void status_and_error(const char *pathcmd, char ***array, struct stat *st)
+{
+	if (!stat(pathcmd, st) && (*st).st_mode != S_IXUSR)
+	{
+		g_last_status = 126;
+		errno = 13;
+		perror(pathcmd);
 	}
+	else
+	{
+		g_last_status = 127;
+		perror("Command not found");
+	}
+	set_empty_array(array);
 }
