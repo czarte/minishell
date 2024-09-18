@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:08:03 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/15 20:21:04 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:25:05 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	exec_data_re_init(t_data *data)
 int	data_init(t_data *data, char **envp)
 {
 	data->debug = false;
+	data->parse_fail = false;
 	data->cmd_list = NULL;
 	data->token_chain = NULL;
 	data->builtins = NULL;

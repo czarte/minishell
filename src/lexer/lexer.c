@@ -202,14 +202,20 @@ char **check_unwanted_quotes(char *cmd, char qt)
 	char 	**tmp;
 	int		cnt;
 	char	cntr;
+	char	*last_char;
 
 	cnt = ft_strnchr(cmd, qt);
+	last_char = cmd + ft_strlen(cmd);
 	cntr = '"';
 	if (qt == '"')
 		cntr = '\'';
 	if (cnt) {
 		ptrs = malloc((cnt + 1) * sizeof(ptrs));
-		ptrs[cnt] = NULL;
+		while (cnt)
+		{
+			ptrs[cnt] = NULL;
+			cnt--;
+		}
 	}
 	else
 		return NULL;
@@ -218,11 +224,11 @@ char **check_unwanted_quotes(char *cmd, char qt)
 		end++;
 	tmp = ptrs;
 	ptr = cmd;
-	while (*ptr)
+	while (*ptr && ptr < last_char)
 	{
 		if (*ptr == cntr) {
 			ptr++;
-			while (*ptr != cntr)
+			while (*ptr != cntr && ptr < last_char)
 				ptr++;
 		}
 		if ((*ptr == qt) && ((ptr > cmd) && (ptr < end)) && (*(ptr - 1) != ' ') && (*(ptr + 1) != ' '))
@@ -230,7 +236,8 @@ char **check_unwanted_quotes(char *cmd, char qt)
 			*ptrs = ptr;
 			ptrs++;
 		}
-		ptr++;
+		if (ptr < last_char)
+			ptr++;
 	}
 	ptrs = tmp;
 	return (ptrs);
@@ -277,19 +284,21 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 
 	ex_ret = 1;
 	if (data->debug)
-		printf("printing PT before doing lexer thing\n");
+		printf("printing PT (%p) before doing lexer thing\n", pt);
 	print_t_executor(pt);
 	pt->pwd = b_getenv("PWD", data);
 	lc = malloc(sizeof(t_lex_cmd));
 	if (!lc)
 		return (NULL);
 	lc->cmd = cmd;
+	lc->dlmtr = ' ';
 	if (data->debug)
 		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	if (!cmd_quotes_pair_check(lc))
 	{
 		data->parse_fail = true;
 		printf("Unclosed quotes!\n");
+		free(lc);
 		return (NULL);
 	}
 	cmd_trim(lc->cmd, ' ');

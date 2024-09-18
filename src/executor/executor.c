@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 20:04:38 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/15 20:43:56 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:24:31 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	executor(t_data *data, t_executor *pt)
 	fd_m = STDIN_FILENO;
 	eb->run = true;
 	pt->data = data;
-	pt->debug = data->debug;
 	if (eb->run)
 		e_c = ft_loop(pt, fd_m);
 	executor_finished_clean(pt, data);
