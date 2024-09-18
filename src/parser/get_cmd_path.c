@@ -26,6 +26,12 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 	char	*temp;
 	char	*ret;
 
+	if (is_builtin((char *)cmd, data))
+	{
+		if (data->debug)
+			printf("get_cmd_path returning builtin string");
+		return (ft_memdup("builtin"));
+	}
 	if (!data->cmd_list || (is_binary_path((char *)cmd) == 2))
 		return (ft_memdup(cmd));
 	current = data->cmd_list->next;
@@ -43,8 +49,9 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		free(temp);
 		return (ret);
 	}
-	if (is_builtin((char *)cmd, data))
-		return (ft_memdup("builtin"));
+	if (data->debug)
+		printf("get_cmd_path returning builtin string");
+
 	return (NULL);
 }
 
@@ -52,6 +59,8 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
 
+	if (is_builtin((char *) cmd, data) || is_binary_path((char *) cmd))
+		return (true);
 	if (!data->cmd_list)
 		return (false);
 	current = data->cmd_list->next;
@@ -62,8 +71,6 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
-	if (is_builtin((char *) cmd, data) || is_binary_path((char *) cmd))
-		return (true);
 	return (false);
 }
 
@@ -96,6 +103,8 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 	struct stat	st;
 
 
+	if (pt->debug)
+		printf("pathcmd from ft_check_access: %s\n", pathcmd);
 	if (!pathcmd)
 	{
 		pt->parsing_ok = false;

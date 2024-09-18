@@ -54,7 +54,7 @@ int	exec_data_re_init(t_data *data)
 {
 	if (data->exec == NULL)
 		return (data_perror(data, "exec_struct"));
-	data->exec->cmd = NULL;			//TODO presunout jinam
+	data->exec->cmd = NULL;
 	data->exec->infile = NULL;
 	data->exec->outfile = NULL;
 	data->exec->append = false;

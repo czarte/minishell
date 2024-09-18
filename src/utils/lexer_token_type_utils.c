@@ -32,7 +32,11 @@ int	is_builtin(char *token, t_data *data)
 	while (i != N_BUILTINS)
 	{
 		if (str_comp(token, data->builtins[i]))
+		{
+			if (data->debug)
+				printf("IS BUILTIN!!!!!\n");
 			return (1);
+		}
 		i++;
 	}
 	return (0);

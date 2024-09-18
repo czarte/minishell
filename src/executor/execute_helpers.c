@@ -67,6 +67,8 @@ int	command_arg_count(t_token_chain *tc, t_data *data)
  */
 int	execute_builtin(void **current, t_data *data)
 {
+	if (data->debug)
+		printf("Executing builtin: %s\n", (char *)current[1]);
 	if (str_comp(current[1], "cd"))
 		cd((char *) current[2], data);
 	else if (str_comp(current[1], "pwd"))

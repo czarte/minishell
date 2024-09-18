@@ -78,9 +78,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 	exit_status = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (str_comp(pt->comm->content[1], "cd") || str_comp(\
-	pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
-		"unset"))
+	if (is_builtin(pt->comm->content[1], pt->data))
 			execute_builtin(pt->comm->content, pt->data);
 	else {
 		pt->fork = true;

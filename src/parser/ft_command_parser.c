@@ -95,6 +95,8 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 		if (get_simple_cmd_array(lex_cmd, psr, data) < 0)
 			return (-1);
 	ft_check_access(psr->pathcmd, &psr->array, psr->pt);
+	if (data->debug)
+		printf("psr: %p psr->array: %p\n", psr, psr->array);
 	if (!*psr->array)
 	{
 		add_array_to_collection((void **)psr->array, psr->pt);
