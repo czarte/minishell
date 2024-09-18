@@ -23,6 +23,8 @@ void status_and_error(const char *pathcmd, char ***array, struct stat *st);
 char	*get_cmd_path(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
+	char	*temp;
+	char	*ret;
 
 	if (!data->cmd_list || (is_binary_path((char *)cmd) == 2))
 		return (ft_memdup(cmd));
@@ -34,9 +36,12 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		else
 			current = current->next;
 	}
-	if (is_binary_path((char *)cmd)) {
-		//TODO make all allocations assing to pointer into the garbage collecter
-		return (ft_strjoin(ft_memdup(b_getenv("PWD", data)), &cmd[1]));
+	if (is_binary_path((char *)cmd))
+	{
+		temp = ft_memdup(b_getenv("PWD", data));
+		ret = ft_strjoin(temp, &cmd[1]);
+		free(temp);
+		return (ret);
 	}
 	if (is_builtin((char *)cmd, data))
 		return (ft_memdup("builtin"));
