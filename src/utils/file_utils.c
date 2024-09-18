@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/18 13:25:05 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:31:06 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 	char	*filepath;
 
 	ermess = "minishell: output file permission denied: ";
+	printf("init_out_file: pwd %s\n", pt->pwd);
 	filepath = ft_strjoin(pt->pwd, &pt->outfile[1]);
 	if (pt->debug)
 	{
