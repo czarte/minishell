@@ -41,13 +41,9 @@ int	init_in_file(t_executor *pt)
 
 int	init_out_file(t_executor *pt, int pi[2])
 {
-	char	*mes;
 	char	*base;
-	char	*ermess;
 	char	*filepath;
 
-	ermess = "minishell: output file permission denied: ";
-	printf("init_out_file: pwd %s\n", pt->pwd);
 	base = ft_strjoin(pt->pwd, "/");
 	filepath = ft_strjoin(base, pt->outfile);
 	free(base);
@@ -61,11 +57,7 @@ int	init_out_file(t_executor *pt, int pi[2])
 	else
 		pt->filefd[1] = open(filepath, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pt->filefd[1] == -1)
-	{
-		mes = ft_join_path(ermess, filepath);
-		perror(mes);
-		free(mes);
-	}
+		perror(filepath);
 	pi[1] = pt->filefd[1];
 	dup2(pi[1], STDOUT_FILENO);
 	close(pt->filefd[1]);
