@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 09:21:21 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:25:05 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,28 +43,29 @@ int	init_out_file(t_executor *pt, int pi[2])
 {
 	char	*mes;
 	char	*ermess;
+	char	*filepath;
 
 	ermess = "minishell: output file permission denied: ";
+	filepath = ft_strjoin(pt->pwd, &pt->outfile[1]);
 	if (pt->debug)
 	{
 		printf("outfile: %s\n", pt->outfile);
 		printf("append: %d\n", pt->append);
 	}
 	if (pt->append)
-		pt->filefd[1] = open(pt->outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
+		pt->filefd[1] = open(filepath, O_CREAT | O_RDWR | O_APPEND, 0644);
 	else
-		pt->filefd[1] = open(pt->outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		pt->filefd[1] = open(filepath, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pt->filefd[1] == -1)
 	{
-		mes = ft_join_path(ermess, pt->outfile);
+		mes = ft_join_path(ermess, filepath);
 		perror(mes);
 		free(mes);
-		// exit (127);
 	}
 	pi[1] = pt->filefd[1];
 	dup2(pi[1], STDOUT_FILENO);
 	close(pt->filefd[1]);
-	return (1);
+	return (free(filepath), 1);
 }
 
 int	init_hd_file(char *file, t_executor *pt)
