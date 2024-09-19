@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/17 21:17:14 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:35:46 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 size_t	ft_skip_quote_count_tokens(char const *s, char c);
 size_t	ft_skip_quote_token_len(char const *s, char c);
-int	ft_skip_quote_create_tokens(char **result, char const *s, char c);
+int		ft_skip_quote_create_tokens(char **result, char const *s, char c);
+int		iterate_quotes(const char *s, int c, int i, char quote);
 
 char	**ft_skip_quote_split(char const *s, char c)
 {
@@ -35,45 +36,34 @@ char	**ft_skip_quote_split(char const *s, char c)
 
 size_t	ft_skip_quote_count_tokens(char const *s, char c)
 {
-	size_t	count;
-	int		in_word;
-	char	quote;
-	char	*last_char;
+	t_bags	tb;
 
-	count = 0;
-	last_char = (char *)s + ft_strlen(s);
-	quote = '\0';
-	in_word = 0;
-	while (*s && s < last_char)
+	init_tbags_bag(&tb, s);
+	while (*s && s < tb.last_char)
 	{
 		if (*s == '\'' || *s == '\"')
 		{
-			quote = *s;
+			tb.quote = *s;
 			s++;
-			while (*s && *s != quote)
+			while (*s && *s != tb.quote)
 				s++;
-			quote = '\0';
+			tb.quote = '\0';
 		}
 		if (*s == c)
-			in_word = 0;
-		else if (in_word == 0)
+			tb.in_word = 0;
+		else if (tb.in_word == 0)
 		{
-			in_word = 1;
-			count++;
+			tb.in_word = 1;
+			tb.count++;
 		}
-		if (s < last_char)
+		if (s < tb.last_char)
 			s++;
 	}
-	return (count);
+	return (tb.count);
 }
 
-size_t	ft_skip_quote_token_len(char const *s, char c)
+size_t	compute_quotes_token_len(const char *s, char c, size_t len, char quote)
 {
-	size_t	len;
-	char	quote;
-
-	quote = '\0';
-	len = 0;
 	while (*s && *s != c)
 	{
 		if (*s == '\"' || *s == '\'')
@@ -140,20 +130,7 @@ char	*ft_skip_quote_strrchr(const char *s, int c)
 	res = NULL;
 	if ((char) c == '\0')
 		return ((char *)(s + sl));
-	while (i > 0)
-	{
-		if (s[i] == '\'' || s[i] == '\"')
-		{
-			quote = s[i];
-			i--;
-			while ((s[i] && s[i] != quote) && i > 0)
-				i--;
-			quote = '\0';
-		}
-		if (s[i] == (char) c)
-			break ;
-		i--;
-	}
+	i = iterate_quotes(s, c, i, quote);
 	if (i < 0)
 		return (NULL);
 	if (s[i] == (char) c)

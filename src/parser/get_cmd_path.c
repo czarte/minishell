@@ -13,7 +13,7 @@
 #include "../../incl/minishell.h"
 #include <stdbool.h>
 
-void status_and_error(const char *pathcmd, char ***array, struct stat *st);
+void	status_and_error(const char *pathcmd, char ***array, struct stat *st);
 
 /**
  * Function to retrive executables path for particular command,
@@ -23,15 +23,11 @@ void status_and_error(const char *pathcmd, char ***array, struct stat *st);
 char	*get_cmd_path(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
-	char	*temp;
-	char	*ret;
+	char		*temp;
+	char		*ret;
 
 	if (is_builtin((char *)cmd, data))
-	{
-		if (data->debug)
-			printf("get_cmd_path returning builtin string");
 		return (ft_memdup("builtin"));
-	}
 	if (!data->cmd_list || (is_binary_path((char *)cmd) == 2))
 		return (ft_memdup(cmd));
 	current = data->cmd_list->next;
@@ -49,9 +45,6 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 		free(temp);
 		return (ret);
 	}
-	if (data->debug)
-		printf("get_cmd_path returning builtin string");
-
 	return (NULL);
 }
 
@@ -74,34 +67,10 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 	return (false);
 }
 
-void set_empty_array(char ***array)
-{
-	*array = malloc(1 * sizeof (char *));
-	*array[0] = NULL;
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		ft_putchar_fd(s[i], fd);
-		i++;
-	}
-}
-
 void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 {
 	DIR			*dirname;
 	struct stat	st;
-
 
 	if (pt->debug)
 		printf("pathcmd from ft_check_access: %s\n", pathcmd);
@@ -109,7 +78,7 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 	{
 		pt->parsing_ok = false;
 		g_last_status = 127;
-		return;
+		return ;
 	}
 	if (str_comp(pathcmd, "builtin"))
 		return ;
@@ -126,7 +95,7 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 		status_and_error(pathcmd, array, &st);
 }
 
-void status_and_error(const char *pathcmd, char ***array, struct stat *st)
+void	status_and_error(const char *pathcmd, char ***array, struct stat *st)
 {
 	if (!stat(pathcmd, st) && (*st).st_mode != S_IXUSR)
 	{

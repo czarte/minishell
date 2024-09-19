@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:07:28 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 18:57:19 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:59:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ int	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 	char	**argv;
 	int		exit_code;
 
-	if (pt->heredoc) {
-		if (!init_in_file(pt)) {
-			g_last_status = 1;
-			exit(1);
-		}
+	if (pt->heredoc && !init_in_file(pt))
+	{
+		g_last_status = 1;
+		exit(1);
 	}
 	argv = (char **) com->content;
 	if (com->prev && dup2(fd_m, STDIN_FILENO) < 0)
@@ -72,34 +71,37 @@ int	send_heredoc(t_executor *pt)
 	return (1);
 }
 
+bool	is_main_builtin(char *cmd)
+{
+	return (str_comp(cmd, "cd") || str_comp(cmd, "export") \
+	|| str_comp(cmd, "unset"));
+}
+
 int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 {
 	static int	i;
-	int 		exit_status;
+	int			exit_status;
 
 	i = 0;
 	exit_status = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (str_comp(pt->comm->content[1], "cd") || str_comp(\
-	pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
-		"unset"))
+	if (is_main_builtin(pt->comm->content[1]))
 		execute_builtin(pt->comm->content, pt->data);
-	else {
+	else
+	{
 		pt->fork = true;
 		send_heredoc(pt);
-		if (pt->debug)
-			printf("executor: %s\n", (char *) pt->comm->content[1]);
 		pt->pid[i] = fork();
 		g_pid = pt->pid[i];
-		if (pt->pid[i] == -1) {
+		if (pt->pid[i] == -1)
+		{
 			perror("fork error");
 			pt->fork = false;
 			exit(EXIT_FAILURE);
 		}
-		if (pt->pid[i] == 0)
+		if (pt->pid[i++] == 0)
 			exit_status = ft_exec_child(pt, pt->comm, pi, fd_m);
-		i++;
 	}
 	return (exit_status);
 }

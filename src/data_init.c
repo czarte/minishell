@@ -92,6 +92,5 @@ int	data_init(t_data *data, char **envp)
 	data->token_chain->token = NULL;
 	data->token_chain->next = NULL;
 	data->work_dir = getcwd(NULL, 0);
-	init_builtins(data);
 	return (0);
 }

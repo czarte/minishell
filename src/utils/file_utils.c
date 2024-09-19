@@ -99,3 +99,24 @@ int	check_heredoc(t_executor *pt, int pi[2])
 		fd_m = pi[0];
 	return (fd_m);
 }
+
+char	*open_infile(t_executor *pt, char *filename)
+{
+	char	*path;
+
+	path = NULL;
+	if (pt->debug)
+	{
+		printf("pt->pwd: %s\n", pt->pwd);
+		printf("filename: %s\n", filename);
+	}
+	if (ft_strncmp(filename, "/", 1))
+	{
+		cmd_trim(filename, ' ');
+		path = ft_join_path(pt->pwd, filename);
+		add_to_collection((void *)path, pt);
+		return (path);
+	}
+	else
+		return (filename);
+}

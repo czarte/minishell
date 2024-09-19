@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/08/24 14:26:49 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:49:27 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,12 @@ int	loop(t_data *data)
 		if (is_exit_cmd(cmd) || (refresh_path(data) < 0))
 		{
 			ft_exit(cmd);
-			free(cmd);
-			free(pt);
+			free_pt_cmd(pt, cmd);
 			return (clear_history(), g_last_status);
 		}
 		if (!*cmd || only_char(cmd, ' '))
 		{
-			free(pt);
-			free(cmd);
+			free_pt_cmd(pt, cmd);
 			continue ;
 		}
 		if (ft_parse_command(pt, cmd, data))

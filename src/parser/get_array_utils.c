@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:35:35 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/17 18:53:27 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:00:42 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,14 @@ int	create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, char **tmp)
 		if (data->debug)
 			printf("splitcmd[1] %s\n", psr->splitcmd[1]);
 		if (!check_cmd_path_exists(psr->splitcmd[0], data))
-		{
-			perror(psr->splitcmd[0]);
-			data->parse_fail = true;
-			g_last_status = 1;
-			return (-1);
-		}
+			return (exit_cmd_unexisted(psr, data));
 		psr->pathcmd = get_cmd_path(psr->splitcmd[0], data);
 		add_to_collection((void *)psr->pathcmd, psr->pt);
 		temp = ft_strjoin(psr->pathcmd, "\x15");
 		add_to_collection((void *)temp, psr->pt);
 		psr->combined = ft_strjoin(temp, psr->splitcmd[0]);
 		add_to_collection((void *)psr->combined, psr->pt);
-//		free(temp);
-		appedn_command_bits(psr, tmp, data);
+		appedn_command_bits(psr, tmp);
 		psr->array = ft_split(psr->combined, '\x15');
 		add_array_to_collection((void **)psr->array, psr->pt);
 	}
@@ -100,7 +94,7 @@ int	create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, char **tmp)
 
 int	get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 {
-	char *partial;
+	char	*partial;
 
 	partial = NULL;
 	cmd_trim(lex_cmd->cmd, ' ');
@@ -121,12 +115,10 @@ int	get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 	add_to_collection((void *)psr->combined, psr->pt);
 	psr->array = ft_split(psr->combined, '\x15');
 	add_array_to_collection((void **)psr->array, psr->pt);
-//	free(partial);
-//	free(psr->combined);
 	return (0);
 }
 
-void	appedn_command_bits(t_bagp *psr, char **tmp, t_data *data)
+void	appedn_command_bits(t_bagp *psr, char **tmp)
 {
 	int		i;
 	char	*temp;
@@ -136,26 +128,13 @@ void	appedn_command_bits(t_bagp *psr, char **tmp, t_data *data)
 	while (psr->splitcmd[i])
 	{
 		if (str_comp(psr->splitcmd[i], ">") || str_comp(psr->splitcmd[i], ">>"))
-			break;
-		if (data->debug)
-			printf("splitcmd[i]: %s\n", psr->splitcmd[i]);
+			break ;
 		temp = ft_strjoin(psr->combined, "\x15");
 		add_to_collection((void *)temp, psr->pt);
-		psr->combined = ft_strjoin(temp, \
-				psr->splitcmd[i]);
+		psr->combined = ft_strjoin(temp, psr->splitcmd[i]);
 		add_to_collection((void *)psr->combined, psr->pt);
 		i++;
 	}
-	i = 0;
 	if (tmp)
-	{
-		while (tmp[i])
-		{
-			temp = ft_strjoin(psr->combined, "\x15");
-			add_to_collection((void *)temp, psr->pt);
-			psr->combined = ft_strjoin(temp, tmp[i]);
-			add_to_collection((void *)psr->combined, psr->pt);
-			i++;
-		}
-	}
+		add_temp_to_cmd(psr, tmp);
 }

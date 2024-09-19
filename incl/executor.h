@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:04:05 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 18:38:42 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:40:07 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+typedef struct s_bag_split
+{
+	size_t		count;
+	int			in_word;
+	char		quote;
+	char		*last_char;
+} t_bags;
 
 typedef struct s_bag_struct
 {
@@ -58,7 +66,7 @@ int			ft_parse_command(t_executor *pt, char *argv, t_data *data);
 int			get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
 int			iterate_splited(t_executor *pt, t_data *data, t_bagp *psr);
 int			extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr);
-void		appedn_command_bits(t_bagp *psr, char **tmp, t_data *data);
+void		appedn_command_bits(t_bagp *psr, char **tmp);
 int			get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data);
 int			create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, \
 	char **tmp);
@@ -71,6 +79,10 @@ int			count_splited(char **cmd);
 void 		trim_all(char **splitcmd);
 char		**ft_skip_quote_split(char const *s, char c);
 char		*ft_skip_quote_strrchr(const char *s, int c);
+void		add_temp_to_cmd(t_bagp *psr, char **tmp);
+int			exit_cmd_unexisted(t_bagp *psr, t_data *data);
+void		init_tbags_bag(t_bags *tb, char const *s);
+size_t		compute_quotes_token_len(const char *s, char c, size_t len, char quote);
 
 /* utils */
 void		ft_check_access(char *pathcmd, char ***array, t_executor *pt);

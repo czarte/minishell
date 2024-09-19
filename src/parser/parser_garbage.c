@@ -35,8 +35,6 @@ int	new_garbage_list(void *ptr, t_executor *pt)
 	return (0);
 }
 
-
-
 void	*add_to_collection(void *ptr, t_executor *pt)
 {
 	t_garbage	*tmp;
@@ -81,14 +79,13 @@ void	clean_garbage(t_executor *pt)
 
 	print_garbage_list(pt);
 	if (!pt->garbage)
-		return;
+		return ;
 	next = pt->garbage;
 	while (next)
 	{
 		tmp = next;
 		next = tmp->next;
 		free(tmp->addr);
-		// printf("free: %p\n", tmp);
 		free(tmp);
 	}
 }

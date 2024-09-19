@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/17 21:40:30 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:57:06 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,23 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	psr.splitcmd = NULL;
 	psr.pt = pt;
 	psr.pathcmd = NULL;
-	if (data->debug)
-		printf("strrchr %s\n", ft_skip_quote_strrchr(arg, (int) '|'));
-	if (ft_skip_quote_strrchr(arg, (int) '|'))
+	if (ft_skip_quote_strrchr(arg, (int) '|', pt))
 	{
-		psr.pipes = ft_skip_quote_split(arg, '|');
+		psr.pipes = ft_skip_quote_split(arg, '|', pt);
 		add_array_to_collection((void **)psr.pipes, pt);
 	}
 	if (psr.pipes)
 	{
 		if (iterate_splited(pt, data, &psr) < 0)
 			return (NULL);
-		if (data->debug)
-			printf("from parse argv\n");
 		check_commands(pt);
 		pt->parsing_ok = true;
 		return (psr.array = NULL, psr.array);
 	}
 	else
 		if (extract_simple(arg, pt, data, &psr) < 0)
-			return  (psr.array = NULL, psr.array);
+			return (psr.array = NULL, psr.array);
 	pt->parsing_ok = true;
-//	if (psr.splitcmd)
-//		free(psr.splitcmd);
 	return (psr.array);
 }
 
@@ -66,8 +60,6 @@ int	extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr)
 		pt->parsing_ok = false;
 		return (-1);
 	}
-//	free(lex_cmd->cmd);
-//	free(lex_cmd);
 	return (0);
 }
 
@@ -78,15 +70,11 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 
 	prepare = NULL;
 	tmp = NULL;
-	if (data->debug)
-		printf("start of get command array, dlmtr: %c\n", lex_cmd->dlmtr);
 	if (lex_cmd->dlmtr && ft_strrchr(lex_cmd->cmd, (int)lex_cmd->dlmtr))
 	{
 		prepare_piped_array(lex_cmd, psr, data, prepare);
 		if (ft_count_tokens(psr->splitcmd[0], ' ') > 1)
-		{
 			tmp = granulate_command(psr, data, tmp);
-		}
 		if (data->debug)
 			print_debug_tmp_split(psr->splitcmd, tmp);
 		create_array(lex_cmd, psr, data, tmp);
@@ -95,16 +83,11 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 		if (get_simple_cmd_array(lex_cmd, psr, data) < 0)
 			return (-1);
 	ft_check_access(psr->pathcmd, &psr->array, psr->pt);
-	if (data->debug)
-		printf("psr: %p psr->array: %p\n", psr, psr->array);
 	if (!*psr->array)
 	{
 		add_array_to_collection((void **)psr->array, psr->pt);
 		return (-1);
 	}
-//	free(psr->pathcmd);
-	if (data->debug)
-		print_debug_array(psr);
 	return (0);
 }
 
@@ -139,6 +122,5 @@ int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 		executor_finished_clean(pt, data);
 		return (0);
 	}
-	//print_t_executor(pt);
 	return (check_commands(pt));
 }

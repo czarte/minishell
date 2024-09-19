@@ -6,33 +6,12 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/19 11:14:31 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:12:23 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
-
-char	*open_infile(t_executor *pt, char *filename)
-{
-	char	*path;
-
-	path = NULL;
-	if (pt->debug)
-	{
-		printf("pt->pwd: %s\n", pt->pwd);
-		printf("filename: %s\n", filename);
-	}
-	if (ft_strncmp(filename, "/", 1))
-	{
-		cmd_trim(filename, ' ');
-		path = ft_join_path(pt->pwd, filename);
-		add_to_collection((void *)path, pt);
-		return (path);
-	}
-	else
-		return (filename);
-}
 
 int	count_pipes(t_executor *pt)
 {
@@ -51,6 +30,25 @@ int	count_pipes(t_executor *pt)
 	return (i);
 }
 
+void	set_false_nulls(t_executor *pt)
+{
+	pt->pid = NULL;
+	pt->comm = NULL;
+	pt->garbage = NULL;
+	pt->home = NULL;
+	pt->pwd = NULL;
+	pt->path = NULL;
+	pt->argv = NULL;
+	pt->infile = NULL;
+	pt->outfile = NULL;
+	pt->dlmtr = NULL;
+	pt->fork = false;
+	pt->parsing_ok = false;
+	pt->heredoc = false;
+	pt->heredoc_rl = false;
+	pt->append = false;
+}
+
 t_executor	*ft_init_exec(t_data *data)
 {
 	t_executor	*pt;
@@ -59,29 +57,15 @@ t_executor	*ft_init_exec(t_data *data)
 	if (pt < 0)
 		perror("unable to allocate t_exec");
 	pt->debug = data->debug;
-	pt->fork = false;
+	pt->env = data->envp;
 	pt->c_pi = 0;
-	pt->pid = NULL;
-	pt->parsing_ok = false;
-	pt->comm = NULL;
-	pt->garbage = NULL;
-	pt->heredoc = false;
-	pt->heredoc_rl = false;
-	pt->append = false;
 	pt->end = 0;
 	pt->status = 0;
-	pt->env = data->envp;
-	pt->home = NULL;
-	pt->pwd = NULL;
-	pt->path = NULL;
-	pt->argv = NULL;
-	pt->infile = NULL;
-	pt->outfile = NULL;
-	pt->dlmtr = NULL;
 	pt->filefd[0] = 0;
 	pt->filefd[1] = 0;
 	pt->data = data;
 	data->parse_fail = false;
+	set_false_nulls(pt);
 	return (pt);
 }
 

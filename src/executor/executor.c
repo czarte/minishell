@@ -33,7 +33,6 @@ int	executor(t_data *data, t_executor *pt)
 	int			e_c;
 
 	e_c = 0;
-
 	eb = malloc(sizeof(t_exec_bag));
 	add_to_collection((void *)eb, pt);
 	if (eb == NULL)

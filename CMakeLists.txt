@@ -40,6 +40,8 @@ add_executable(
         src/loop.c
         src/executor/execute_helpers.c
         src/parser/get_array_utils.c
+        src/parser/get_array_helpers.c
+        src/parser/cmd_path_helpers.c
 
 )
 target_link_libraries(
