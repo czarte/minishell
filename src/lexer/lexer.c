@@ -306,7 +306,7 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 	fill_token_chain(lc->cmd, data);
 	if (type_token_chain(data, pt, lc) < 0)
 		return (free(lc), NULL);
-	if (token_chain_analyzer(data, pt) < 0)
+	if (token_chain_analyzer(data) < 0)
 		return (free(lc), NULL);
 	while (ex_ret)
 		ex_ret = env_var_expander(lc, data);

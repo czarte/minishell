@@ -75,9 +75,9 @@ int	analyze_redirections(t_data *data, t_executor *pt, t_lex_cmd *lc)
  * contains so the chain doesn't need to be scanned for each type,
  * like for env vars...
  */
-int	token_chain_analyzer(t_data *data, t_executor *pt)
+int	token_chain_analyzer(t_data *data)
 {
-	if (check_for_env_vars(data, pt))
+	if (check_for_env_vars(data))
 		return (-1);
 	if (check_for_binary_paths(data) < 0)
 		return (-1);

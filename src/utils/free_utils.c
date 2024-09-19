@@ -15,20 +15,9 @@
 
 void	ft_free_content(char **content, t_executor *pt)
 {
-	// int	i;
- //
-	// i = 0;
 	content = NULL;
 	content = content + 1;
 	pt->debug = pt->debug;
-	// while ((char *)(content)[i] != NULL)
-	// {
-	// 	if (pt->debug)
-	// 		printf("free: %s\n", (char *) content[i]);
-	// 	free(content[i]);
-	// 	i++;
-	// }
-	// free(content);
 }
 
 void	free_alloc(t_executor *pt)
@@ -36,10 +25,6 @@ void	free_alloc(t_executor *pt)
 	if (pt->comm)
 		while (pt->comm->prev)
 			pt->comm = pt->comm->prev;
-	// if (pt->infile)
-	// 	free(pt->infile);
-	// if (pt->outfile)
-	// 	free(pt->outfile);
 	ft_lstclear(&pt->comm, (void *)(ft_free_content), pt);
 	free(pt->comm);
 	free(pt->pid);
