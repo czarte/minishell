@@ -12,6 +12,26 @@
 
 #include "../../incl/minishell.h"
 
+void	set_redirection_cont(t_token_chain *current, t_executor *pt,
+							t_lex_cmd *lc)
+{
+	if (str_comp(current->type, "ro") && current->next)
+	{
+		type_token(current->next, "fp");
+		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
+		lc->dlmtr = '>';
+	}
+	if (str_comp(current->type, "ra") && current->next)
+	{
+		type_token(current->next, "fp");
+		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
+		pt->append = true;
+		lc->dlmtr = '>';
+	}
+}
+
 void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 {
 	if (str_comp(current->type, "ri") && current->next)
@@ -35,21 +55,7 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 		pt->heredoc_rl = true;
 		lc->dlmtr = '<';
 	}
-	if (str_comp(current->type, "ro") && current->next)
-	{
-		type_token(current->next, "fp");
-		pt->outfile = ft_memdup(current->next->token);
-		add_to_collection((void *)pt->outfile, pt);
-		lc->dlmtr = '>';
-	}
-	if (str_comp(current->type, "ra") && current->next)
-	{
-		type_token(current->next, "fp");
-		pt->outfile = ft_memdup(current->next->token);
-		add_to_collection((void *)pt->outfile, pt);
-		pt->append = true;
-		lc->dlmtr = '>';
-	}
+	set_redirection_cont(current, pt, lc);
 }
 
 /**

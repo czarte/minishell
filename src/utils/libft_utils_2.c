@@ -54,3 +54,19 @@ void	*ft_memmove(void *dest, const void *src, size_t l)
 	}
 	return (NULL);
 }
+
+int	ft_strnchr(char *str, char c)
+{
+	char	*s;
+	int		i;
+
+	i = 0;
+	s = str;
+	while (*s)
+	{
+		if ((*s == c) && (s != str))
+			i++;
+		s++;
+	}
+	return (i);
+}

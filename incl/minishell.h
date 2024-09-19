@@ -284,6 +284,8 @@ void	do_greater(t_fill_t_c_data *ftcdata);
 void	pipe_less_gt(t_fill_t_c_data *ftcdata);
 int		exec_data_preparation(t_data *data);
 void	analyze_builtin(t_token_chain *current, t_data *data);
+void	remove_unwanted_quotes(t_lex_cmd *lc, char qt);
+int		cmd_quotes_pair_check(t_lex_cmd *lc);
 
 /*----    Executor    ----*/
 int		executor(t_data *data, t_executor *pt);
@@ -320,6 +322,7 @@ bool	only_char(char *str, char c);
 int		ft_lstsize(t_list *lst);
 void	*ft_memmovev(void *dst, const void *src, size_t len);
 void	status_and_error(const char *pathcmd, char ***array, struct stat *st);
+int		ft_strnchr(char *str, char c);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
