@@ -34,7 +34,10 @@ int	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 	close(pi[1]);
 	if (com->prev)
 		close(fd_m);
-	exit_code = execve(argv[0], &argv[1], pt->env);
+	if (is_builtin((char *) pt->comm->content[1], pt->data))
+		exit_code = execute_builtin(pt->comm->content, pt->data);
+	else
+		exit_code = execve(argv[0], &argv[1], pt->env);
 	exit(exit_code);
 }
 
@@ -78,8 +81,10 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 	exit_status = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (is_builtin(pt->comm->content[1], pt->data))
-			execute_builtin(pt->comm->content, pt->data);
+	if (str_comp(pt->comm->content[1], "cd") || str_comp(\
+	pt->comm->content[1], "export") || str_comp(pt->comm->content[1],\
+		"unset"))
+		execute_builtin(pt->comm->content, pt->data);
 	else {
 		pt->fork = true;
 		send_heredoc(pt);
