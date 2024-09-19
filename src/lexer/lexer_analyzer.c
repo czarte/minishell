@@ -12,6 +12,26 @@
 
 #include "../../incl/minishell.h"
 
+void	set_redirection_cont(t_token_chain *current, t_executor *pt,
+							t_lex_cmd *lc)
+{
+	if (str_comp(current->type, "ro") && current->next)
+	{
+		type_token(current->next, "fp");
+		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
+		lc->dlmtr = '>';
+	}
+	if (str_comp(current->type, "ra") && current->next)
+	{
+		type_token(current->next, "fp");
+		pt->outfile = ft_memdup(current->next->token);
+		add_to_collection((void *)pt->outfile, pt);
+		pt->append = true;
+		lc->dlmtr = '>';
+	}
+}
+
 void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 {
 	if (str_comp(current->type, "ri") && current->next)
@@ -35,21 +55,7 @@ void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 		pt->heredoc_rl = true;
 		lc->dlmtr = '<';
 	}
-	if (str_comp(current->type, "ro") && current->next)
-	{
-		type_token(current->next, "fp");
-		pt->outfile = ft_memdup(current->next->token);
-		add_to_collection((void *)pt->outfile, pt);
-		lc->dlmtr = '>';
-	}
-	if (str_comp(current->type, "ra") && current->next)
-	{
-		type_token(current->next, "fp");
-		pt->outfile = ft_memdup(current->next->token);
-		add_to_collection((void *)pt->outfile, pt);
-		pt->append = true;
-		lc->dlmtr = '>';
-	}
+	set_redirection_cont(current, pt, lc);
 }
 
 /**
@@ -75,9 +81,9 @@ int	analyze_redirections(t_data *data, t_executor *pt, t_lex_cmd *lc)
  * contains so the chain doesn't need to be scanned for each type,
  * like for env vars...
  */
-int	token_chain_analyzer(t_data *data, t_executor *pt)
+int	token_chain_analyzer(t_data *data)
 {
-	if (check_for_env_vars(data, pt))
+	if (check_for_env_vars(data))
 		return (-1);
 	if (check_for_binary_paths(data) < 0)
 		return (-1);

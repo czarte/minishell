@@ -6,7 +6,7 @@
 /*   By: voparkan <voparkan@student.42prague.cz>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 12:51:24 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/19 13:49:47 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:09:13 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,7 @@ int		env_var_expander(t_lex_cmd *lc, t_data *data);
 int		token_length(char *cmd);
 int		fill_token_chain(char *command, t_data *data);
 int		type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc);
-int		token_chain_analyzer(t_data *data, t_executor *pt);
+int		token_chain_analyzer(t_data *data);
 int		analyze_redirections(t_data *data, t_executor *pt, t_lex_cmd *lc);
 int		get_number_of_folders(char *path);
 int		get_folders(char *path, char **folder_strs);
@@ -269,7 +269,7 @@ int		is_builtin(char *token, t_data *data);
 int		is_env_var(char *token);
 int		is_last_pipe_exit(char *token);
 int		is_var_decl(char *token, t_data *data);
-int		check_for_env_vars(t_data *data, t_executor *pt);
+int		check_for_env_vars(t_data *data);
 int		check_for_binary_paths(t_data *data);
 void	count_cmds(t_data *data);
 int		count_slashes(const char *str);
@@ -284,6 +284,8 @@ void	do_greater(t_fill_t_c_data *ftcdata);
 void	pipe_less_gt(t_fill_t_c_data *ftcdata);
 int		exec_data_preparation(t_data *data);
 void	analyze_builtin(t_token_chain *current, t_data *data);
+void	remove_unwanted_quotes(t_lex_cmd *lc, char qt);
+int		cmd_quotes_pair_check(t_lex_cmd *lc);
 
 /*----    Executor    ----*/
 int		executor(t_data *data, t_executor *pt);
@@ -323,6 +325,7 @@ void	status_and_error(const char *pathcmd, char ***array, struct stat *st);
 void	set_empty_array(char ***array);
 int		init_builtins(t_data *data);
 void	free_pt_cmd(t_executor *pt, char *cmd);
+int		ft_strnchr(char *str, char c);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);

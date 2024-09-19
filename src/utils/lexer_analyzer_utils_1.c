@@ -15,14 +15,13 @@
 /**
  * Expands the environment variable and makes an argument from it
  */
-int	expand_env_var(t_token_chain *current, t_data *data, t_executor *pt)
+int	expand_env_var(t_token_chain *current, t_data *data)
 {
 	char	*env_var;
 	char	*new_token;
 
 	env_var = NULL;
 	new_token = NULL;
-	pt->append = pt->append;	//dummy
 	if (current->expand)
 	{
 		env_var = b_getenv((current->token + 1), data);
@@ -39,58 +38,10 @@ int	expand_env_var(t_token_chain *current, t_data *data, t_executor *pt)
 	return (0);
 }
 
-/*
-int	env_expanded_token_size(char *token, t_data *data)
-{
-	int		i;
-	char	**vars;
-	int		new_token_length;
-	char	var_name_buff[256];
-
-	new_token_length = 0;
-	i = 0;
-	while (*token)
-	{
-		while (*token != '$')
-		{
-			token++;
-			new_token_length++;
-		}
-		while (ft_contains_char(" \"\'", *token))
-		{
-			var_name_buff[i] = *token;
-			i++;
-			token++;
-		}
-		var_name_buff[i] = '\0';
-		new_token_length += ft_strlen(b_getenv(var_name_buff));
-	}
-	return (0);
-}
-
-int	expand_mid_sentence(t_token_chain *current, t_data *data)
-{
-	char	*env_var;
-	char	*new_token;
-	char	*old_token;
-
-	env_var = NULL;
-	new_token = NULL;
-	old_token = current->token;
-	new_token = malloc(env_expanded_token_size(old_token, data));
-	if (!new_token)
-	{
-		perror("Allocation of expanded env var in token");
-		return (-1);
-	}
-	return (0);
-}
-*/
-
 /**
  * Checks if the token chain contains environment variable to expand
  */
-int	check_for_env_vars(t_data *data, t_executor *pt)
+int	check_for_env_vars(t_data *data)
 {
 	t_token_chain	*current;
 
@@ -99,7 +50,7 @@ int	check_for_env_vars(t_data *data, t_executor *pt)
 	{
 		if (str_comp(current->type, "ev"))
 		{
-			if (expand_env_var(current, data, pt))
+			if (expand_env_var(current, data))
 				return (1);
 		}
 		current = current->next;

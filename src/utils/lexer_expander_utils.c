@@ -46,7 +46,7 @@ void	split_main_string(char *main, char *main1, char *main2, int d_p)
 	main1[i] = '\0';
 	main++;
 	i = 0;
-		while (is_var_char(*main) && *main != '?')
+	while (is_var_char(*main) && *main != '?')
 		main++;
 	if (*main == '?')
 		main++;
@@ -103,7 +103,8 @@ int	ft_expandable(char *cmd)
 				j++;
 			}
 		}
-		if (*cmd == '$' && ((*(cmd + 1) != ' ') && (*(cmd + 1) != '\0') && (*(cmd + 1) != '"')))
+		if (*cmd == '$' && ((*(cmd + 1) != ' ') \
+			&& (*(cmd + 1) != '\0') && (*(cmd + 1) != '"')))
 			return (j);
 		if (*cmd)
 		{

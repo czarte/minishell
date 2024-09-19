@@ -28,32 +28,6 @@ t_token_chain	*prog_arg_fix_logic(t_token_chain *current, char *pr_ar)
 	return (current);
 }
 
-/**
- * Takes care of case when the argument of program is the name of another
- * program, all tokens between program/builtin and pipe/redirections that
- * are also name of program or builtin are retyped to argument
- */
-int	prog_arg_fix(t_data *data)
-{
-	t_token_chain	*current;
-	char			pr_ar;
-
-	current = data->token_chain->next;
-	pr_ar = 0;
-	while (current)
-	{
-		if (!pr_ar && str_comp(current->type, "ar"))
-		{
-			printf("from prog arg fix:\n");
-			printf("%s: command not found!\n", current->token);
-			// g_last_status = 127;
-			return (-1);
-		}
-		current = prog_arg_fix_logic(current, &pr_ar);
-	}
-	return (0);
-}
-
 int	is_binary_path(char *token)
 {
 	if (ft_strlen(token) >= 2)
@@ -69,12 +43,6 @@ int	is_binary_path(char *token)
 void	type_token_logic(t_token_chain *current, t_data *data)
 {
 	data->builtins = data->builtins;
-	// if (is_builtin(current->token, data))
-	// 	analyze_builtin(current, data);
-	// else if (check_cmd_path_exists(current->token, data))
-	// 	type_token(current, "pr");
-	// if (str_comp(current->token, "|"))
-	// 	type_token(current, "pi");
 	if (str_comp(current->token, "<"))
 		type_token(current, "ri");
 	else if (str_comp(current->token, ">"))
@@ -83,15 +51,10 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 		type_token(current, "rd");
 	else if (str_comp(current->token, ">>"))
 		type_token(current, "ra");
-	// else if (is_last_pipe_exit(current->token))
-	// 	expand_last_exit_status(current);
-	// else if (is_env_var(current->token))
-	// 	type_token(current, "ev");
 	else if (is_var_decl(current->token, data))
 		type_token(current, "vd");
-	else if (is_binary_path(current->token)) {
+	else if (is_binary_path(current->token))
 		type_token(current, "bp");
-	}
 	else
 		type_token(current, "ar");
 }
@@ -102,9 +65,7 @@ void	type_token_logic(t_token_chain *current, t_data *data)
 int	type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc)
 {
 	t_token_chain	*current;
-	// int				paf_ret;
 
-	// paf_ret = 0;
 	current = data->token_chain->next;
 	while (current)
 	{
@@ -113,7 +74,6 @@ int	type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc)
 	}
 	analyze_redirections(data, pt, lc);
 	print_token_chain(data);
-	// paf_ret = prog_arg_fix(data);
 	print_token_chain(data);
 	return (0);
 }

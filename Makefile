@@ -15,6 +15,10 @@ SRC = main.c src/loop.c src/data_init.c src/parser/exec_folders.c src/parser/get
 	src/lexer/fill_helpers.c src/executor/execute_helpers.c src/parser/ft_command_parser.c \
 	src/lexer/lexer_expander.c src/utils/lexer_expander_utils.c src/parser/count_utils.c \
 	src/parser/get_array_utils.c src/parser/parser_garbage.c src/parser/skip_quote_split.c \
+	src/utils/libft_utils_1.c src/utils/libft_utils_2.c src/utils/debug_utils_1.c \
+	src/lexer/lexer_rm_unwanted_quotes.c src/lexer/lexer_quotes_pair_check.c \
+	src/lexer/lexer_cmd_trim.c
+	src/parser/get_array_utils.c src/parser/parser_garbage.c src/parser/skip_quote_split.c \
 	src/parser/get_array_helpers.c src/parser/cmd_path_helpers.c
 
 TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.c \
@@ -29,6 +33,9 @@ TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.
 	src/loop.c src/utils/ft_atoi.c src/lexer/lexer_expander.c src/utils/lexer_expander_utils.c src/parser/count_utils.c \
 	src/parser/get_array_utils.c src/parser/parser_garbage.c src/parser/skip_quote_split.c \
 	src/parser/get_array_helpers.c src/parser/cmd_path_helpers.c
+	src/parser/get_array_utils.c src/parser/parser_garbage.c src/parser/skip_quote_split.c src/utils/libft_utils_1.c \
+	src/utils/libft_utils_2.c src/utils/debug_utils_1.csrc/lexer/lexer_rm_unwanted_quotes.c \
+	src/lexer/lexer_quotes_pair_check.c src/lexer/lexer_cmd_trim.c
 
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
