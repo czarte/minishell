@@ -30,9 +30,9 @@ int	main(int argc, char **argv, char **envp)
 		perror("Main data struct: ");
 		return (-1);
 	}
-	init_builtins(data);
 	if (data_init(data, envp) == -1)
 		return (-1);
+	init_builtins(data);
 	if (get_cmd_list(data) == -1)
 		return (-1);
 	loop(data);

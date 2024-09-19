@@ -21,9 +21,9 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	psr.splitcmd = NULL;
 	psr.pt = pt;
 	psr.pathcmd = NULL;
-	if (ft_skip_quote_strrchr(arg, (int) '|', pt))
+	if (ft_skip_quote_strrchr(arg, (int) '|'))
 	{
-		psr.pipes = ft_skip_quote_split(arg, '|', pt);
+		psr.pipes = ft_skip_quote_split(arg, '|');
 		add_array_to_collection((void **)psr.pipes, pt);
 	}
 	if (psr.pipes)
