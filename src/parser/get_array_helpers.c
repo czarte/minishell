@@ -15,7 +15,8 @@
 
 int	exit_cmd_unexisted(t_bagp *psr, t_data *data)
 {
-	perror(psr->splitcmd[0]);
+	ft_putstr_fd(psr->splitcmd[0], 2);
+	ft_putstr_fd(": Command not found\n", 2);
 	data->parse_fail = true;
 	g_last_status = 1;
 	return (-1);

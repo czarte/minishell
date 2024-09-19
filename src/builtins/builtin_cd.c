@@ -23,7 +23,8 @@ void	cd(const char *new_wd, t_data *data)
 	g_last_status = chdir(new_wd);
 	if (g_last_status != 0)
 	{
-		perror("cd perrror");
+		errno = 20;
+		perror(new_wd);
 		return ;
 	}
 	free(data->work_dir);

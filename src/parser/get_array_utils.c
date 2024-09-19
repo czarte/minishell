@@ -102,8 +102,8 @@ int	get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 		printf("debug %s\n", lex_cmd->cmd);
 	if (!check_cmd_path_exists(lex_cmd->cmd, data))
 	{
-		errno = EINVAL;
-		perror("Command not found");
+		ft_putstr_fd(lex_cmd->cmd, 2);
+		ft_putstr_fd(": Command not found\n", 2);
 		g_last_status = 127;
 		return (-1);
 	}

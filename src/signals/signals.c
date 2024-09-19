@@ -26,7 +26,7 @@ void	signal_handler(int signum)
 		{
 			printf("\n");
 			rl_on_new_line();
-			//rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_redisplay();
 			return ;
 		}
@@ -37,8 +37,8 @@ void	signals_init(void)
 {
 	struct sigaction	sa;
 
-	//rl_catch_signals = 0;
-	//rl_change_environment = 0;
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
 	sa.sa_handler = signal_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;

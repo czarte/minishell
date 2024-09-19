@@ -75,8 +75,8 @@ char	*cli(t_data *data)
 {
 	char	*cmd;
 
-	//rl_catch_signals = 0;
-	//rl_change_environment = 0;
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
 	create_prompt(data);
 	cmd = readline(data->prompt);
 	if (data->debug)
