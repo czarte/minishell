@@ -42,6 +42,7 @@ add_executable(
         src/parser/get_array_utils.c
         src/parser/get_array_helpers.c
         src/parser/cmd_path_helpers.c
+        src/lexer/lexer_cmd_trim.c
 
 )
 target_link_libraries(

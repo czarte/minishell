@@ -13,14 +13,6 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-typedef struct s_qps_data {
-	int		dq;
-	int		sq;
-	char	quote;
-	char	*cmd;
-	bool	first;
-}	t_qps_data;
-
 void	cmd_quotes_pair_check_cont(t_qps_data *qps, t_lex_cmd *lc)
 {
 	if (qps->quote && *qps->cmd == qps->quote)

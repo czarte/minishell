@@ -55,6 +55,31 @@ extern int						g_last_status;
 typedef struct s_cmd_list		t_cmd_list;
 typedef struct s_token_chain	t_token_chain;
 
+typedef struct s_ctrim_data {
+	int		i;
+	int		last_space_pos;
+	char	*src;
+	bool	first_letter;
+}	t_ctrim_data;
+
+typedef struct s_qps_data {
+	int		dq;
+	int		sq;
+	char	quote;
+	char	*cmd;
+	bool	first;
+}	t_qps_data;
+
+typedef struct s_uq_data {
+	char	*ptr;
+	char	*end;
+	char	**ptrs;
+	char	**tmp;
+	int		cnt;
+	char	cntr;
+	char	*last_char;
+}	t_uq_data;
+
 typedef struct s_cmd_list
 {
 	char		*cmd;

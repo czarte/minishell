@@ -26,13 +26,6 @@ bool	only_char(char *str, char c)
 	return (true);
 }
 
-typedef struct s_ctrim_data {
-	int		i;
-	int		last_space_pos;
-	char	*src;
-	bool	first_letter;
-}	t_ctrim_data;
-
 void	cmd_trim_cont(t_ctrim_data *td, char *cmd, char c)
 {
 	while (cmd[td->i])

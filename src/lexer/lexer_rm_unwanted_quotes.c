@@ -13,16 +13,6 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-typedef struct s_uq_data {
-	char	*ptr;
-	char	*end;
-	char	**ptrs;
-	char	**tmp;
-	int		cnt;
-	char	cntr;
-	char	*last_char;
-}	t_uq_data;
-
 void	check_unwanted_quotes_cont(t_uq_data *uq, char *cmd, char qt)
 {
 	while (*uq->ptr && uq->ptr < uq->last_char)
