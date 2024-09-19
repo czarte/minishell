@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 22:10:07 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/15 19:58:05 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:46:52 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ t_lex_cmd	*lexer(char *cmd, t_data *data, t_executor *pt)
 //	printf("result unwanted: %s\n", lc->cmd);
 	remove_unwanted_quotes(lc, '"');
 //	printf("result unwanted: %d\n", ft_strnchr(lc->cmd, '\'') % 2);
-	if (!ft_strnchr(lc->cmd, '\'') && !ft_strnchr(lc->cmd, '"'))
+	if (!ft_strnchr(lc->cmd, '\'') && !ft_strnchr(lc->cmd, '"') && lc->dlmtr != '>' && lc->dlmtr != '<')
 		lc->dlmtr = ' ';
 	return (lc);
 }
