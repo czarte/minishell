@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:09:55 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/12 18:58:49 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:14:31 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 char	*open_infile(t_executor *pt, char *filename)
 {
-	char	*tmp;
 	char	*path;
 
-	tmp = NULL;
 	path = NULL;
 	if (pt->debug)
 	{
@@ -27,9 +25,8 @@ char	*open_infile(t_executor *pt, char *filename)
 	}
 	if (ft_strncmp(filename, "/", 1))
 	{
-		tmp = ft_join_path("/", filename);
-		add_to_collection((void *)tmp, pt);
-		path = ft_join_path(pt->pwd, tmp);
+		cmd_trim(filename, ' ');
+		path = ft_join_path(pt->pwd, filename);
 		add_to_collection((void *)path, pt);
 		return (path);
 	}
