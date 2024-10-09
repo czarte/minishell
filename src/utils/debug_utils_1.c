@@ -50,9 +50,9 @@ int	check_commands_trim_cont(char **con, t_executor *pt)
 	{
 		if (n > 0 && *con)
 		{
-			if (*con[0] == '\'' && *con[ft_strlen(*con) - 1] == '\'')
+			if (**con == '\'' && *(*con + ft_strlen(*con) - 1) == '\'')
 				cmd_trim(*con, '\'');
-			if (*con[0] == '"' && *con[ft_strlen(*con) - 1] == '"')
+			if (**con == '"' && *(*con + ft_strlen(*con) - 1) == '"')
 				cmd_trim(*con, '"');
 		}
 		if (pt->debug)
