@@ -106,7 +106,7 @@ void	status_and_error(const char *pathcmd, char ***array, struct stat *st)
 	else
 	{
 		g_last_status = 127;
-		perror("Command not found");
+		perror("command not found");
 	}
 	set_empty_array(array);
 }

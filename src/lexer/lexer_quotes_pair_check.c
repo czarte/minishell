@@ -47,10 +47,10 @@ int	cmd_quotes_pair_check_ret_logic(t_qps_data *qps, t_lex_cmd *lc)
 		if (((qps->dq == 2 && qps->sq == 0) && (lc->cmd[0] == '"')) \
 			|| ((qps->sq == 2 && qps->dq == 0) && (lc->cmd[0] == '\'')))
 			lc->dlmtr = '\0';
-		else if (lc->dlmtr && !((lc->dlmtr == '"') || (lc->dlmtr == '\'')))
-			lc->dlmtr = ' ';
-		else if ((lc->dlmtr == '"') || (lc->dlmtr == '\''))
-			return (1);
+		// else if (lc->dlmtr && !((lc->dlmtr == '"') || (lc->dlmtr == '\'')))
+		// 	lc->dlmtr = ' ';
+		// else if ((lc->dlmtr == '"') || (lc->dlmtr == '\''))
+		// 	return (1);
 		else
 			lc->dlmtr = ' ';
 		return (1);

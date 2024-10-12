@@ -30,7 +30,9 @@ char	**granulate_command(t_bagp *psr, const t_data *data, char **tmp)
 	tempsplit = ft_memdup(psr->splitcmd[0]);
 	add_to_collection((void *)tempsplit, psr->pt);
 	cnt = ft_count_tokens(tempsplit, ' ');
-	psr->splitcmd = ft_split(tempsplit, ' ');
+	if (data->debug)
+		printf("granulate command, splitting: %s by |%c|\n", tempsplit, ' ');
+	psr->splitcmd = ft_skip_quote_split(tempsplit, ' ');
 	add_array_to_collection((void *)psr->splitcmd, psr->pt);
 	psr->splitcmd[cnt] = NULL;
 	return (tmp);
@@ -45,12 +47,16 @@ void	prepare_piped_array(t_lex_cmd *lex_cmd, t_bagp *psr, const t_data *data,
 		printf("get command array if\n");
 	if (lex_cmd->dlmtr == '>' || lex_cmd->dlmtr == '<')
 	{
-		prepare = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
+		if (data->debug)
+			printf("1prepare_piped_array split of |%s| by |%c|\n", lex_cmd->cmd, lex_cmd->dlmtr);
+		prepare = ft_skip_quote_split(lex_cmd->cmd, lex_cmd->dlmtr);
 		add_array_to_collection((void **)prepare, psr->pt);
 		lex_cmd->cmd = prepare[0];
 		lex_cmd->dlmtr = ' ';
 	}
-	psr->splitcmd = ft_split(lex_cmd->cmd, lex_cmd->dlmtr);
+	if (data->debug)
+		printf("2prepare_piped_array split of |%s| by |%c|\n", lex_cmd->cmd, lex_cmd->dlmtr);
+	psr->splitcmd = ft_skip_quote_split(lex_cmd->cmd, lex_cmd->dlmtr);
 	add_array_to_collection((void **)psr->splitcmd, psr->pt);
 	tmpsc = psr->splitcmd;
 	if (data->debug && tmpsc)
@@ -86,6 +92,8 @@ int	create_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data, char **tmp)
 		psr->combined = ft_strjoin(temp, psr->splitcmd[0]);
 		add_to_collection((void *)psr->combined, psr->pt);
 		appedn_command_bits(psr, tmp);
+		if (data->debug)
+			printf("create_array split of |%s| by |%c|\n", psr->combined, '\x15');
 		psr->array = ft_split(psr->combined, '\x15');
 		add_array_to_collection((void **)psr->array, psr->pt);
 	}
@@ -103,7 +111,7 @@ int	get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 	if (!check_cmd_path_exists(lex_cmd->cmd, data))
 	{
 		ft_putstr_fd(lex_cmd->cmd, 2);
-		ft_putstr_fd(": Command not found\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 		g_last_status = 127;
 		return (-1);
 	}
@@ -113,6 +121,8 @@ int	get_simple_cmd_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 	add_to_collection((void *)partial, psr->pt);
 	psr->combined = ft_strjoin(psr->pathcmd, partial);
 	add_to_collection((void *)psr->combined, psr->pt);
+	if (data->debug)
+		printf("get_simple_cmd_array split of |%s| by |%c|\n", psr->combined, '\x15');
 	psr->array = ft_split(psr->combined, '\x15');
 	add_array_to_collection((void **)psr->array, psr->pt);
 	return (0);
