@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 01:35:28 by smelicha          #+#    #+#             */
-/*   Updated: 2024/09/18 13:10:42 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/10/28 14:43:11 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 	if (!data->cmd_list)
 		return (false);
 	current = data->cmd_list->next;
+	if (*cmd == '"' && cmd[ft_strlen(cmd) - 1] == '"')
+		cmd_trim((char *) cmd, '"');
+	if (*cmd == '\'' && cmd[ft_strlen(cmd) - 1] == '\'')
+		cmd_trim((char *) cmd, '\'');
 	while (current)
 	{
 		if (str_comp(cmd, current->cmd))

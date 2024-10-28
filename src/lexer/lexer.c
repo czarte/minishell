@@ -82,8 +82,8 @@ void	lexer_cont_1(t_lex_cmd *lc, t_data *data)
 	if (data->debug)
 		printf("lc->cmd from lexer: %s\n", lc->cmd);
 	free_token_chain(data);
-	// remove_unwanted_quotes(lc, '\'');
-	// remove_unwanted_quotes(lc, '"');
+//	 remove_unwanted_quotes(lc, '\'');
+//	 remove_unwanted_quotes(lc, '"');
 	if (!ft_strnchr(lc->cmd, '\'') && !ft_strnchr(lc->cmd, '"') \
 		&& lc->dlmtr != '>' && lc->dlmtr != '<')
 		lc->dlmtr = ' ';

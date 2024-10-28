@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/19 12:57:06 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:59:55 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,17 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	char	**command;
 	int		i;
 
-	i = 0;
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
+	if (ft_strnchr(argv, '<'))
+	{
+		i = 1;
+		while (**(command + i) != '<')
+			i++;
+		*(command + i) = NULL;
+	}
+	i = 0;
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 	pt->c_pi = count_pipes(pt);
