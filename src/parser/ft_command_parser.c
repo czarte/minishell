@@ -32,14 +32,14 @@ char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 	}
 	if (psr->pipes)
 	{
-		if (iterate_splited(pt, data, &psr) < 0)
+		if (iterate_splited(pt, data, psr) < 0)
 			return (NULL);
 		check_commands(pt);
 		pt->parsing_ok = true;
 		return (psr->array = NULL, psr->array);
 	}
 	else
-		if (extract_simple(arg, pt, data, &psr) < 0)
+		if (extract_simple(arg, pt, data, psr) < 0)
 			return (psr->array = NULL, psr->array);
 	pt->parsing_ok = true;
 	return (psr->array);
