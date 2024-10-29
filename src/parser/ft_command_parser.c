@@ -15,30 +15,34 @@
 
 char	**parse_argv(char *arg, t_executor *pt, t_data *data)
 {
-	t_bagp		psr;
+	t_bagp		*psr;
 
-	psr.pipes = NULL;
-	psr.splitcmd = NULL;
-	psr.pt = pt;
-	psr.pathcmd = NULL;
+	psr = malloc(sizeof(t_bagp));
+	if (psr < 0)
+		return (psr->array = NULL, psr->array);
+	add_to_collection(psr, pt);
+	psr->pipes = NULL;
+	psr->splitcmd = NULL;
+	psr->pt = pt;
+	psr->pathcmd = NULL;
 	if (ft_skip_quote_strrchr(arg, (int) '|'))
 	{
-		psr.pipes = ft_skip_quote_split(arg, '|');
-		add_array_to_collection((void **)psr.pipes, pt);
+		psr->pipes = ft_skip_quote_split(arg, '|');
+		add_array_to_collection((void **)psr->pipes, pt);
 	}
-	if (psr.pipes)
+	if (psr->pipes)
 	{
 		if (iterate_splited(pt, data, &psr) < 0)
 			return (NULL);
 		check_commands(pt);
 		pt->parsing_ok = true;
-		return (psr.array = NULL, psr.array);
+		return (psr->array = NULL, psr->array);
 	}
 	else
 		if (extract_simple(arg, pt, data, &psr) < 0)
-			return (psr.array = NULL, psr.array);
+			return (psr->array = NULL, psr->array);
 	pt->parsing_ok = true;
-	return (psr.array);
+	return (psr->array);
 }
 
 int	extract_simple(char *arg, t_executor *pt, t_data *data, t_bagp *psr)
