@@ -56,16 +56,13 @@ int	expander_of_last_exit(int d_p, t_lex_cmd *lc)
 int	expander_of_env_var(int d_p, t_lex_cmd *lc, t_data *data)
 {
 	char	*var_name;
-	char	*tmp;
 
 	var_name = NULL;
-	tmp = lc->cmd;
 	if (!expander_of_last_exit(d_p, lc))
 		return (0);
 	var_name = get_var_name(d_p, lc);
 	lc->cmd = insert_env_string(d_p, lc->cmd,
 			ft_memdup(b_getenv(var_name, data)));
-	free(tmp);
 	free(var_name);
 	return (0);
 }
