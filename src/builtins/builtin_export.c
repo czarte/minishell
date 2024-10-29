@@ -86,10 +86,14 @@ int	b_export(char *var, t_data *data)
 		if (temp_var_position >= 0)
 			envp_add_reallocate(data, data->local_temp_envp[temp_var_position],
 				0);
+		g_last_status = 0;
 		return (0);
 	}
 	if (export_from_token(var, data))
+	{
+		g_last_status = 1;
 		return (-1);
+	}
 	if (is_path(var))
 		get_cmd_list(data);
 	g_last_status = 0;
