@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/10/29 22:24:36 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/10/29 22:27:51 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 
 int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 {
-	if ((parse_path(pt, argv, data) < 0) || *argv == '$' && *(argv + 1) == '(')
+	if ((parse_path(pt, argv, data) < 0) || (*argv == '$' && *(argv + 1) == '('))
 	{
 		executor_finished_clean(pt, data);
 		return (0);
