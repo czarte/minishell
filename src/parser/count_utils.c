@@ -78,7 +78,7 @@ void	print_debug_array(t_bagp *psr)
 	}
 }
 
-int	iterate_splited(t_executor *pt, t_data *data, t_bagp *psr)
+int		iterate_splited(t_executor *pt, t_data *data, t_bagp *psr)
 {
 	t_lex_cmd	*lex_cmd;
 
@@ -92,7 +92,7 @@ int	iterate_splited(t_executor *pt, t_data *data, t_bagp *psr)
 		if (get_command_array(lex_cmd, psr, data) < 0)
 			return (free(lex_cmd), -1);
 		free(lex_cmd);
-		if (psr->array[0])
+		if (psr->array != NULL)
 			ft_lstadd_back(&pt->comm, ft_lstnew((void **) psr->array));
 		psr->pipes++;
 	}
