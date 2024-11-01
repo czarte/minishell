@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/10/28 17:59:55 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/11/01 17:47:00 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	if (pt->infile && pt->outfile)
 	{
 		i = 1;
-		while (**(command + i) != '<')
+		while (*(command + i) && (**(command + i) != '<' && **(command + i) != '>'))
 			i++;
 		*(command + i) = NULL;
 	}
