@@ -57,7 +57,6 @@ t_executor	*ft_init_exec(t_data *data)
 	if (pt < 0)
 		perror("unable to allocate t_exec");
 	pt->debug = data->debug;
-	pt->env = data->envp;
 	pt->c_pi = 0;
 	pt->end = 0;
 	pt->status = 0;

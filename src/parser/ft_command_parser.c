@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/10/29 22:27:51 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:59:55 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 		if (get_simple_cmd_array(lex_cmd, psr, data) < 0)
 			return (-1);
 	ft_check_access(psr->pathcmd, &psr->array, psr->pt);
-	if (!psr->array)
+	if (!*psr->array)
 	{
 		add_array_to_collection((void **)psr->array, psr->pt);
 		return (-1);
@@ -103,6 +103,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
+	// if (ft_strnchr(argv, '<') && ft_strnchr(argv, '>'))
 	if (pt->infile && pt->outfile)
 	{
 		i = 1;
@@ -128,7 +129,7 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 
 int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 {
-	if ((parse_path(pt, argv, data) < 0) || (*argv == '$' && *(argv + 1) == '('))
+	if (parse_path(pt, argv, data) < 0)
 	{
 		executor_finished_clean(pt, data);
 		return (0);

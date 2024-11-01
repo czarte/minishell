@@ -36,7 +36,7 @@ int	ft_exec_child(t_executor *pt, t_list *com, int pi[2], int fd_m)
 	if (is_builtin((char *) pt->comm->content[1], pt->data))
 		exit_code = execute_builtin(pt->comm->content, pt->data);
 	else
-		exit_code = execve(argv[0], &argv[1], pt->env);
+		exit_code = execve(argv[0], &argv[1], pt->data->envp);
 	exit(exit_code);
 }
 

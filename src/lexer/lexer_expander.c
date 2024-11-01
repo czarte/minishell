@@ -38,18 +38,15 @@ char	*insert_env_string(int pos, char *main, char *add)
 	insert_env_join_strings(res, main1, main2, add);
 	free(main1);
 	free(main2);
+	free(main);
 	return (res);
 }
 
 int	expander_of_last_exit(int d_p, t_lex_cmd *lc)
 {
-	char	*tmp;
-
-	tmp = lc->cmd;
 	if (*(lc->cmd + d_p + 1) != '?')
 		return (-1);
 	lc->cmd = insert_env_string(d_p, lc->cmd, ft_itoa(g_last_status));
-	free(tmp);
 	return (0);
 }
 
