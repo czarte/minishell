@@ -19,17 +19,8 @@
 void	cd(const char *new_wd, t_data *data)
 {
 	char	*env_var;
-	char	*home_relative;
 
-	home_relative = NULL;
-	if (!new_wd)
-		new_wd = b_getenv("HOME", data);
-	if (new_wd[0] == '~')
-		home_relative = ft_strjoin(b_getenv("HOME", data), (new_wd + 1));
-	if (!home_relative)
-		g_last_status = chdir(new_wd);
-	else
-		g_last_status = chdir(home_relative);
+	g_last_status = chdir(new_wd);
 	if (g_last_status != 0)
 	{
 		errno = 20;
@@ -40,7 +31,5 @@ void	cd(const char *new_wd, t_data *data)
 	data->work_dir = getcwd(NULL, 0);
 	env_var = ft_strjoin("PWD=", data->work_dir);
 	b_export(env_var, data);
-	if (home_relative)
-		free(home_relative);
 	free(env_var);
 }
