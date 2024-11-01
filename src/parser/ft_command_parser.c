@@ -103,7 +103,6 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	command = parse_argv(argv, pt, data);
 	if (!pt->parsing_ok || data->parse_fail)
 		return (-1);
-	// if (ft_strnchr(argv, '<') && ft_strnchr(argv, '>'))
 	if (pt->infile && pt->outfile)
 	{
 		i = 1;
