@@ -110,10 +110,22 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 			i++;
 		*(command + i) = NULL;
 	}
-	i = 0;
 	if (command && command[0])
 		ft_lstadd_back(&pt->comm, ft_lstnew((void **) command));
 	pt->c_pi = count_pipes(pt);
+	return (0);
+}
+
+int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
+{
+	int		i;
+
+	i = 0;
+	if (parse_path(pt, argv, data) < 0)
+	{
+		executor_finished_clean(pt, data);
+		return (0);
+	}
 	if (pt->c_pi > 0)
 	{
 		pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
@@ -122,16 +134,6 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 			pt->pid[i] = -1;
 			i++;
 		}
-	}
-	return (0);
-}
-
-int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
-{
-	if (parse_path(pt, argv, data) < 0)
-	{
-		executor_finished_clean(pt, data);
-		return (0);
 	}
 	return (check_commands(pt));
 }
