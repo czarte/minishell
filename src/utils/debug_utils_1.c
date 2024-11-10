@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:05:30 by smelicha          #+#    #+#             */
-/*   Updated: 2024/08/06 18:07:52 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:11:03 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	print_exec_data(t_exec *exec)
 int	check_commands_trim_cont(char **con, t_executor *pt)
 {
 	int	n;
+	char **comand = con;
 
 	n = 0;
 	while (*con)
@@ -60,7 +61,36 @@ int	check_commands_trim_cont(char **con, t_executor *pt)
 		con++;
 		n++;
 	}
+	remove_unescaped_quotes(comand);
 	return (n);
+}
+
+void	remove_unescaped_quotes(char **con)
+{
+	int	n;
+	char *word;
+
+	con++;
+	while (*con)
+	{
+		word = (*con);
+		n = ft_strlen(word);
+		while ((*con + n) > (*con))
+		{
+			if (n > 0 && (*(*con + n) == '"' || *(*con + n) == '\'')) {
+				if (*(*con + n - 1) == '\\') {
+//					printf("remove escapeing char: dest %s, src %s, len %d \n", (*con + (n - 1)), (*con + n), ft_strlen((*con + n)) + 1);
+					ft_memmove((*con + (n - 1)), (*con + n), ft_strlen((*con + n)));
+					n--;
+				} else {
+//					printf("remove quotes\n");
+					ft_memmove((*con + n), (*con + n + 1), ft_strlen((*con + n)));
+				}
+			}
+			n--;
+		}
+		con++;
+	}
 }
 
 int	check_commands(t_executor *pt)

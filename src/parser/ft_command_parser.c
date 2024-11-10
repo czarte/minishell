@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 16:17:25 by voparkan          #+#    #+#             */
-/*   Updated: 2024/11/01 17:47:00 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/11/06 19:13:31 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	ft_parse_command(t_executor *pt, char *argv, t_data *data)
 	if (pt->c_pi > 0)
 	{
 		pt->pid = (int *)malloc((pt->c_pi + 1) * sizeof(int));
+		//add_to_collection(pt->pid, pt);
 		while (i < pt->c_pi)
 		{
 			pt->pid[i] = -1;
