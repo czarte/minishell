@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:05:30 by smelicha          #+#    #+#             */
-/*   Updated: 2024/11/10 14:38:09 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/11/10 15:24:11 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	check_commands_trim_cont(char **con, t_executor *pt)
 	{
 		if (n > 0 && *con)
 		{
-			if ((**con == '\'' || **con == '"') && \
+			if (ft_strlen(*con) == 2 && ((**con == '\'' || \
+				**con == '"')) && *(*con + ft_strlen(*con) - 1) == **con)
+				**con = '\0';
+			else if ((**con == '\'' || **con == '"') && \
 				*(*con + ft_strlen(*con) - 1) == **con)
 				cmd_trim(*con, **con);
 			else
