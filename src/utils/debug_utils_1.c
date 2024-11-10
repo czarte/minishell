@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:05:30 by smelicha          #+#    #+#             */
-/*   Updated: 2024/11/10 14:11:03 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/11/10 14:38:09 by voparkan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,53 +43,42 @@ void	print_exec_data(t_exec *exec)
 
 int	check_commands_trim_cont(char **con, t_executor *pt)
 {
-	int	n;
-	char **comand = con;
+	int		n;
 
 	n = 0;
 	while (*con)
 	{
 		if (n > 0 && *con)
 		{
-			if (**con == '\'' && *(*con + ft_strlen(*con) - 1) == '\'')
-				cmd_trim(*con, '\'');
-			if (**con == '"' && *(*con + ft_strlen(*con) - 1) == '"')
-				cmd_trim(*con, '"');
+			if ((**con == '\'' || **con == '"') && \
+				*(*con + ft_strlen(*con) - 1) == **con)
+				cmd_trim(*con, **con);
+			else
+				remove_unescaped_quotes(*con);
 		}
 		if (pt->debug)
 			printf("command: |%s|\n",*con);
 		con++;
 		n++;
 	}
-	remove_unescaped_quotes(comand);
 	return (n);
 }
 
-void	remove_unescaped_quotes(char **con)
+void	remove_unescaped_quotes(char *con)
 {
 	int	n;
-	char *word;
-
-	con++;
-	while (*con)
+	n = ft_strlen(con);
+	while ((*con + n) > (*con))
 	{
-		word = (*con);
-		n = ft_strlen(word);
-		while ((*con + n) > (*con))
-		{
-			if (n > 0 && (*(*con + n) == '"' || *(*con + n) == '\'')) {
-				if (*(*con + n - 1) == '\\') {
-//					printf("remove escapeing char: dest %s, src %s, len %d \n", (*con + (n - 1)), (*con + n), ft_strlen((*con + n)) + 1);
-					ft_memmove((*con + (n - 1)), (*con + n), ft_strlen((*con + n)));
-					n--;
-				} else {
-//					printf("remove quotes\n");
-					ft_memmove((*con + n), (*con + n + 1), ft_strlen((*con + n)));
-				}
+		if (n > 0 && (*(con + n) == '"' || *(con + n) == '\'')) {
+			if (*(con + n - 1) == '\\') {
+				ft_memmove((con + (n - 1)), (con + n), ft_strlen((con + n)) + 1);
+				n--;
+			} else {
+				ft_memmove((con + n), (con + n + 1), ft_strlen((con + n)));
 			}
-			n--;
 		}
-		con++;
+		n--;
 	}
 }
 

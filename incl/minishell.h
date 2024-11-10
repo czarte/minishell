@@ -317,7 +317,7 @@ int		executor(t_data *data, t_executor *pt);
 void	executor_finished_clean(t_executor *pt, t_data *data);
 
 /*----    Utils    ----*/
-void	remove_unescaped_quotes(char **con);
+void	remove_unescaped_quotes(char *con);
 void	str_fill(char *to, char *from);
 int		str_comp(const char *str1, const char *str2);
 int		ft_strlen(const char *str);
