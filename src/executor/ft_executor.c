@@ -71,10 +71,10 @@ int	send_heredoc(t_executor *pt)
 	return (1);
 }
 
-bool	is_main_builtin(char *cmd)
+bool	is_main_builtin(char *cmd, t_data *data)
 {
 	return (str_comp(cmd, "cd") || str_comp(cmd, "export") \
-	|| str_comp(cmd, "unset"));
+	|| str_comp(cmd, "unset") || is_var_decl(cmd, data));
 }
 
 int	ft_exec(t_executor *pt, int pi[2], int fd_m)
@@ -86,7 +86,7 @@ int	ft_exec(t_executor *pt, int pi[2], int fd_m)
 	exit_status = 0;
 	if (pt->end)
 		pt->end = 0;
-	if (is_main_builtin(pt->comm->content[1]))
+	if (is_main_builtin(pt->comm->content[1], pt->data))
 		execute_builtin(pt->comm->content, pt->data);
 	else
 	{

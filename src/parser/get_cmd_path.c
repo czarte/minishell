@@ -26,7 +26,7 @@ char	*get_cmd_path(const char *cmd, t_data *data)
 	char		*temp;
 	char		*ret;
 
-	if (is_builtin((char *)cmd, data))
+	if (is_builtin((char *)cmd, data) || is_var_decl((char *)cmd, data))
 		return (ft_memdup("builtin"));
 	if (!data->cmd_list || (is_binary_path((char *)cmd) == 2))
 		return (ft_memdup(cmd));
@@ -52,7 +52,7 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data)
 {
 	t_cmd_list	*current;
 
-	if (is_builtin((char *) cmd, data) || is_binary_path((char *) cmd))
+	if (is_builtin((char *) cmd, data) || is_binary_path((char *) cmd) || is_var_decl((char *)cmd, data))
 		return (true);
 	if (!data->cmd_list)
 		return (false);
