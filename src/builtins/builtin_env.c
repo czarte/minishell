@@ -28,7 +28,7 @@ char	*get_env_check_temp(char *name, t_data *data)
 			j++;
 			k++;
 		}
-		if (data->local_temp_envp[i][j] == '=')
+		if (data->local_temp_envp[i][j] == '=' && name[k] == '\0')
 			return (data->local_temp_envp[i] + j + 1);
 		j = 0;
 		k = 0;
@@ -70,6 +70,8 @@ char	*b_getenv(char *name, t_data *data)
 		printf("name from getenv: %s\n", name);
 	res = NULL;
 	res = get_env_check_envp(name, data);
+	if (!res)
+		res = get_env_check_temp(name, data);
 	return (res);
 }
 
