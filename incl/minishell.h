@@ -255,7 +255,7 @@ int		add_cmd_list_node(char *name, char *path, t_data *data);
 void	cd(const char *new_wd, t_data *data);
 void	echo(char **echo_tok);
 void	env(t_data *data);
-int		b_export(char *var, t_data *data);
+int		b_export(char *var, char temp, t_data *data);
 int		unset(char *var, t_data *data);
 
 /*----    Builtin utils    ----*/

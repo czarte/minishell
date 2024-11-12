@@ -24,9 +24,9 @@ int	export_from_local(t_data *data)
 	return (0);
 }
 
-int	export_from_token(char *var, t_data *data)
+int	export_from_token(char *var, char temp, t_data *data)
 {
-	if (envp_add_reallocate(data, var, 0))
+	if (envp_add_reallocate(data, var, temp))
 	{
 		perror("Export");
 		return (-1);
@@ -95,7 +95,7 @@ bool	forbidden_cahracters(char *var)
 /**
  * note: export() is reserved
  */
-int	b_export(char *var, t_data *data)
+int	b_export(char *var, char temp, t_data *data)
 {
 	int	temp_var_position;
 
@@ -110,11 +110,11 @@ int	b_export(char *var, t_data *data)
 				var);
 		if (temp_var_position >= 0)
 			envp_add_reallocate(data, data->local_temp_envp[temp_var_position],
-				0);
+				temp);
 		g_last_status = 0;
 		return (0);
 	}
-	if (export_from_token(var, data))
+	if (export_from_token(var, temp, data))
 	{
 		g_last_status = 1;
 		return (-1);
