@@ -69,6 +69,23 @@ bool	is_path(char *str)
 	return (false);
 }
 
+bool	forbidden_cahracters(char *var)
+{
+	while (*var)
+	{
+		if (*var == '=')
+			return (false);
+		if ((('A' <= *var) && ('Z' >= *var))
+				|| (('a' <= *var) && ('z' >= *var))
+				|| (('0' <= *var) && ('9' >= *var))
+				|| *var == '_' || *var == '=')
+			var++;
+		else
+			return (true);
+	}
+	return (false);
+}
+
 /**
  * note: export() is reserved
  */
@@ -79,6 +96,12 @@ int	b_export(char *var, t_data *data)
 	temp_var_position = 0;
 	if (!var)
 		no_option_export(data->envp);
+	if (forbidden_cahracters(var))
+	{
+		printf("export: \'%s\': not a valid identifier\n", var);
+		g_last_status = 1;
+		return (-1);
+	}
 	if (!ft_contains_char(var, '='))
 	{
 		temp_var_position = check_envp_for_duplicate(data->local_temp_envp,
