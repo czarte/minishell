@@ -71,19 +71,25 @@ bool	is_path(char *str)
 
 bool	forbidden_cahracters(char *var)
 {
-	while (*var)
+	char *tmp_var;
+
+	tmp_var = var;
+	while (1)
 	{
-		if (*var == '=')
+		if (*var == '=' && var != tmp_var)
 			return (false);
 		if ((('A' <= *var) && ('Z' >= *var))
 				|| (('a' <= *var) && ('z' >= *var))
 				|| (('0' <= *var) && ('9' >= *var))
-				|| *var == '_' || *var == '=')
+				|| *var == '_' || *var != '\0')
 			var++;
 		else
 		{
 			ft_putstr_fd("export: \'", 2);
-			ft_putstr_fd(var, 2);
+			if (!*var)
+				ft_putstr_fd(tmp_var, 2);
+			else
+				ft_putstr_fd(var, 2);
 			ft_putstr_fd("\': not a valid identifier\n", 2);
 			g_last_status = 1;
 			return (true);
