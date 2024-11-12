@@ -81,7 +81,13 @@ bool	forbidden_cahracters(char *var)
 				|| *var == '_' || *var == '=')
 			var++;
 		else
+		{
+			ft_putstr_fd("export: \'", 2);
+			ft_putstr_fd(var, 2);
+			ft_putstr_fd("\': not a valid identifier\n", 2);
+			g_last_status = 1;
 			return (true);
+		}
 	}
 	return (false);
 }
@@ -97,11 +103,7 @@ int	b_export(char *var, t_data *data)
 	if (!var)
 		no_option_export(data->envp);
 	if (forbidden_cahracters(var))
-	{
-		printf("export: \'%s\': not a valid identifier\n", var);
-		g_last_status = 1;
 		return (-1);
-	}
 	if (!ft_contains_char(var, '='))
 	{
 		temp_var_position = check_envp_for_duplicate(data->local_temp_envp,
