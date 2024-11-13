@@ -78,6 +78,7 @@ void	ft_check_access(char *pathcmd, char ***array, t_executor *pt)
 
 	if (pt->debug)
 		printf("pathcmd from ft_check_access: %s\n", pathcmd);
+	pt->parsing_ok = true;
 	if (!pathcmd)
 	{
 		pt->parsing_ok = false;

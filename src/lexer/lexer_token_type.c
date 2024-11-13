@@ -74,6 +74,5 @@ int	type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc)
 	}
 	analyze_redirections(data, pt, lc);
 	print_token_chain(data);
-	print_token_chain(data);
 	return (0);
 }
