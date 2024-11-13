@@ -74,6 +74,8 @@ bool	forbidden_cahracters(char *var)
 	char *tmp_var;
 
 	tmp_var = var;
+	if (!var)
+		return (false);
 	while (1)
 	{
 		if (*var == '=' && var != tmp_var)
