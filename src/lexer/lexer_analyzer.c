@@ -34,14 +34,8 @@ void	set_redirection_cont(t_token_chain *current, t_executor *pt,
 
 void	set_redirections(t_token_chain *current, t_executor *pt, t_lex_cmd *lc)
 {
-	if (str_comp(current->type, "ri") && current->next)
+	if (str_comp(current->type, "fp") && current->next)
 	{
-		type_token(current->next, "fp");
-		if (pt->heredoc)
-		{
-			type_token(current, "ar");
-			return ;
-		}
 		pt->infile = ft_memdup(current->next->token);
 		add_to_collection((void *)pt->infile, pt);
 		pt->heredoc = true;

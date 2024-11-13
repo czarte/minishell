@@ -40,23 +40,39 @@ int	is_binary_path(char *token)
 	return (0);
 }
 
+void set_binary_path_type(t_token_chain *current, bool heredoc)
+{
+	if (heredoc)
+		type_token(current, "fp");
+	else
+		type_token(current, "bp");
+}
+
 void	type_token_logic(t_token_chain *current, t_data *data)
 {
-	data->builtins = data->builtins;
-	if (str_comp(current->token, "<"))
-		type_token(current, "ri");
-	else if (str_comp(current->token, ">"))
-		type_token(current, "ro");
-	else if (str_comp(current->token, "<<"))
-		type_token(current, "rd");
-	else if (str_comp(current->token, ">>"))
-		type_token(current, "ra");
-	else if (is_var_decl(current->token, data))
-		type_token(current, "vd");
-	else if (is_binary_path(current->token))
-		type_token(current, "bp");
-	else
-		type_token(current, "ar");
+	bool	heredoc;
+	heredoc = false;
+	while (current)
+	{
+		if (str_comp(current->token, "<"))
+		{
+			type_token(current, "ri");
+			heredoc = true;
+		}
+		else if (str_comp(current->token, ">"))
+			type_token(current, "ro");
+		else if (str_comp(current->token, "<<"))
+			type_token(current, "rd");
+		else if (str_comp(current->token, ">>"))
+			type_token(current, "ra");
+		else if (is_var_decl(current->token, data))
+			type_token(current, "vd");
+		else if (is_binary_path(current->token))
+			set_binary_path_type(current, heredoc);
+		else
+			type_token(current, "ar");
+		current = current->next;
+	}
 }
 
 /**
@@ -67,12 +83,10 @@ int	type_token_chain(t_data *data, t_executor *pt, t_lex_cmd *lc)
 	t_token_chain	*current;
 
 	current = data->token_chain->next;
-	while (current)
-	{
+	if (current)
 		type_token_logic(current, data);
-		current = current->next;
-	}
 	analyze_redirections(data, pt, lc);
 	print_token_chain(data);
+//	print_token_chain(data);
 	return (0);
 }

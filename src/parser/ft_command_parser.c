@@ -89,7 +89,7 @@ int	get_command_array(t_lex_cmd *lex_cmd, t_bagp *psr, t_data *data)
 	ft_check_access(psr->pathcmd, &psr->array, psr->pt);
 	if (!psr->pt->parsing_ok)
 		return (-1);
-	if (!*psr->array)
+	if (!psr->array)
 	{
 		add_array_to_collection((void **)psr->array, psr->pt);
 		return (-1);
@@ -103,9 +103,18 @@ int	parse_path(t_executor *pt, char *argv, t_data *data)
 	int		i;
 
 	command = parse_argv(argv, pt, data);
+	// printf("Start of array---------\n");
+	// if (command)
+	// 	print_array(command);
+	// else
+	// 	printf("array is NULL\n");
+	// printf("End of array-----------\n");
 	if (!pt->parsing_ok || data->parse_fail)
+	{
+		// printf("Jumping out of parse path!\n");
 		return (-1);
-	if (pt->infile && pt->outfile)
+	}
+	if (command && pt->infile && pt->outfile)
 	{
 		i = 1;
 		while (*(command + i) && (**(command + i) != '<' && **(command + i) != '>'))

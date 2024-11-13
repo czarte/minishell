@@ -356,6 +356,7 @@ int		ft_strnchr(char *str, char c);
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
 void	print_t_executor(t_executor *pt);
+void	print_array(char **arr);
 
 /*----	  Help		----*/
 void	help(void);

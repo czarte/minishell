@@ -13,7 +13,7 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-void	print_t_executor_print_array(char **arr)
+void	print_array(char **arr)
 {
 	while (*arr)
 	{
@@ -44,14 +44,14 @@ void	print_t_executor_cont_1(t_executor *pt)
 	if (pt->argv)
 	{
 		printf("argv:\n");
-		print_t_executor_print_array(pt->argv);
+		print_array(pt->argv);
 	}
 	else
 		printf("argv:\tNULL\n");
 	if (pt->path)
 	{
 		printf("path:\n");
-		print_t_executor_print_array(pt->path);
+		print_array(pt->path);
 	}
 	else
 		printf("path:\tNULL\n");
@@ -73,7 +73,7 @@ void	print_t_executor_cont(t_list *ltmp, t_executor *pt)
 		printf("comm:\n");
 		while (ltmp)
 		{
-			print_t_executor_print_array((char **) ltmp->content);
+			print_array((char **) ltmp->content);
 			ltmp = ltmp->next;
 		}
 	}
