@@ -1,0 +1,96 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cli.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/29 17:52:43 by voparkan          #+#    #+#             */
+/*   Updated: 2024/11/14 09:31:26 by smelicha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../incl/minishell.h"
+
+void	prompt_finish(int i, t_data *data)
+{
+	data->prompt[i] = ' ';
+	data->prompt[i + 1] = '$';
+	data->prompt[i + 2] = ':';
+	data->prompt[i + 3] = ' ';
+	data->prompt[i + 4] = '\0';
+}
+
+/**
+ * Simple function to make a string to display as a prompt for command
+ * line interface
+ */
+void	create_prompt(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (ft_strlen(data->work_dir) < 60)
+	{
+		while (data->work_dir[i])
+		{
+			data->prompt[i] = data->work_dir[i];
+			i++;
+		}
+		prompt_finish(i, data);
+	}
+	else
+	{
+		j = ft_strlen(data->work_dir) - 60;
+		while (data->work_dir[j])
+		{
+			data->prompt[i] = data->work_dir[j];
+			i++;
+			j++;
+		}
+		prompt_finish(i, data);
+	}
+}
+
+bool	contains_printables(char *str)
+{
+	if (!str)
+		return (false);
+	while (*str)
+	{
+		if (*str >= 33 && *str != 127)
+			return (true);
+		str++;
+	}
+	return (false);
+}
+
+/**
+ * Command line interface function with loop that where commands are recieved
+ * and sent for further processing
+ */
+char	*cli(t_data *data)
+{
+	char	*cmd;
+
+	rl_catch_signals = 0;
+	rl_change_environment = 0;
+	create_prompt(data);
+	cmd = readline(data->prompt);
+	if (data->debug)
+	{
+		printf("STDOUT %d\n", STDIN_FILENO);
+		write(1, &"cli\n", 4);
+		printf("cli: %s\n", cmd);
+	}
+	if (str_comp(cmd, "exit") || !cmd)
+	{
+		free(cmd);
+		return (NULL);
+	}
+	if (*cmd)
+		add_history(cmd);
+	return (cmd);
+}
