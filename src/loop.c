@@ -15,6 +15,32 @@
 
 void	ft_exit(char *cmd)
 {
+//	int	neg;
+	int	i;
+	char **splitted;
+
+	splitted = NULL;
+//	neg = 1;
+	i = 0;
+	if (!cmd)
+		return ;
+	cmd_trim(cmd, ' ');
+	printf("\nnumber of exit tokens: %zu\n", ft_count_tokens(cmd, ' '));
+
+	splitted = ft_split(cmd, ' ');
+
+
+	while (splitted[i])
+	{
+		printf("spliited[%i] = %s\n", i, splitted[i]);
+		free(splitted[i]);
+		i++;
+	}
+	free(splitted);
+}
+
+void	old_ft_exit(char *cmd)
+{
 	int	neg;
 
 	neg = 1;
