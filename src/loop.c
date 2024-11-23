@@ -13,53 +13,62 @@
 #include "../incl/minishell.h"
 #include "../incl/executor.h"
 
+bool	is_num(char *str)
+{
+	while (*str)
+	{
+		if ((*str < '0' || *str > '9') && *str != '-')
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
+int	count_double_char_strings(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
+}
+
+void	ft_exit_too_many_args(void)
+{
+	ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	g_last_status = 1;
+}
+
+void	ft_exit_not_number(char *str)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	g_last_status = 2;
+}
+
 void	ft_exit(char *cmd)
 {
-//	int	neg;
 	int	i;
 	char **splitted;
 
 	splitted = NULL;
-//	neg = 1;
 	i = 0;
 	if (!cmd)
 		return ;
 	cmd_trim(cmd, ' ');
-	printf("\nnumber of exit tokens: %zu\n", ft_count_tokens(cmd, ' '));
-
 	splitted = ft_split(cmd, ' ');
-
-
+	printf("exit\n");
+	if (!is_num(splitted[1]))
+		ft_exit_not_number(splitted[1]);
+	else if (count_double_char_strings(splitted) > 2)
+		ft_exit_too_many_args();
+	else
+		g_last_status = ft_atoi(splitted[1]);
 	while (splitted[i])
-	{
-		printf("spliited[%i] = %s\n", i, splitted[i]);
-		free(splitted[i]);
-		i++;
-	}
+		free(splitted[i++]);
 	free(splitted);
-}
-
-void	old_ft_exit(char *cmd)
-{
-	int	neg;
-
-	neg = 1;
-	if (!cmd)
-		return ;
-	cmd_trim(cmd, ' ');
-	while (*cmd)
-	{
-		if (*cmd == '-')
-			neg = -1;
-		if ((*cmd >= '0' && *cmd <= '9'))
-		{
-			g_last_status = ft_atoi(cmd) * neg;
-			if (g_last_status < 0)
-				g_last_status += 256;
-			return ;
-		}
-		cmd++;
-	}
 }
 
 bool	is_exit_cmd(char *cmd)
@@ -73,7 +82,10 @@ bool	is_exit_cmd(char *cmd)
 		i++;
 	if (cmd[i] == 'e' && cmd[i + 1] == 'x' && cmd[i + 2] == 'i'
 		&& cmd[i + 3] == 't')
-		return (true);
+	{
+		if (cmd[i + 4] == ' ')
+			return (true);
+	}
 	return (false);
 }
 
