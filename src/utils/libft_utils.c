@@ -28,6 +28,9 @@ char	**ft_split(char const *s, char c)
 	return (result);
 }
 
+/**
+ * Counts number of tokens splitted by delimiter character "c"
+ */
 size_t	ft_count_tokens(char const *s, char c)
 {
 	size_t	count;

@@ -13,29 +13,6 @@
 #include "../incl/minishell.h"
 #include "../incl/executor.h"
 
-void	ft_exit(char *cmd)
-{
-	int	neg;
-
-	neg = 1;
-	if (!cmd)
-		return ;
-	cmd_trim(cmd, ' ');
-	while (*cmd)
-	{
-		if (*cmd == '-')
-			neg = -1;
-		if ((*cmd >= '0' && *cmd <= '9'))
-		{
-			g_last_status = ft_atoi(cmd) * neg;
-			if (g_last_status < 0)
-				g_last_status += 256;
-			return ;
-		}
-		cmd++;
-	}
-}
-
 bool	is_exit_cmd(char *cmd)
 {
 	int	i;
@@ -47,7 +24,10 @@ bool	is_exit_cmd(char *cmd)
 		i++;
 	if (cmd[i] == 'e' && cmd[i + 1] == 'x' && cmd[i + 2] == 'i'
 		&& cmd[i + 3] == 't')
-		return (true);
+	{
+		if (cmd[i + 4] == ' ')
+			return (true);
+	}
 	return (false);
 }
 
