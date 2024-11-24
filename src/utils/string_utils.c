@@ -13,6 +13,27 @@
 #include "../../incl/minishell.h"
 
 /**
+ * Count how many characters does the string contain
+ */
+int	ft_contains_char(const char *str, char character)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == character)
+			res++;
+		i++;
+	}
+	return (res);
+}
+
+/**
  * Copies string to preallocated memory from from to to
  */
 void	str_fill(char *to, char *from)

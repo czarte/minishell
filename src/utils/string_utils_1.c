@@ -89,23 +89,34 @@ char	*ft_join_path_v(char const *s1, char const *s2)
 	return (s1_2);
 }
 
-/**
- * Count how many characters does the string contain
- */
-int	ft_contains_char(const char *str, char character)
+bool	remove_check_char(char c, char *chars)
 {
-	int	i;
-	int	res;
+	int	char_i;
 
-	i = 0;
-	res = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	char_i = 0;
+	while (chars[char_i])
 	{
-		if (str[i] == character)
-			res++;
-		i++;
+		if (c == chars[char_i])
+			return (true);
+		char_i++;
 	}
-	return (res);
+	return (false);
+}
+
+void	remove_chars(char *str, char *chars)
+{
+	int	str_i;
+	int	cpy_i;
+
+	if (!str)
+		return ;
+	str_i = 0;
+	cpy_i = 0;
+	while (str[str_i])
+	{
+		if (!remove_check_char(str[str_i], chars))
+			str[cpy_i++] = str[str_i];
+		str_i++;
+	}
+	str[cpy_i] = '\0';
 }

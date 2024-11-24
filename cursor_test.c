@@ -13,21 +13,6 @@
 #include<ncurses.h>
 #include<termcap.h>
 
-bool	forbidden_cahracters(char *var)
-{
-	while (*var)
-	{
-		if ((('A' <= *var) && ('Z' >= *var))
-				|| (('a' <= *var) && ('z' >= *var))
-				|| (('0' <= *var) && ('9' >= *var))
-				|| *var == '_' || *var == '=')
-			var++;
-		else
-			return true;
-	}
-	return false;
-}
-
 char	*ft_memdup(const char *str)
 {
 	char	*cpy;
@@ -49,39 +34,46 @@ char	*ft_memdup(const char *str)
 	return (cpy);
 }
 
+bool	check_char(char c, char *chars)
+{
+	int	char_i;
+
+	char_i = 0;
+	while (chars[char_i])
+	{
+		if (c == chars[char_i])
+			return (true);
+		char_i++;
+	}
+	return (false);
+}
+
+void	remove_chars(char *str, char *chars)
+{
+	int	str_i;
+	int	cpy_i;
+
+	if (!str)
+		return ;
+	str_i = 0;
+	cpy_i = 0;
+	while (str[str_i])
+	{
+		if (!check_char(str[str_i], chars))
+			str[cpy_i++] = str[str_i];
+		str_i++;
+	}
+	str[cpy_i] = '\0';
+}
+
+
 int main() {
     char *buf; // Buffer to store terminal information
 
-    // // Get terminal information for "xterm" terminal type
-    // if (tgetent(buf, "xterm") != 1) {
-    //     fprintf(stderr, "Error getting terminal information\n");
-    //     return 1;
-    // }
-    //
-    // // Get the cursor motion capability
-    // char *cursor_motion = tgetstr("cm", NULL);
-    // if (cursor_motion == NULL) {
-    //     fprintf(stderr, "Cursor motion capability not available.\n");
-    //     return 1;
-    // }
-    //
-    // // Use tgoto to construct cursor motion string to move to (5, 10)
-    // int col = 5;
-    // int row = 10;
-    // char *cursor_move = tgoto(cursor_motion, col, row);
-    // if (cursor_move == NULL) {
-    //     fprintf(stderr, "Error constructing cursor motion string.\n");
-    //     return 1;
-    // }
-    //
-    // // Print the constructed cursor motion string
-    // printf("Cursor motion string to move to (%d, %d): %s\n", col, row, cursor_move);
 
-    buf = ft_memdup("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxzy_=");
-	printf("%d %s\n", forbidden_cahracters(buf), buf);
+    buf = ft_memdup("-\"100\"");
+	printf("|%s|\n", buf);
+	remove_chars(buf, "\"\'");
+	printf("|%s|\n\n", buf);
 	free(buf);
-	buf = ft_memdup("@ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxzy_=");
-	printf("%d %s\n", forbidden_cahracters(buf), buf);
-	free(buf);
-    return 0;
 }

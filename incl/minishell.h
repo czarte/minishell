@@ -258,6 +258,7 @@ void	echo(char **echo_tok);
 void	env(t_data *data);
 int		b_export(char *var, char temp, t_data *data);
 int		unset(char *var, t_data *data);
+void	ft_exit(char *cmd);
 
 /*----    Builtin utils    ----*/
 int		envp_add_reallocate(t_data *data, char *new_var, char temp);
@@ -353,6 +354,7 @@ void	set_empty_array(char ***array);
 int		init_builtins(t_data *data);
 void	free_pt_cmd(t_executor *pt, char *cmd);
 int		ft_strnchr(char *str, char c);
+void	remove_chars(char *str, char *chars);
 
 /*---- Debug utils ----*/
 void	print_exec_data(t_exec *exec);
