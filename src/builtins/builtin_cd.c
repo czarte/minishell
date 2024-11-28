@@ -18,7 +18,7 @@
  */
 void	cd(const char *new_wd, t_data *data)
 {
-	char	*env_var;
+	char	**env_var;
 	char	*home_relative;
 
 	home_relative = NULL;
@@ -38,9 +38,17 @@ void	cd(const char *new_wd, t_data *data)
 	}
 	free(data->work_dir);
 	data->work_dir = getcwd(NULL, 0);
-	env_var = ft_strjoin("PWD=", data->work_dir);
-	b_export(env_var, 0, data);
+	env_var = malloc(sizeof(char *) * 3);
+	if (!env_var)
+		perror("Allocation in cd");
+	else
+	{
+		env_var[2] = NULL;
+		env_var[1] = ft_strjoin("PWD=", data->work_dir);
+		env_var[0] = ft_memdup("builtin");
+		b_export(env_var, 0, data);
+	}
 	if (home_relative)
 		free(home_relative);
-	free(env_var);
+	free_string_array(env_var);
 }

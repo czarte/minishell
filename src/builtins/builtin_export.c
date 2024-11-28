@@ -86,6 +86,7 @@ bool	forbidden_cahracters(char *var)
 	char	*tmp_var;
 
 	tmp_var = var;
+	printf("from forbidden char test: |%s|\n", tmp_var);
 	if (!var)
 		return (false);
 	while (1)
@@ -106,28 +107,62 @@ bool	forbidden_cahracters(char *var)
 /**
  * note: export() is reserved
  */
-int	b_export(char *var, char temp, t_data *data)
+int	b_export(char **cmd, char temp, t_data *data)
 {
-	if (!var)
+	int	i;
+
+	i = 0;
+	printf("From export:%c%p\n", temp, data);
+	while (cmd[i])
+	{
+		printf("cmd[%i]: |%s|\n", i, cmd[i]);
+		i++;
+	}
+	printf("\n");
+	while (str_comp(*cmd, "builtin") || str_comp(*cmd, "export"))
+		cmd++;
+	if (!*cmd)
 		no_option_export(data->envp);
-	if (forbidden_cahracters(var))
-		return (-1);
-	if (!ft_contains_char(var, '='))
+	while (*cmd)
 	{
-		if (check_envp_for_dupl(data->local_temp_envp, var) >= 0)
-			envp_add_reallocate(data,
-				data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
-					var)], temp);
-		g_last_status = 0;
-		return (0);
+		if (forbidden_cahracters(*cmd))
+			goto loop_end;
+		if (!ft_contains_char(*cmd, '='))
+		{
+			if (check_envp_for_dupl(data->local_temp_envp, *cmd) >= 0)
+				envp_add_reallocate(data,
+					data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
+						*cmd)], temp);
+			g_last_status = 0;
+			return (0);
+		}
+		if (export_from_token(*cmd, temp, data))
+		{
+			g_last_status = 1;
+			return (-1);
+		}
+		if (is_path(*cmd))
+			get_cmd_list(data);
+		loop_end:;
+		cmd++;
 	}
-	if (export_from_token(var, temp, data))
-	{
-		g_last_status = 1;
-		return (-1);
-	}
-	if (is_path(var))
-		get_cmd_list(data);
 	g_last_status = 0;
 	return (0);
 }
+/*
+ *
+while (loop_condition_variable)	//char ** (array of strings for example)
+{
+	if (variable_condition)
+	{
+		loop_condition_variable++;
+		continue; //doesn't work, I want to "start" the loop again
+	}
+	//some other code
+	loop_condition_variable++;
+}
+
+
+ *
+ *
+ */

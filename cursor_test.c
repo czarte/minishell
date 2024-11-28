@@ -67,13 +67,42 @@ void	remove_chars(char *str, char *chars)
 }
 
 
+bool	forbidden_cahracters(char *var)
+{
+	char	*tmp_var;
+
+	tmp_var = var;
+	printf("from forbidden char test: |%s|\n", tmp_var);
+	if (!var)
+		return (false);
+	while (1)
+	{
+		if (*var == '=' && var != tmp_var)
+			return (false);
+		if ((('A' <= *var) && ('Z' >= *var))
+			&& (('a' <= *var) && ('z' >= *var))
+			&& (('0' <= *var) && ('9' >= *var))
+			&& *var == '_' && *var != '\0')
+			var++;
+		else
+		{
+			printf("forbidden found\n");
+			return (true);
+		}
+	}
+	return (false);
+}
+
 int main() {
     char *buf; // Buffer to store terminal information
 
 
-    buf = ft_memdup("-\"100\"");
+    buf = ft_memdup("AHOJ");
 	printf("|%s|\n", buf);
-	remove_chars(buf, "\"\'");
-	printf("|%s|\n\n", buf);
+	forbidden_cahracters(buf);
+	free(buf);
+	buf = ft_memdup("@HOJ");
+	printf("|%s|\n", buf);
+	forbidden_cahracters(buf);
 	free(buf);
 }
