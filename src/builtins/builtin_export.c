@@ -186,8 +186,6 @@ int	b_export(char **cmd, char temp, t_data *data)
 						return (-1);
 					}
 				}
-				// g_last_status = 0;
-				// return (0);
 			}
 			if (export_from_token(*cmd, temp, data))
 			{
