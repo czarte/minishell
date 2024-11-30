@@ -180,13 +180,14 @@ int	b_export(char **cmd, char temp, t_data *data)
 				else
 				{
 					if (add_empty_variable(*cmd, temp, data))
-						{
-							g_last_status = 1;
-							return (-1);
-						}
+					{
+						printf("returning fault from add empty var\n");
+						g_last_status = 1;
+						return (-1);
+					}
 				}
-				g_last_status = 0;
-				return (0);
+				// g_last_status = 0;
+				// return (0);
 			}
 			if (export_from_token(*cmd, temp, data))
 			{
@@ -201,20 +202,3 @@ int	b_export(char **cmd, char temp, t_data *data)
 	g_last_status = 0;
 	return (0);
 }
-/*
- *
-while (loop_condition_variable)	//char ** (array of strings for example)
-{
-	if (variable_condition)
-	{
-		loop_condition_variable++;
-		continue; //doesn't work, I want to "start" the loop again
-	}
-	//some other code
-	loop_condition_variable++;
-}
-
-
- *
- *
- */
