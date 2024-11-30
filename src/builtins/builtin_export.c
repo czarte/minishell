@@ -26,6 +26,7 @@ int	export_from_local(t_data *data)
 
 int	export_from_token(char *var, char temp, t_data *data)
 {
+	printf("var from export from token: |%s|\n", var);
 	if (envp_add_reallocate(data, var, temp))
 	{
 		perror("Export");
@@ -135,6 +136,7 @@ int	add_empty_variable(char *var, char temp, t_data *data)
 	ft_memcpy(new_var, var, var_len);
 	new_var[var_len] = '=';
 	new_var[var_len + 1] = '\0';
+	printf("new_var: %s\n", new_var);
 	if (export_from_token(new_var, temp, data))
 	{
 		free(new_var);
@@ -187,7 +189,7 @@ int	b_export(char **cmd, char temp, t_data *data)
 					}
 				}
 			}
-			if (export_from_token(*cmd, temp, data))
+			else if (export_from_token(*cmd, temp, data))
 			{
 				g_last_status = 1;
 				return (-1);
