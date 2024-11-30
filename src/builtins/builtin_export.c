@@ -81,6 +81,27 @@ bool	forbidden_characters_err_mes(char *var, char *tmp_var)
 	return (true);
 }
 
+bool	is_cap_alpha(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (true);
+	return (false);
+}
+
+bool	is_low_alpha(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (true);
+	return (false);
+}
+
+bool	is_num(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
+
 bool	forbidden_cahracters(char *var)
 {
 	char	*tmp_var;
@@ -89,19 +110,38 @@ bool	forbidden_cahracters(char *var)
 	printf("from forbidden char test: |%s|\n", tmp_var);
 	if (!var)
 		return (false);
-	while (1)
+	while (*var && *var != '=')
 	{
-		if (*var == '=' && var != tmp_var)
-			return (false);
-		if ((('A' <= *var) && ('Z' >= *var))
-			|| (('a' <= *var) && ('z' >= *var))
-			|| (('0' <= *var) && ('9' >= *var))
-			|| *var == '_' || *var != '\0')
+		printf("checking: %c\n", *var);
+		if (is_cap_alpha(*var) || is_low_alpha(*var) || is_num(*var)
+			|| *var == '_' || *var == '=')
 			var++;
 		else
-			return (forbidden_characters_err_mes(var, tmp_var));
+		{
+			printf("forbidden found\n");
+			return (true);
+		}
 	}
 	return (false);
+}
+
+int	add_empty_variable(char *var, char temp, t_data *data)
+{
+	char	*new_var;
+	int		var_len;
+
+	var_len = ft_strlen(var);
+	new_var = malloc(var_len + 2);
+	ft_memcpy(new_var, var, var_len);
+	new_var[var_len] = '=';
+	new_var[var_len + 1] = '\0';
+	if (export_from_token(new_var, temp, data))
+	{
+		free(new_var);
+		return (-1);
+	}
+	free(new_var);
+	return (0);
 }
 
 /**
@@ -126,24 +166,36 @@ int	b_export(char **cmd, char temp, t_data *data)
 	while (*cmd)
 	{
 		if (forbidden_cahracters(*cmd))
-			goto loop_end;
-		if (!ft_contains_char(*cmd, '='))
+			;
+		else
 		{
-			if (check_envp_for_dupl(data->local_temp_envp, *cmd) >= 0)
-				envp_add_reallocate(data,
-					data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
-						*cmd)], temp);
-			g_last_status = 0;
-			return (0);
+			if (!ft_contains_char(*cmd, '='))
+			{
+				if (check_envp_for_dupl(data->local_temp_envp, *cmd) >= 0)
+				{
+					envp_add_reallocate(data,
+						data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
+							*cmd)], temp);
+				}
+				else
+				{
+					if (add_empty_variable(*cmd, temp, data))
+						{
+							g_last_status = 1;
+							return (-1);
+						}
+				}
+				g_last_status = 0;
+				return (0);
+			}
+			if (export_from_token(*cmd, temp, data))
+			{
+				g_last_status = 1;
+				return (-1);
+			}
+			if (is_path(*cmd))
+				get_cmd_list(data);
 		}
-		if (export_from_token(*cmd, temp, data))
-		{
-			g_last_status = 1;
-			return (-1);
-		}
-		if (is_path(*cmd))
-			get_cmd_list(data);
-		loop_end:;
 		cmd++;
 	}
 	g_last_status = 0;

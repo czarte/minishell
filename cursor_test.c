@@ -66,6 +66,26 @@ void	remove_chars(char *str, char *chars)
 	str[cpy_i] = '\0';
 }
 
+bool	is_cap_alpha(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (true);
+	return (false);
+}
+
+bool	is_low_alpha(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (true);
+	return (false);
+}
+
+bool	is_num(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
 
 bool	forbidden_cahracters(char *var)
 {
@@ -75,14 +95,11 @@ bool	forbidden_cahracters(char *var)
 	printf("from forbidden char test: |%s|\n", tmp_var);
 	if (!var)
 		return (false);
-	while (1)
+	while (*var && *var != '=')
 	{
-		if (*var == '=' && var != tmp_var)
-			return (false);
-		if ((('A' <= *var) && ('Z' >= *var))
-			&& (('a' <= *var) && ('z' >= *var))
-			&& (('0' <= *var) && ('9' >= *var))
-			&& *var == '_' && *var != '\0')
+		printf("checking: %c\n", *var);
+		if (is_cap_alpha(*var) || is_low_alpha(*var) || is_num(*var)
+			|| *var == '_' || *var == '=')
 			var++;
 		else
 		{
@@ -97,11 +114,11 @@ int main() {
     char *buf; // Buffer to store terminal information
 
 
-    buf = ft_memdup("AHOJ");
+    buf = ft_memdup("AHOJ=hello");
 	printf("|%s|\n", buf);
 	forbidden_cahracters(buf);
 	free(buf);
-	buf = ft_memdup("@HOJ");
+	buf = ft_memdup("AHOJ=@hoj");
 	printf("|%s|\n", buf);
 	forbidden_cahracters(buf);
 	free(buf);
