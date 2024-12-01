@@ -83,7 +83,6 @@ int	finish_unset(int var_pos, char **new_envp, char temp_flag, t_data *data)
 	return (0);
 }
 
-//TODO Deleting the entry in envp or local temp envp from the var pos
 int	unset(char *var, t_data *data)
 {
 	int		var_pos;

@@ -26,7 +26,6 @@ int	export_from_local(t_data *data)
 
 int	export_from_token(char *var, char temp, t_data *data)
 {
-	printf("var from export from token: |%s|\n", var);
 	if (envp_add_reallocate(data, var, temp))
 	{
 		perror("Export");
@@ -105,23 +104,15 @@ bool	is_num(char c)
 
 bool	forbidden_cahracters(char *var)
 {
-	char	*tmp_var;
-
-	tmp_var = var;
-	printf("from forbidden char test: |%s|\n", tmp_var);
 	if (!var)
 		return (false);
 	while (*var && *var != '=')
 	{
-		printf("checking: %c\n", *var);
 		if (is_cap_alpha(*var) || is_low_alpha(*var) || is_num(*var)
 			|| *var == '_' || *var == '=')
 			var++;
 		else
-		{
-			printf("forbidden found\n");
 			return (true);
-		}
 	}
 	return (false);
 }
@@ -136,7 +127,6 @@ int	add_empty_variable(char *var, char temp, t_data *data)
 	ft_memcpy(new_var, var, var_len);
 	new_var[var_len] = '=';
 	new_var[var_len + 1] = '\0';
-	printf("new_var: %s\n", new_var);
 	if (export_from_token(new_var, temp, data))
 	{
 		free(new_var);
@@ -151,16 +141,6 @@ int	add_empty_variable(char *var, char temp, t_data *data)
  */
 int	b_export(char **cmd, char temp, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	printf("From export:%c%p\n", temp, data);
-	while (cmd[i])
-	{
-		printf("cmd[%i]: |%s|\n", i, cmd[i]);
-		i++;
-	}
-	printf("\n");
 	while (str_comp(*cmd, "builtin") || str_comp(*cmd, "export"))
 		cmd++;
 	if (!*cmd)
@@ -183,7 +163,6 @@ int	b_export(char **cmd, char temp, t_data *data)
 				{
 					if (add_empty_variable(*cmd, temp, data))
 					{
-						printf("returning fault from add empty var\n");
 						g_last_status = 1;
 						return (-1);
 					}
