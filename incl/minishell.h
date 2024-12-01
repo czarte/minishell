@@ -257,7 +257,7 @@ void	cd(const char *new_wd, t_data *data);
 void	echo(char **echo_tok);
 void	env(t_data *data);
 int		b_export(char **cmd, char temp, t_data *data);
-int		unset(char *var, t_data *data);
+int		unset(char **cmd, t_data *data);
 void	ft_exit(char *cmd);
 
 /*----    Builtin utils    ----*/

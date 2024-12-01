@@ -82,7 +82,7 @@ int	execute_builtin(void **current, t_data *data)
 	else if (is_var_decl(current[1], data))
 		b_export((char**)current, 1, data);
 	else if (str_comp(current[1], "unset"))
-		unset(current[2], data);
+		unset((char **)current, data);
 	else if (str_comp(current[1], "help"))
 		help();
 	return (0);
