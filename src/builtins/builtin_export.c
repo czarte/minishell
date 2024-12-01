@@ -12,28 +12,6 @@
 
 #include "../../incl/minishell.h"
 
-int	export_from_local(t_data *data)
-{
-	if (envp_add_reallocate(data, data->local_temp_envp[0], 0))
-	{
-		perror("Export");
-		return (-1);
-	}
-	free(data->local_temp_envp[0]);
-	data->local_temp_envp[0] = NULL;
-	return (0);
-}
-
-int	export_from_token(char *var, char temp, t_data *data)
-{
-	if (envp_add_reallocate(data, var, temp))
-	{
-		perror("Export");
-		return (-1);
-	}
-	return (0);
-}
-
 void	no_option_export(char **envp)
 {
 	int		i;
@@ -69,65 +47,71 @@ bool	is_path(char *str)
 	return (false);
 }
 
-bool	forbidden_characters_err_mes(char *var, char *tmp_var)
+int	add_empty_variable(char *var, char temp, t_data *data)
 {
-	ft_putstr_fd("export: \'", 2);
-	if (!*var)
-		ft_putstr_fd(tmp_var, 2);
-	else
-		ft_putstr_fd(var, 2);
-	ft_putstr_fd("\': not a valid identifier\n", 2);
-	g_last_status = 1;
-	return (true);
-}
+	char	*new_var;
+	int		var_len;
 
-bool	forbidden_cahracters(char *var)
-{
-	char	*tmp_var;
-
-	tmp_var = var;
-	if (!var)
-		return (false);
-	while (1)
+	var_len = ft_strlen(var);
+	new_var = malloc(var_len + 2);
+	ft_memcpy(new_var, var, var_len);
+	new_var[var_len] = '=';
+	new_var[var_len + 1] = '\0';
+	if (export_from_token(new_var, temp, data))
 	{
-		if (*var == '=' && var != tmp_var)
-			return (false);
-		if ((('A' <= *var) && ('Z' >= *var))
-			|| (('a' <= *var) && ('z' >= *var))
-			|| (('0' <= *var) && ('9' >= *var))
-			|| *var == '_' || *var != '\0')
-			var++;
-		else
-			return (forbidden_characters_err_mes(var, tmp_var));
-	}
-	return (false);
-}
-
-/**
- * note: export() is reserved
- */
-int	b_export(char *var, char temp, t_data *data)
-{
-	if (!var)
-		no_option_export(data->envp);
-	if (forbidden_cahracters(var))
+		free(new_var);
 		return (-1);
-	if (!ft_contains_char(var, '='))
+	}
+	free(new_var);
+	return (0);
+}
+
+int	b_export_cont(char *cmd, char temp, t_data *data)
+{
+	if (!ft_contains_char(cmd, '='))
 	{
-		if (check_envp_for_dupl(data->local_temp_envp, var) >= 0)
+		if (check_envp_for_dupl(data->local_temp_envp, cmd) >= 0)
+		{
 			envp_add_reallocate(data,
 				data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
-					var)], temp);
-		g_last_status = 0;
-		return (0);
+					cmd)], temp);
+		}
+		else
+		{
+			if (add_empty_variable(cmd, temp, data))
+			{
+				g_last_status = 1;
+				return (-1);
+			}
+		}
 	}
-	if (export_from_token(var, temp, data))
+	else if (export_from_token(cmd, temp, data))
 	{
 		g_last_status = 1;
 		return (-1);
 	}
-	if (is_path(var))
+	if (is_path(cmd))
 		get_cmd_list(data);
+	return (0);
+}
+
+int	b_export(char **cmd, char temp, t_data *data)
+{
+	while (str_comp(*cmd, "builtin") || str_comp(*cmd, "export"))
+		cmd++;
+	if (!*cmd)
+		no_option_export(data->envp);
+	while (*cmd)
+	{
+		if (forbidden_cahracters(*cmd))
+			;
+		else
+		{
+			if (b_export_cont(*cmd, temp, data))
+				return (-1);
+		}
+		cmd++;
+	}
 	g_last_status = 0;
 	return (0);
 }

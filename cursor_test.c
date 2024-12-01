@@ -66,14 +66,60 @@ void	remove_chars(char *str, char *chars)
 	str[cpy_i] = '\0';
 }
 
+bool	is_cap_alpha(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (true);
+	return (false);
+}
+
+bool	is_low_alpha(char c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (true);
+	return (false);
+}
+
+bool	is_num(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
+
+bool	forbidden_cahracters(char *var)
+{
+	char	*tmp_var;
+
+	tmp_var = var;
+	printf("from forbidden char test: |%s|\n", tmp_var);
+	if (!var)
+		return (false);
+	while (*var && *var != '=')
+	{
+		printf("checking: %c\n", *var);
+		if (is_cap_alpha(*var) || is_low_alpha(*var) || is_num(*var)
+			|| *var == '_' || *var == '=')
+			var++;
+		else
+		{
+			printf("forbidden found\n");
+			return (true);
+		}
+	}
+	return (false);
+}
 
 int main() {
     char *buf; // Buffer to store terminal information
 
 
-    buf = ft_memdup("-\"100\"");
+    buf = ft_memdup("AHOJ=hello");
 	printf("|%s|\n", buf);
-	remove_chars(buf, "\"\'");
-	printf("|%s|\n\n", buf);
+	forbidden_cahracters(buf);
+	free(buf);
+	buf = ft_memdup("AHOJ=@hoj");
+	printf("|%s|\n", buf);
+	forbidden_cahracters(buf);
 	free(buf);
 }

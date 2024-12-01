@@ -82,3 +82,19 @@ int	envp_add_reallocate(t_data *data, char *new_var, char temp)
 	ardata.new_envp = malloc(sizeof(char *) * (ardata.n_o_v + 1));
 	return (envp_add_reallocate_finish(new_var, temp, data, &ardata));
 }
+
+/*
+ * Checks if the variable is in temporary variables or in the envp
+ * 0 = envp
+ * 1 = temp
+ * -1 = not found
+ */
+char	check_temp(char *var, t_data *data)
+{
+	if (check_envp_for_dupl(data->envp, var) >= 0)
+		return (0);
+	else if (check_envp_for_dupl(data->local_temp_envp, var) >= 0)
+		return (1);
+	else
+		return (-1);
+}

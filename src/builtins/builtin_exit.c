@@ -13,7 +13,7 @@
 #include "../../incl/minishell.h"
 #include "../../incl/executor.h"
 
-bool	is_num(char *str)
+bool	is_str_num(char *str)
 {
 	while (*str)
 	{
@@ -61,7 +61,7 @@ void	ft_exit(char *cmd)
 	splitted = ft_split(cmd, ' ');
 	printf("exit\n");
 	remove_chars(splitted[1], "\"\'+");
-	if (!is_num(splitted[1]))
+	if (!is_str_num(splitted[1]))
 		ft_exit_not_number(splitted[1]);
 	else if (count_double_char_strings(splitted) > 2)
 		ft_exit_too_many_args();

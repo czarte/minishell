@@ -78,11 +78,11 @@ int	execute_builtin(void **current, t_data *data)
 	else if (str_comp(current[1], "env"))
 		env(data);
 	else if (str_comp(current[1], "export"))
-		b_export(current[2], 0, data);
+		b_export((char**)current, 0, data);
 	else if (is_var_decl(current[1], data))
-		b_export(current[1], 1, data);
+		b_export((char**)current, 1, data);
 	else if (str_comp(current[1], "unset"))
-		unset(current[2], data);
+		unset((char **)current, data);
 	else if (str_comp(current[1], "help"))
 		help();
 	return (0);
