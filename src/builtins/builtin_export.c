@@ -12,28 +12,6 @@
 
 #include "../../incl/minishell.h"
 
-int	export_from_local(t_data *data)
-{
-	if (envp_add_reallocate(data, data->local_temp_envp[0], 0))
-	{
-		perror("Export");
-		return (-1);
-	}
-	free(data->local_temp_envp[0]);
-	data->local_temp_envp[0] = NULL;
-	return (0);
-}
-
-int	export_from_token(char *var, char temp, t_data *data)
-{
-	if (envp_add_reallocate(data, var, temp))
-	{
-		perror("Export");
-		return (-1);
-	}
-	return (0);
-}
-
 void	no_option_export(char **envp)
 {
 	int		i;
@@ -69,54 +47,6 @@ bool	is_path(char *str)
 	return (false);
 }
 
-bool	forbidden_characters_err_mes(char *var, char *tmp_var)
-{
-	ft_putstr_fd("export: \'", 2);
-	if (!*var)
-		ft_putstr_fd(tmp_var, 2);
-	else
-		ft_putstr_fd(var, 2);
-	ft_putstr_fd("\': not a valid identifier\n", 2);
-	g_last_status = 1;
-	return (true);
-}
-
-bool	is_cap_alpha(char c)
-{
-	if (c >= 'A' && c <= 'Z')
-		return (true);
-	return (false);
-}
-
-bool	is_low_alpha(char c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (true);
-	return (false);
-}
-
-bool	is_num(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (true);
-	return (false);
-}
-
-bool	forbidden_cahracters(char *var)
-{
-	if (!var)
-		return (false);
-	while (*var && *var != '=')
-	{
-		if (is_cap_alpha(*var) || is_low_alpha(*var) || is_num(*var)
-			|| *var == '_' || *var == '=')
-			var++;
-		else
-			return (true);
-	}
-	return (false);
-}
-
 int	add_empty_variable(char *var, char temp, t_data *data)
 {
 	char	*new_var;
@@ -136,9 +66,35 @@ int	add_empty_variable(char *var, char temp, t_data *data)
 	return (0);
 }
 
-/**
- * note: export() is reserved
- */
+int	b_export_cont(char *cmd, char temp, t_data *data)
+{
+	if (!ft_contains_char(cmd, '='))
+	{
+		if (check_envp_for_dupl(data->local_temp_envp, cmd) >= 0)
+		{
+			envp_add_reallocate(data,
+				data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
+					cmd)], temp);
+		}
+		else
+		{
+			if (add_empty_variable(cmd, temp, data))
+			{
+				g_last_status = 1;
+				return (-1);
+			}
+		}
+	}
+	else if (export_from_token(cmd, temp, data))
+	{
+		g_last_status = 1;
+		return (-1);
+	}
+	if (is_path(cmd))
+		get_cmd_list(data);
+	return (0);
+}
+
 int	b_export(char **cmd, char temp, t_data *data)
 {
 	while (str_comp(*cmd, "builtin") || str_comp(*cmd, "export"))
@@ -151,30 +107,8 @@ int	b_export(char **cmd, char temp, t_data *data)
 			;
 		else
 		{
-			if (!ft_contains_char(*cmd, '='))
-			{
-				if (check_envp_for_dupl(data->local_temp_envp, *cmd) >= 0)
-				{
-					envp_add_reallocate(data,
-						data->local_temp_envp[check_envp_for_dupl(data->local_temp_envp,
-							*cmd)], temp);
-				}
-				else
-				{
-					if (add_empty_variable(*cmd, temp, data))
-					{
-						g_last_status = 1;
-						return (-1);
-					}
-				}
-			}
-			else if (export_from_token(*cmd, temp, data))
-			{
-				g_last_status = 1;
+			if (b_export_cont(*cmd, temp, data))
 				return (-1);
-			}
-			if (is_path(*cmd))
-				get_cmd_list(data);
 		}
 		cmd++;
 	}

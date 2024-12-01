@@ -83,7 +83,6 @@ int	finish_unset(int var_pos, char **new_envp, char temp_flag, t_data *data)
 	return (0);
 }
 
-
 int	unset(char **cmd, t_data *data)
 {
 	int		var_pos;
@@ -95,45 +94,18 @@ int	unset(char **cmd, t_data *data)
 	while (*cmd)
 	{
 		new_envp = NULL;
-		var_pos = check_envp_for_dupl(data->envp, *cmd);
-		if (var_pos >= 0)
-			temp_flag = 0;
-		if (var_pos < 0)
-		{
+		temp_flag = check_temp(*cmd, data);
+		if (temp_flag == 1)
 			var_pos = check_envp_for_dupl(data->local_temp_envp, *cmd);
-			if (var_pos >= 0)
-				temp_flag = 1;
+		else if (temp_flag == 0)
+			var_pos = check_envp_for_dupl(data->envp, *cmd);
+		if (temp_flag != -1)
+		{
+			finish_unset(var_pos, new_envp, temp_flag, data);
+			if (str_comp(*cmd, "PATH"))
+				free_cmd_list(data);
 		}
-		if (var_pos < 0)
-			return (0);
-		if (str_comp(*cmd, "PATH"))
-			free_cmd_list(data);
-		finish_unset(var_pos, new_envp, temp_flag, data);
 		cmd++;
 	}
 	return (0);
-}
-
-
-int	old_unset(char *var, t_data *data)
-{
-	int		var_pos;
-	char	temp_flag;
-	char	**new_envp;
-
-	new_envp = NULL;
-	var_pos = check_envp_for_dupl(data->envp, var);
-	if (var_pos >= 0)
-		temp_flag = 0;
-	if (var_pos < 0)
-	{
-		var_pos = check_envp_for_dupl(data->local_temp_envp, var);
-		if (var_pos >= 0)
-			temp_flag = 1;
-	}
-	if (var_pos < 0)
-		return (0);
-	if (str_comp(var, "PATH"))
-		free_cmd_list(data);
-	return (finish_unset(var_pos, new_envp, temp_flag, data));
 }

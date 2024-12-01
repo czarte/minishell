@@ -266,11 +266,15 @@ void	free_old_envp(char **envp);
 int		check_envp_for_dupl(char **envp, char *new_var);
 int		num_of_vars(char **envp);
 int		copy_add_envp(char **new_envp, char **envp, char *new_var);
-void	print_envp(char **envp);
 char	*b_getenv(char *name, t_data *data);
 char	*get_env_check_temp(char *name, t_data *data);
 char	*get_env_check_envp(char *name, t_data *data);
 int		is_binary_path(char *token);
+char	check_temp(char *var, t_data *data);
+bool	forbidden_cahracters(char *var);
+bool	forbidden_characters_err_mes(char *var, char *tmp_var);
+int		export_from_local(t_data *data);
+int		export_from_token(char *var, char temp, t_data *data);
 
 /*----    CLI    ----*/
 char	*cli(t_data *data);

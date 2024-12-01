@@ -30,3 +30,17 @@ void	free_alloc(t_executor *pt)
 	free(pt->pid);
 	pt->comm = NULL;
 }
+
+void	free_old_envp(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp && envp[i])
+	{
+		free(envp[i]);
+		envp[i] = NULL;
+		i++;
+	}
+	free(envp);
+}

@@ -12,24 +12,26 @@
 
 #include "../../incl/minishell.h"
 
-/**
- * Debug function
- */
-void	print_envp(char **envp)
+int	export_from_local(t_data *data)
 {
-	int	i;
+	if (envp_add_reallocate(data, data->local_temp_envp[0], 0))
+	{
+		perror("Export");
+		return (-1);
+	}
+	free(data->local_temp_envp[0]);
+	data->local_temp_envp[0] = NULL;
+	return (0);
+}
 
-	i = 0;
-	if (!envp)
+int	export_from_token(char *var, char temp, t_data *data)
+{
+	if (envp_add_reallocate(data, var, temp))
 	{
-		printf("NULL\n");
-		return ;
+		perror("Export");
+		return (-1);
 	}
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
+	return (0);
 }
 
 int	num_of_vars(char **envp)
@@ -67,20 +69,6 @@ int	copy_add_envp(char **new_envp, char **envp, char *new_var)
 		}
 	}
 	return (0);
-}
-
-void	free_old_envp(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp && envp[i])
-	{
-		free(envp[i]);
-		envp[i] = NULL;
-		i++;
-	}
-	free(envp);
 }
 
 int	check_envp_for_dupl(char **envp, char *new_var)
