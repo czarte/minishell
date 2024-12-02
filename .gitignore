@@ -1,0 +1,9 @@
+.cache/
+.tmp_heredoc
+a.out
+build/
+.vscode/
+minishell
+minishell_tester/
+valgrind.log
+*.o
