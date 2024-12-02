@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by voparkan          #+#    #+#             */
-/*   Updated: 2024/09/08 18:13:04 by voparkan         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:40:53 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	execute_builtin(void **current, t_data *data)
 	if (data->debug)
 		printf("Executing builtin: %s\n", (char *)current[1]);
 	if (str_comp(current[1], "cd"))
-		cd((char *) current[2], data);
+		cd((char **) current, data);
 	else if (str_comp(current[1], "pwd"))
 		printf("%s\n", data->work_dir);
 	else if (str_comp(current[1], "echo"))

@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 12:51:24 by voparkan          #+#    #+#             */
-/*   Updated: 2024/11/14 10:10:31 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:41:32 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ bool	check_cmd_path_exists(const char *cmd, t_data *data);
 int		add_cmd_list_node(char *name, char *path, t_data *data);
 
 /*----    Builtin commands functions    ----*/
-void	cd(const char *new_wd, t_data *data);
+void	cd(char **cmd, t_data *data);
 void	echo(char **echo_tok);
 void	env(t_data *data);
 int		b_export(char **cmd, char temp, t_data *data);
@@ -272,7 +272,7 @@ char	*get_env_check_envp(char *name, t_data *data);
 int		is_binary_path(char *token);
 char	check_temp(char *var, t_data *data);
 bool	forbidden_cahracters(char *var);
-bool	forbidden_characters_err_mes(char *var, char *tmp_var);
+bool	forbidden_characters_err_mes(char *var);
 int		export_from_local(t_data *data);
 int		export_from_token(char *var, char temp, t_data *data);
 
