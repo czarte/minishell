@@ -39,7 +39,7 @@ TSRC = loop.c src/data_init.c src/parser/exec_folders.c src/parser/get_cmd_path.
 CC = clang
 # -g flag changed to -gdwarf-4 because clang uses dwarf5 by default which is not
 # compatible with valgrind 3.18.1
-FLAGS = -Wall -Wextra -Werror -gdwarf-4 #-fsanitize=address -static-libsan
+FLAGS = -Wall -Wextra -Werror -gdwarf-4 -fsanitize=address -static-libsan
 LIB = -lreadline
 
 OBJ = $(SRC:.c=.o)

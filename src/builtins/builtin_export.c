@@ -6,7 +6,7 @@
 /*   By: smelicha <smelicha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 18:20:41 by smelicha          #+#    #+#             */
-/*   Updated: 2024/11/14 09:29:45 by smelicha         ###   ########.fr       */
+/*   Updated: 2024/12/02 10:32:03 by smelicha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,10 @@ int	b_export(char **cmd, char temp, t_data *data)
 		{
 			if (b_export_cont(*cmd, temp, data))
 				return (-1);
+			else
+				g_last_status = 0;
 		}
 		cmd++;
 	}
-	g_last_status = 0;
 	return (0);
 }
