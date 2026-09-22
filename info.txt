@@ -1,0 +1,411 @@
+Allowed functions:
+readline
+	-definition: char *readline(const char *prompt);
+	-const char *prompt = prompt string to be displayed
+	-return = allocated memory with line from terminal
+	or NULL if nothing was typed
+	-reads line from terminal while displaying
+	the prompt (can be NULL) and returning the line
+	in allocated memory -> needs to be freed
+	-note: NEEDS TO BE COMPILED WITH -lreadline
+
+rl_clear_history
+	-definition: void rl_clear_history(void);
+	-clears the list of all lines saved by
+	add_history() function
+
+rl_on_new_line
+	-definition: void rl_on_new_line(void);
+	-when called, it will be guaranteed that
+	next prompt will be on new line (not after
+	something that program printed without new line
+	character at the end)
+
+rl_replace_line
+	-definition: void rl_replace_line(const char *line, int clean_undo);
+	-const char *line = new line to display instead of current prompt
+	-int clean_undo = flag indicationg whether to clean history
+	for this line (1 -> clean, 0 -> leave as it is)
+	-for actuall update of prompt line one needs to calle
+	rl_redisplay() function, making the change effective
+
+rl_redisplay
+	-definition: void rl_redisplay(void);
+	-updates the command line if something has changed
+
+add_history
+	-definition: void add_history(const char *string);
+	-adds string to the history list, cool thing is that
+	the historry can be called back, and moved back
+	and front using arrows
+
+access
+	-definition: int access(const char *path, int mode);
+	-mode =
+		-R_OK: read permission
+		-W_OK: write permission
+		-X_OK: execute permission
+		-F_OK: file existence
+	-there can be multiple modes tested at once by using bitwise OR, 
+	so the mode can be (R_OK | W_OK)
+	-returns 0 if the tests were successfull and -1 when failed
+
+fork
+	-definition: pid_t fork(void);
+	-creates new process which runs exact same copy of currently running process,
+		new process starts from the beggining of the code, it doesn't take any
+		arguments
+	-return: -1 for error, 0 if we are in the child process and PID if we are in
+		parent process
+
+wait
+	-definition: pid_t wait(int *status);
+	-*status = pointer to integer where the exit status
+	of terminated child process will be stored
+	-on success returns PID of terminated process we were
+	waiting for, or -1 if error occurs
+	-basically suspends the calling process until one of
+	the child process/processes terminates
+
+waitpid
+	-definition: pid_t waitpid(pid_t pid, int *status, int options);
+	-*status = same as wait()
+	-options = same as wait3()
+	-pid = PID of child to wait for
+		-specific PID, wait for that PID to terminate
+		- -1 = wait for any child process
+		- 0 = wait for any child process in the same
+		process group as the calling process
+		- < -1 = wait for child whose process goup ID is equal
+		to the absolute value of PID
+	-otherwise functions in a same way as wait()
+
+wait3
+	-definition: pid_t wait3(int *status, int options, struct rusage *rusage);
+	-*status = same as with wait()
+	-options = flags specifying options, more flags can be
+	specified using bitwise OR ( | )
+		-WNOHANG: returns immediately if no child has exited
+		-WUNTRACED: returns if child has stopped but is not traced
+		via ptrace() ---don't know what implications this has yet
+	-*rusage = struct that will be filled with resource usage information
+		struct rusage {
+			struct timeval ru_utime; /* user CPU time used */
+			struct timeval ru_stime; /* system CPU time used */
+			long ru_maxrss;           /* maximum resident set size */
+			long ru_ixrss;            /* integral shared memory size */
+			long ru_idrss;            /* integral unshared data size */
+			long ru_isrss;            /* integral unshared stack size */
+			long ru_minflt;           /* page reclaims (soft page faults) */
+			long ru_majflt;           /* page faults (hard page faults) */
+			long ru_nswap;            /* swaps */
+			long ru_inblock;          /* block input operations */
+			long ru_oublock;          /* block output operations */
+			long ru_msgsnd;           /* IPC messages sent */
+			long ru_msgrcv;           /* IPC messages received */
+			long ru_nsignals;         /* signals received */
+			long ru_nvcsw;            /* voluntary context switches */
+			long ru_nivcsw;           /* involuntary context switches */
+		};
+	-function is similar to wait() but it has options and
+	rusage struct where we can track usage of the resources
+	by the process we are waiting for
+
+wait4
+	-definition: pid_t wait4(pid_t pid, int *status, int options, struct rusage *rusage);
+	-pid = PID of child to wait for
+	-*status = same as wait3()
+	-options = same as wait3()
+	-*rusage = same as wait3()
+	-functions in a same way as wait3() but here we can specify for
+	which PID we want to wait
+
+
+signal
+	-definition: void (*signal(int signum, void (*handler)(int)))(int)
+	signum = value of incoming signal, OS specific, library
+	has defined macros for them
+	-upon calling, the function sets a custom handler to defined
+	signal
+	-the handler function gets value of signal it receives (as int)
+	-handler can be set to SIG_DFL -> default handling of the signal
+	or SIG_IGN -> ignore signal
+	-returns pointer to previous handler, if error, returns SIG_ERR
+
+sigaction
+	-definition: int sigaction(int signum, const struct sigaction *action, struct sigaction *oldaction);
+	-signum = same as in signal()
+	-*act = pointer to struct sigaction
+		struct sigaction {
+			void (*sa_handler)(int);        // Pointer to signal handler function
+			void (*sa_sigaction)(int, siginfo_t *, void *); // Pointer to signal handling function (alternate)
+			sigset_t sa_mask;               // Additional signals to be blocked during handler execution
+			int sa_flags;                   // Flags for signal handling behavior
+			void (*sa_restorer)(void);      // Deprecated
+		};
+
+
+sigemptyset
+	-definition: int sigemptyset(sigset_t *set);
+	-set = pointer to a signal set
+	-used for initilaization of the signal set
+	-return - 0 if success, else error
+
+sigaddset
+	-definition: int sigaddset(sigset_t *set, int signum);
+	-set = pointer to signal set
+	-signum = signal number to be added to the set
+	-return - 0 on success, -1 on error
+
+kill
+	-definition: int kill(pid_t pid, int sig);
+	-pid = pid of the process we want to send signal to
+	-sig = number of the signal, defined by macro from signal.h
+	-sends a signal to a process
+	-return - 0 on success, -1 on error
+
+getcwd
+	-definition: char *getcwd(char *buf, size_t size);
+	-buf = pointer to a buffer where the current working directory path will be stored
+	-size = size of buffer passing in
+	-it will write absolute path to the specified buffer
+	-return - NULL in case of error
+
+chdir
+	-definition: int chdir(const char *path);
+	-path = null terminated string containing path
+		-can be absolute or relative, just like with cd
+	-retrun - 0 when success, -1 when fail
+
+stat
+	-definition: int stat(const char *pathname, struct stat *statbuf);
+	-pathname = null terminated string with path to the file we want informations about
+	-statbuf = pointer to struct where the info about file is stored
+		struct stat {
+			dev_t     st_dev;         /* ID of device containing file */
+			ino_t     st_ino;         /* Inode number */
+			mode_t    st_mode;        /* File type and mode */
+			nlink_t   st_nlink;       /* Number of hard links */
+			uid_t     st_uid;         /* User ID of owner */
+			gid_t     st_gid;         /* Group ID of owner */
+			dev_t     st_rdev;        /* Device ID (if special file) */
+			off_t     st_size;        /* Total size, in bytes */
+			blksize_t st_blksize;     /* Block size for filesystem I/O */
+			blkcnt_t  st_blocks;      /* Number of 512B blocks allocated */
+			time_t    st_atime;       /* Last access time */
+			time_t    st_mtime;       /* Last modification time */
+			time_t    st_ctime;       /* Last status change time */
+		};
+	-return - 0 when success, -1 when fail
+
+lstat
+	-same as stat() except specialy for symlinks so it gets stats about the symlinks
+		and not about the file the symlink points to
+	-uses same stat struct
+
+fstat
+	-same as stat() except instead of path it gets filedescritor so the definition
+		is: int fstat(int fd, struct stat *statbuf);
+	-uses same stat struct
+
+unlink
+	-definition: int unlink(const char *pathname);
+	-pathname = null terminated string with path to file
+	-unlink works similar to rm command, it removes the link to file from
+		filesystem so the file is essentially deleted
+	-return - 0 on success and -1 on error
+
+execve
+	-definition: int execve(const char *filename, const char **argv, const char **envp)
+	-filename = null terminated string containing path to executable
+	-argv = array of arguments which are null terminated strings, last element is NULL pointer
+	-envp = array of environment variables which are null terminated strings and the array ends
+		with NULL pointer, much like argv
+	-return - -1 when error, otherwise nothing because executable starts executabling
+	-basically runs executable from the *filename path and it takes over the process
+		so the code under execve() is not executed because when executable stops executabling
+		it probably kills the process so the calling executable has nowhere to return
+
+dup
+	-definition: int dup(int old_fd);
+	-old_fd = file descriptor to duplicate
+	-return - -1 when error occurs or file descriptor that points to the same file as old_fd does
+	-both file descriptors can be used to write to that single file
+	-if one filedescriptor is closed, the second one remains open
+
+dup2
+	-definition: int dup2(int old_fd, int new_fd);
+	-same principle as dup but we can choose new filedescriptor
+	-if new_fd was already open, it will be closed and will point to same file as old_fd
+	-if the old_fd is not valid filedescriptor the function will fail and return -1
+	-if we duplicate the filedescriptor of file to filedescriptor of standard output,
+		everything we print with printf(), for example, will be written to that file
+
+pipe
+	-definition: int pipe(int pipefd[2]);
+	-pipefd[2] = array of integers, pipe[0] is filedescriptor for reading, pipe[1] is
+		file descriptor for writing
+	-creates inter process communication channel (i.e. between child and parent), data
+		written to filedescriptor pipefd[1] could be read on pipefd[0]
+	-return - -1 when fail
+
+opendir
+	-definition: DIR *opendir(const char *dir_name);
+	-dir_name = null terminated string with the name of the directory, "." will open current
+		directory, can be also absolute path
+	-return - NULL in case of error
+
+readdir
+	-definition: struct dirent *readdir(DIR *dir);
+	-dir = directory opened by opendir()
+	-reads contents of the directory one entry at a time to a struct dirent
+	struct dirent {
+		ino_t          d_ino;       /* inode number */
+		off_t          d_off;       /* offset to the next dirent */
+		unsigned short d_reclen;    /* length of this record */
+		unsigned char  d_type;      /* type of file; not supported by all file system types */
+		char           d_name[256]; /* filename */
+	};
+	-return - pointer to struct or NULL when there are no more entries or in case of error
+
+closedir
+	-definition: int closedir(DIR *dir);
+	-closes the directory opened at *dir
+
+strerror
+	-definition: char *strerror(int errno);
+	-errnum = number of the error, global variable that gets set by system call
+		when some function encounters an error, so to get corresponding string,
+		it's enough to call just char *str = strerror(errno);
+	-is thread safe
+	-basically takes error number and returns corresponding error string to print
+
+perror
+	-definition: void perror(const char *str);
+	-str = string to prepend the error message of last occured error
+	-works almost the same as strerror except it prints the error right away
+		and the string is text that gives more description about the error,
+		like where in code the error happened or what we tried to do
+	-is not thread safe, therefore needs to be protected by mutex
+	-perror("Error opening file") will print, in case of unsuccessfull opening
+		of the file "Error opening file: No such file or directory"
+
+isatty
+	-definition: int isatty(int fd);
+	-fd = file descriptor to check
+	-checks file descriptor if it is a terminal device or a file
+	-return - 1 if the fd is terminal device, 0 if it's not
+
+ttyname
+	-definition: char *ttyname(int fd);
+	-fd = file descriptor
+	-return - null terminated string with name of terminal device or NULL
+		if there is no terminal device on that fd or when error occurs
+
+ttyslot
+	-definition: int ttyslot();
+	-return - slot number in the utmp file corresponding to the terminal
+		user that is logged on, -1 if error
+	-note: with header #include<utmp.h> and calling void "setutent()" before calling
+		function "struct utmp *getutent()" we can retrieve information to struct utmp,
+		when it returns NULL, error occured or there are no entries left, we need to
+		close the utmp file with "ednutent()", utmp file is owned by root so the
+		program needs to have root permission
+
+ioctl
+	-definition: int ioctl(int fd, unsigned long request, ...);
+	-fd = file descriptor
+	-request = represents the specific control command to execute on the device
+	-'...' = optional arguments that might be required for some control commands
+	-used for controlling devices, with this function we can set, for example,
+		a window size, baud rate, etc...
+	-return - -1 in case of error
+
+getenv
+	-definition: char *getenv(const char *name);
+	-name = string with name of environment variable
+	-searches for the environment varibale and returns pointer to string
+		with value of that variable
+	-return - string with data or NULL if error
+
+tcsetattr
+	-definition: int tcsetattr(int fd, int optional_actions, const struct termios *termios);
+	-fd = file descriptor associated with terminal device
+	-optional_actions = specifies when the change should take place and what to do
+		with pending data
+		-TCSANOW = changes are immediate
+		-TCSADRAIN = wait until quened output is outputted
+		-TCSAFLUSH = flush pending data, apply the change and wait
+			until all quened output is transmitted
+	-termios = pointer to struct termios with new terminal attributes
+	-allows to configure various terminal device attributes like input/output modes,
+		control modes, local modes...
+	-return - -1 in case of error
+	-NOTE: it might be good to save default terminal attributes before changing them
+		and at the end put things back how they were!!
+
+tcgetattr
+	-definition: int tcgetattr(int fd, struct termios *termios);
+	-fd = filedescriptor of terminal device
+	-termios = struct where to save the attributes
+	-retrives current attributes of the terminal device on fd
+	-return - -1 in case of error
+
+tgetent
+	-definition: int tgetent(char *buf, const char *name);
+	-buf = pointer to a buffer where terminal information will be stored,
+		allocated for like 1024 bytes
+	-name = name of the terminal type for which we request information
+	-return - 1 if success, -1 if error
+	-NOTE: has to be called before we start calling other functions like
+		tgetflag(), tgetnum(), tgetstr()
+
+tgetflag
+	-definition: int tgetflag(const char *capname);
+	-capname = string with name of the terminal capability
+	-return - 1 if bool capability is present and true or 0 if false or
+		capability not present
+
+tgetnum
+	-definition: int tgetnum(const char *capname);
+	-basically the same as tgetflag() except it returns numerical values
+		of the capability or -1 if it has not that capability or error
+
+tgetstr
+	-definition: char *tgetstr(const char *capname, char **area);
+	-capname = string with name of the terminal capability
+	-area = ponter to a pointer in memory which can be used by tgetstr()
+		for temporary storage, it can be NULL
+
+tgoto
+	-definition: char *tgoto(const char *cm, int col, int row);
+	-cm = string we got from tgetstr() after asking for motion
+		capability ("cm")
+	-col = column we want to move cursor to
+	-row = row we want to move cursor to
+	-return - pointer to a cursor motion string or NULL if error
+	-NOTE: When printing the returned string, the cursor will end up where
+		we want
+
+tputs
+	-definition: int tputs(const char *str, int affnct, int (*putfunct)(int));
+	-str = string containing terminal capability or control sequence to be sent
+		to the terminal
+	-affcnt = not commonly used, usually set to 1
+	-putfunc = pointer to a function that outputs a single character (putchar)
+	-return - 0 on success, else error
+
+Headers to include:
+#include<stdio.h>
+#include<stdlib.h>
+#include<readline/readline.h>
+#include<readline/history.h>
+#include<unistd.h>
+#include<sys/wait.h>
+#include<sys/stat.h>
+#include<signal.h>
+#include<fcntl.h>
+#include<dirent.h>
+#include<sys/ioctl.h>
+#include<termios.h>
+#include<termcap.h>

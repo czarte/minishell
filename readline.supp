@@ -1,0 +1,986 @@
+
+{
+   ignore_readline_internal_teardown
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:readline_internal_teardown
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_expand_prompt
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_initialize
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_initialize
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_first_db
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+}
+{
+   ignore_rl_parse_and_bind
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_parse_and_bind
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:tsearch
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_home_terminfo
+   fun:_nc_first_db
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+}
+{
+   ignore_rl_set_prompt
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_set_prompt
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_first_db
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_tparm_analyze
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_first_db
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_tiparm
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_trim_sgr0
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_redisplay
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_add_funmap_entry
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   fun:rl_add_funmap_entry
+   fun:rl_initialize_funmap
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_add_funmap_entry
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_funmap_entry
+   fun:rl_initialize_funmap
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_read_entry2
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_setupterm
+   fun:tgetent_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_init_terminal_io
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_nc_find_type_entry
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+   fun:_nc_find_type_entry
+   fun:tgetstr_sp
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_make_bare_keymap
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   ignore_rl_parse_and_bind
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_parse_and_bind
+   obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   add_history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   fun:cli
+   fun:loop
+   fun:main
+}
+{
+   readline_initialization
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_initialize
+   fun:readline
+   fun:cli
+   fun:loop
+   fun:main
+}
